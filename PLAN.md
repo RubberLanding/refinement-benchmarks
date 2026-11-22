@@ -134,6 +134,21 @@ Repeat the checks after the rebase.
 The checks need PointNeighbors 1e65a4a, which is not on the upstream repository (the tip
 of `ef/tree-parallel` there is 7aeb2f0). Push it from the laptop.
 
+Rebased and pushed as 5b73bd7 (on 6863f05). Checks repeated on the server (2026-11-22,
+Julia 1.13.4, 8 threads, PointNeighbors 7aeb2f0 instead of 1e65a4a): all passed.
+
+| case | pairs equal | tree / uniform pairs | max rel. difference (dv, shift) |
+|---|---|---|---|
+| TGV, continuity | yes | 0.25 | 2.4e-13 |
+| TGV, summation | yes | 0.25 | 1.5e-13 |
+| pipe, continuity | yes (fluid-fluid, fluid-OB, OB-fluid) | 0.22 / 0.12 | 1.8e-14 |
+| pipe, summation | yes | 0.22 / 0.12 | 2.1e-14 |
+
+Two script fixes were needed on Julia 1.13 and the current package versions: the
+example globals are read with `invokelatest(getglobal, ...)` (world age), and `dv` is
+copied element-wise, since `wrap_v(...)[:, active]` fails for the `PtrArray` of
+StrideArraysCore.
+
 Implementation (`src/general/neighborhood_search.jl`, section "Variable search radii"):
 - Only with `TreeNeighborhoodSearch` and `MaximumRadius()`. Each particle of a system
   with variable h gets `r = min(compact_support(kernel, h), R)`, `R` the NHS radius.

@@ -63,6 +63,10 @@ end
 
 # ==========================================================================================
 # ==== Cases
+# Since Julia 1.12, a function can't read a global that `trixi_include` defined while the
+# function was already running (world age), so read the globals of the examples with this.
+example_global(name) = Base.invokelatest(getglobal, @__MODULE__, name)
+
 # Each case returns the ODE problem with the tree NHS with variable radii and a function
 # `kind -> template NHS` to create the other neighborhood searches.
 function taylor_green(; particle_spacing=0.05, kwargs...)
@@ -71,8 +75,9 @@ function taylor_green(; particle_spacing=0.05, kwargs...)
     # Include once without solving to get the fluid system for the tree depth
     trixi_include(@__MODULE__, file; particle_spacing, sol=nothing, ode=nothing,
                   semi=nothing, kwargs...)
-    max_level = tree_max_level(fluid_system)
+    max_level = tree_max_level(example_global(:fluid_system))
 
+    box_length = example_global(:box_length)
     min_corner = [0.0, 0.0]
     max_corner = [box_length, box_length]
     periodic_box = PeriodicBox(; min_corner, max_corner)
@@ -82,8 +87,10 @@ function taylor_green(; particle_spacing=0.05, kwargs...)
                   sol=nothing, saving_callback=nothing,
                   info_callback=InfoCallback(interval=10_000), kwargs...)
 
-    return (; ode, callbacks, alg=RDPK3SpFSAL49(),
-            solve_kwargs=(; abstol=1e-8, reltol=1e-4, dtmax=dt_max), max_level, nhs_of)
+    return (; ode=example_global(:ode), callbacks=example_global(:callbacks),
+            alg=RDPK3SpFSAL49(),
+            solve_kwargs=(; abstol=1e-8, reltol=1e-4, dtmax=example_global(:dt_max)),
+            max_level, nhs_of)
 end
 
 function pipe_flow(; particle_spacing=0.02, kwargs...)
@@ -91,16 +98,19 @@ function pipe_flow(; particle_spacing=0.02, kwargs...)
 
     trixi_include(@__MODULE__, file; particle_spacing, sol=nothing, ode=nothing,
                   semi=nothing, kwargs...)
-    max_level = tree_max_level(fluid_system)
+    max_level = tree_max_level(example_global(:fluid_system))
 
     # `min_corner` and `max_corner` of the example
+    min_corner = example_global(:min_corner)
+    max_corner = example_global(:max_corner)
     nhs_of(kind) = template_nhs(kind, min_corner, max_corner, max_level)
 
     trixi_include(@__MODULE__, file; particle_spacing, nhs=nhs_of(:tree_variable),
                   sol=nothing, saving_callback=nothing,
                   info_callback=InfoCallback(interval=10_000), kwargs...)
 
-    return (; ode, callbacks, alg=RDPK3SpFSAL35(),
+    return (; ode=example_global(:ode), callbacks=example_global(:callbacks),
+            alg=RDPK3SpFSAL35(),
             solve_kwargs=(; abstol=1e-5, reltol=1e-3, dtmax=1e-2), max_level, nhs_of)
 end
 
@@ -181,7 +191,10 @@ function evaluate(p, v_ode, u_ode)
         active = collect(TP.each_active_particle(system))
         # Walls have no integrated variables
         dv_system = TP.wrap_v(dv_ode, system, semi)
-        dv = size(dv_system, 2) == 0 ? zeros(0, 0) : dv_system[:, active]
+        # Index element-wise, since `dv_system[:, active]` fails for the `PtrArray` of
+        # `wrap_v` with a static first dimension (no matching `similar`)
+        dv = size(dv_system, 2) == 0 ? zeros(0, 0) :
+             [dv_system[i, particle] for i in 1:size(dv_system, 1), particle in active]
 
         shift = nothing
         if !isnothing(TP.get_refinement(system))
