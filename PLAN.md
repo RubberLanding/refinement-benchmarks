@@ -26,6 +26,9 @@ with one search radius per particle.
   it as ~90% of the refinement time with ~98 of at most 100 iterations per call.
 - Measurements on CPU first, then GPU. Scripts and code are prepared for the GPU from
   the start.
+- The GPU compatibility (81e7dd9) is not ready for upstream. It stays on its own branch
+  `refinement/gpu-compat` (based on 6a1ed36) and is neither on `refinement/main` nor on
+  `refinement/benchmark` (2026-11-22). Phase 1 does not depend on it.
 
 ## Branches (2026-11-22)
 
@@ -40,22 +43,25 @@ with one search radius per particle.
 
 Current state:
 - `refinement/main`: the PR stack (00–11), the vorticity criterion, the Eq. 37 free-slip
-  fix, no shifting into OB zones, GPU compatibility (81e7dd9), the cell capacity
-  (14e4c58), the type stability of the shifting loops (61e6b3f).
-- `refinement/benchmark`: + the timers (cc44f48).
-- Phase 1 is not committed yet (only on the laptop). Commit it onto `refinement/benchmark`.
+  fix, no shifting into OB zones (6a1ed36), the cell capacity (8dd9fab), the type
+  stability of the shifting loops (540c784).
+- `refinement/benchmark`: + the timers (6863f05).
+- `refinement/gpu-compat`: 6a1ed36 + the GPU compatibility (81e7dd9). To be rebased onto
+  `refinement/main` when it is picked up again.
+- Phase 1 is committed on the laptop, on top of the old timer commit cc44f48 (which
+  contained the GPU compatibility). Rebase it onto 6863f05 before pushing.
 
 ## Fixes and findings from the server (2026-11-19/20)
 
 From `dev/refinement_diagnostics/README.md` on `server/refinement-diagnostics`, which also
 has the study scripts.
 
-- **Type stability (61e6b3f, on `refinement/main`).** `Val(NDIMS)` in the `@threaded`
+- **Type stability (540c784, on `refinement/main`).** `Val(NDIMS)` in the `@threaded`
   closures was dynamic, so `extract_svector_flat` allocated per particle. This was the
   805 KiB per "apply shift" iteration and the 51 MiB per "correct properties" call
   (`SHIFTING.md` step 1). TGV startup, 8 threads: 7.76 s / 5.9 GiB → 4.24 s / 37 MiB.
   Measurements before this fix measure the allocations.
-- **Cell capacity (14e4c58, on `refinement/main`).** Without it, a resolution ratio ≥ 4
+- **Cell capacity (8dd9fab, on `refinement/main`).** Without it, a resolution ratio ≥ 4
   stops in the startup with `list is full`. Still too small at ratio 8: the peak right
   after splitting is 4.61 × `n_uniform`, the factor is 4. TODO on `refinement/main`:
   derive it from `max_spacing / min_spacing`.
@@ -107,7 +113,8 @@ benchmarks/
   The isolated benchmarks call `count_merge_pairs` and `collect_split_candidates!`
   directly on the snapshot.
 - Status: done (2026-11-17), smoke-tested with the TGV example. Rebased onto
-  `refinement/main` (cc44f48, 2026-11-22); the refinement tests pass (2010/2010).
+  `refinement/main` (6863f05, 2026-11-22, without the GPU compatibility); the refinement
+  tests pass (2010/2010, also on `refinement/main`).
 - Benchmarks use `ParticleRefinementCallback`, not the manual callback of the examples
   (it bypasses the timer).
 
@@ -118,11 +125,14 @@ PointNeighbors already supports it: `initialize_tree!`/`update_tree!` take one r
 neighbor point, and `foreach_point_neighbor`/`foreach_neighbor`/`mapreduce_neighbor`
 take a query `search_radius` (a function `point -> radius` for `foreach_point_neighbor`).
 
-Status: implemented and checked 2026-11-19 (uncommitted), checks in `check_variable_radii.jl`.
-Still uncommitted on 2026-11-22, only in the laptop checkout. Commit it onto
-`refinement/benchmark`, on top of the timers. Expect conflicts with the cell capacity
-commit (14e4c58), which changes `src/general/neighborhood_search.jl` too, and with the
-GPU compatibility (81e7dd9). Repeat the checks after the rebase.
+Status: implemented and checked 2026-11-19, checks in `check_variable_radii.jl`.
+Committed on the laptop (2026-11-22) on top of cc44f48, not pushed yet. Rebase it onto
+`refinement/benchmark` (6863f05). Expect textual conflicts in the loops that the GPU
+compatibility had rewritten (merge partners, target spacing, Eq. 35, shift) and in
+`src/general/neighborhood_search.jl` (also changed by the cell capacity, 8dd9fab).
+Repeat the checks after the rebase.
+The checks need PointNeighbors 1e65a4a, which is not on the upstream repository (the tip
+of `ef/tree-parallel` there is 7aeb2f0). Push it from the laptop.
 
 Implementation (`src/general/neighborhood_search.jl`, section "Variable search radii"):
 - Only with `TreeNeighborhoodSearch` and `MaximumRadius()`. Each particle of a system
@@ -184,7 +194,7 @@ fixed number of steps, no saving:
 
 Runs: 1 and 8 threads, one warm-up run per session, median of at least 5 runs.
 Grid NHS with `SerialUpdate()` for comparisons, `ParallelUpdate()` only when timing the
-NHS update itself. Only on commits with the type stability fix (61e6b3f). The TGV only after
+NHS update itself. Only on commits with the type stability fix (540c784). The TGV only after
 the `dt_max` fix.
 
 Full runs (`run_full.jl`): time per step for RHS, refinement callback and startup.
@@ -213,7 +223,7 @@ Profiling (`profile.jl`): `Profile.print(format=:flat, sortedby=:count)` and
    flow is rebuilt three times per `update_nhs!(semi)`, also in every RHS.
 2. Shifting: see `SHIFTING.md` (convergence check, fixed iterations as in the
    reference, reference variant, allocations, NHS update per iteration). The allocations
-   of "apply shift" and "correct properties" are fixed on `refinement/main` (61e6b3f).
+   of "apply shift" and "correct properties" are fixed on `refinement/main` (540c784).
 3. Serial parts and allocations: `resize_systems!`, `split_capacity`, `count_merge_pairs`,
    `maximum(relative_shift)`, `zeros(...)` in `split_particles!`, captured and reassigned
    variables in closures (`n_merged`, `n_rounds` → `Core.Box`).
@@ -221,6 +231,10 @@ Profiling (`profile.jl`): `Profile.print(format=:flat, sortedby=:count)` and
 5. Tree options: `pruning`, `max_points_per_cell`.
 
 ## GPU preparation
+
+Needs `refinement/gpu-compat`, which is not on the benchmark branch. Before the GPU
+measurements, rebase it onto `refinement/main` and decide whether the benchmark branch
+takes it.
 
 - Scripts take the backend as a parameter (`PolyesterBackend()` now, `CUDABackend()` later)
   and move the semidiscretization with `Semidiscretization(...; parallelization_backend)`.
