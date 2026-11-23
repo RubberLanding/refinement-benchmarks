@@ -1,0 +1,24 @@
+date = "2026-11-23T02:31:13.576"
+case = "vortex_street"
+size = "small"
+max_spacing = "0.014285714285714285"
+nhs = "grid"
+refinement = "min"
+shifting = "default"
+update_strategy = "SerialUpdate"
+backend = "PolyesterBackend"
+refinement_interval = "10"
+max_level = "0"
+n_initial = "39038"
+options = "spacing_ratio=2"
+steps = 100
+runs = 3
+warmup = true
+trixiparticles = "refinement/benchmark c4b66ab"
+pointneighbors = "ef/tree-parallel 7aeb2f0"
+benchmarks = "9bcc7ec-dirty"
+julia = "1.13.4"
+threads = 8
+hostname = "pcm016"
+cpu = "AMD Ryzen Threadripper 3990X 64-Core Processor"
+loadavg = "36.3 34.7 34.1"

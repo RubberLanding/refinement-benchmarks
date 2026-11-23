@@ -1,0 +1,149 @@
+[ Info: You just called `trixi_include`. Julia may now compile the code, please be patient.
+[ Info: You just called `trixi_include`. Julia may now compile the code, please be patient.
+==== Warm-up
+==== Run 1/3
+==== Run 2/3
+==== Run 3/3
+
+ run   init [s]  steps [s]  steps     RHS  n_start    n_end   RHS [ms] refine/call startup [s]
+   1      1.171     14.001    100     607    10551     9756     16.566      156.7      1.128
+   2      1.140      9.715    100     607    10551     9756     11.526      112.5      1.099
+   3      1.144      9.799    100     607    10551     9756     11.604      114.8      1.103
+median: init 1.144 s, steps 9.799 s, time per step 97.99 ms
+Results in benchmarks/results/phase3/r2_3_shared_nhs_update/full_pipe_flow
+Timers of the median run (3):
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+                                                                Time                             Allocations
+                                                  ────────────────────────────────    ──────────────────────────────────
+                Tot / % measured:                          13.5s / 80.3%                        201MiB / 46.6%
+ ───────────────────────────────────────────────  ────────────────────────────────    ──────────────────────────────────
+ Section                                  ncalls    time    %tot     avg                alloc    %tot      avg
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+ kick!                                       607   7.03s   65.0%  11.6ms  █████▎      21.3MiB   22.7%  36.0KiB  █▉
+ ├─ update systems and nhs                   607   4.21s   38.9%  6.93ms  ███▏        11.7MiB   12.5%  19.8KiB  █
+ │  ├─ compute average pressure              607   2.03s   18.8%  3.35ms  █▌          1.50MiB    1.6%  2.53KiB  ▏
+ │  ├─ compute beta                          607   1.56s   14.4%  2.57ms  █▏          8.04MiB    8.6%  13.6KiB  ▋
+ │  ├─ update nhs                            607   327ms    3.0%   538μs  ▎           1.08MiB    1.2%  1.83KiB  ▏
+ │  ├─ compute boundary pressure             607   231ms    2.1%   380μs  ▏            967KiB    1.0%  1.59KiB  ▏
+ │  ├─ inverse state equation                607  6.63ms    0.1%  10.9μs               171KiB    0.2%     288B
+ │  └─ update density diffusion              607  14.4μs    0.0%  23.8ns                    ∅       ∅        ∅
+ ├─ system interaction                       607   2.82s   26.1%  4.65ms  ██▏         9.58MiB   10.2%  16.2KiB  ▉
+ │  ├─ fluid1-fluid1                         607   2.27s   21.0%  3.74ms  █▋          3.16MiB    3.4%  5.33KiB  ▎
+ │  ├─ fluid1-boundary3                      607   419ms    3.9%   690μs  ▎            882KiB    0.9%  1.45KiB  ▏
+ │  ├─ fluid1-open_boundary2                 607   124ms    1.1%   204μs  ▏           4.15MiB    4.4%  7.00KiB  ▍
+ │  ├─ boundary3-fluid1                      607  20.3μs    0.0%  33.4ns                    ∅       ∅        ∅
+ │  ├─ open_boundary2-boundary3              607  16.5μs    0.0%  27.2ns                    ∅       ∅        ∅
+ │  ├─ boundary3-open_boundary2              607  15.6μs    0.0%  25.7ns                    ∅       ∅        ∅
+ │  ├─ boundary3-boundary3                   607  15.3μs    0.0%  25.3ns                    ∅       ∅        ∅
+ │  ├─ open_boundary2-open_boundary2         607  15.0μs    0.0%  24.7ns                    ∅       ∅        ∅
+ │  └─ open_boundary2-fluid1                 607  14.7μs    0.0%  24.2ns                    ∅       ∅        ∅
+ └─ reset ∂v/∂t                              607  6.10ms    0.1%  10.0μs              19.0KiB    0.0%    32.0B
+ update callback                             101   1.53s   14.1%  15.1ms  █▏          33.7MiB   35.9%   341KiB  ██▉
+ ├─ update systems and nhs                   101   691ms    6.4%  6.84ms  ▌           2.05MiB    2.2%  20.8KiB  ▏
+ ├─ update shifting                          101   645ms    6.0%  6.39ms  ▌           1.30MiB    1.4%  13.2KiB  ▏
+ ├─ update open boundary                     101   191ms    1.8%  1.89ms  ▏           30.3MiB   32.3%   307KiB  ██▋
+ │  ├─ check domain                          101   107ms    1.0%  1.06ms  ▏           30.0MiB   32.0%   305KiB  ██▌
+ │  └─ update boundary quantities            101  84.0ms    0.8%   832μs               286KiB    0.3%  2.83KiB
+ │     └─ extrapolate and correct values     101  81.6ms    0.8%   808μs               178KiB    0.2%  1.77KiB
+ └─ apply particle shifting                  101  2.30μs    0.0%  22.8ns                    ∅       ∅        ∅
+ refinement                                   10   1.15s   10.6%   115ms  ▉           17.6MiB   18.7%  1.76MiB  █▌
+ ├─ shift                                     10   807ms    7.5%  80.7ms  ▋           3.25MiB    3.5%   333KiB  ▎
+ │  ├─ compute shift                         200   628ms    5.8%  3.14ms  ▌           2.57MiB    2.7%  13.1KiB  ▎
+ │  ├─ apply shift                           200  98.0ms    0.9%   490μs  ▏            492KiB    0.5%  2.46KiB
+ │  │  ├─ update self nhs                    200  85.2ms    0.8%   426μs  ▏            122KiB    0.1%     624B
+ │  │  ├─ apply                              200  5.42ms    0.1%  27.1μs              96.9KiB    0.1%     496B
+ │  │  ├─ limit                              200  2.75ms    0.0%  13.8μs              96.9KiB    0.1%     496B
+ │  │  ├─ max shift                          200  2.07ms    0.0%  10.4μs                    ∅       ∅        ∅
+ │  │  └─ reject shift into zones            200  1.43ms    0.0%  7.13μs               175KiB    0.2%     896B
+ │  ├─ correct properties                     10  30.9ms    0.3%  3.09ms               137KiB    0.1%  13.7KiB
+ │  ├─ smoothing lengths before               10  20.5ms    0.2%  2.05ms              23.1KiB    0.0%  2.31KiB
+ │  ├─ smoothing lengths after                10  19.0ms    0.2%  1.90ms              23.1KiB    0.0%  2.31KiB
+ │  ├─ update nhs                             10  5.49ms    0.1%   549μs              18.3KiB    0.0%  1.83KiB
+ │  └─ update search radii                    10  4.30ms    0.0%   430μs              6.09KiB    0.0%     624B
+ ├─ update systems after                      10  69.6ms    0.6%  6.96ms               199KiB    0.2%  19.9KiB
+ │  ├─ compute average pressure               10  34.2ms    0.3%  3.42ms              25.3KiB    0.0%  2.53KiB
+ │  ├─ compute beta                           10  25.5ms    0.2%  2.55ms               136KiB    0.1%  13.6KiB
+ │  ├─ update nhs                             10  5.12ms    0.0%   512μs              18.3KiB    0.0%  1.83KiB
+ │  ├─ compute boundary pressure              10  4.01ms    0.0%   401μs              15.9KiB    0.0%  1.59KiB
+ │  ├─ inverse state equation                 10   109μs    0.0%  10.9μs              2.81KiB    0.0%     288B
+ │  └─ update density diffusion               10   240ns    0.0%  24.0ns                    ∅       ∅        ∅
+ ├─ update systems before                     10  68.6ms    0.6%  6.86ms               199KiB    0.2%  19.9KiB
+ │  ├─ compute average pressure               10  32.8ms    0.3%  3.28ms              25.3KiB    0.0%  2.53KiB
+ │  ├─ compute beta                           10  25.9ms    0.2%  2.59ms               136KiB    0.1%  13.6KiB
+ │  ├─ update nhs                             10  5.43ms    0.1%   543μs              18.3KiB    0.0%  1.83KiB
+ │  ├─ compute boundary pressure              10  3.65ms    0.0%   365μs              15.9KiB    0.0%  1.59KiB
+ │  ├─ inverse state equation                 10  92.4μs    0.0%  9.24μs              2.81KiB    0.0%     288B
+ │  └─ update density diffusion               10   210ns    0.0%  21.0ns                    ∅       ∅        ∅
+ ├─ update shifting                           10  63.2ms    0.6%  6.32ms               132KiB    0.1%  13.2KiB
+ ├─ merge after splitting                     10  51.2ms    0.5%  5.12ms              2.49MiB    2.6%   255KiB  ▎
+ │  ├─ merge partners                         30  30.8ms    0.3%  1.03ms              69.4KiB    0.1%  2.31KiB
+ │  ├─ update self nhs                        30  14.0ms    0.1%   465μs              2.39MiB    2.5%  81.4KiB  ▎
+ │  ├─ update nhs                             10  5.14ms    0.0%   514μs              18.3KiB    0.0%  1.83KiB
+ │  ├─ count pairs                            30   641μs    0.0%  21.4μs                    ∅       ∅        ∅
+ │  └─ apply merging                          30   590μs    0.0%  19.7μs              14.5KiB    0.0%     496B
+ ├─ merge before splitting                    10  50.0ms    0.5%  5.00ms               846KiB    0.9%  84.6KiB  ▏
+ │  ├─ merge partners                         10  39.4ms    0.4%  3.94ms              23.1KiB    0.0%  2.31KiB
+ │  ├─ update nhs                             10  5.18ms    0.0%   518μs              18.3KiB    0.0%  1.83KiB
+ │  ├─ update self nhs                        10  4.80ms    0.0%   480μs               798KiB    0.8%  79.8KiB  ▏
+ │  ├─ count pairs                            10   346μs    0.0%  34.6μs                    ∅       ∅        ∅
+ │  └─ apply merging                          10   197μs    0.0%  19.7μs              4.84KiB    0.0%     496B
+ ├─ target spacing                            10  13.4ms    0.1%  1.34ms              21.7KiB    0.0%  2.17KiB
+ ├─ split                                     10  9.83ms    0.1%   983μs              1.22MiB    1.3%   125KiB  ▏
+ │  ├─ update nhs                             10  5.32ms    0.0%   532μs              18.3KiB    0.0%  1.83KiB
+ │  ├─ candidates                             10  3.55ms    0.0%   355μs              22.2KiB    0.0%  2.22KiB
+ │  ├─ apply splitting                        10   779μs    0.0%  77.9μs              1.09MiB    1.2%   112KiB  ▏
+ │  └─ resize systems                         10   132μs    0.0%  13.2μs              88.6KiB    0.1%  8.86KiB
+ ├─ criteria                                  10  9.52ms    0.1%   952μs              9.25MiB    9.9%   947KiB  ▊
+ └─ update nhs                                10  5.47ms    0.1%   547μs              18.3KiB    0.0%  1.83KiB
+ refinement startup                            1   1.10s   10.2%   1.10s  ▉           20.3MiB   21.7%  20.3MiB  █▊
+ ├─ shift                                     12   940ms    8.7%  78.3ms  ▊           3.90MiB    4.2%   333KiB  ▍
+ │  ├─ compute shift                         240   727ms    6.7%  3.03ms  ▌           3.08MiB    3.3%  13.1KiB  ▎
+ │  ├─ apply shift                           240   117ms    1.1%   487μs  ▏            590KiB    0.6%  2.46KiB
+ │  │  ├─ update self nhs                    240   102ms    0.9%   427μs  ▏            146KiB    0.2%     624B
+ │  │  ├─ apply                              240  5.95ms    0.1%  24.8μs               116KiB    0.1%     496B
+ │  │  ├─ limit                              240  3.20ms    0.0%  13.3μs               116KiB    0.1%     496B
+ │  │  ├─ max shift                          240  2.48ms    0.0%  10.3μs                    ∅       ∅        ∅
+ │  │  └─ reject shift into zones            240  1.65ms    0.0%  6.87μs               210KiB    0.2%     896B
+ │  ├─ correct properties                     12  35.9ms    0.3%  2.99ms               164KiB    0.2%  13.7KiB
+ │  ├─ smoothing lengths before               12  24.8ms    0.2%  2.07ms              27.8KiB    0.0%  2.31KiB
+ │  ├─ smoothing lengths after                12  22.6ms    0.2%  1.88ms              27.8KiB    0.0%  2.31KiB
+ │  ├─ update nhs                             12  6.37ms    0.1%   531μs              21.9KiB    0.0%  1.83KiB
+ │  └─ update search radii                    12  5.28ms    0.0%   440μs              7.31KiB    0.0%     624B
+ ├─ merge after splitting                     12  53.2ms    0.5%  4.43ms              3.09MiB    3.3%   263KiB  ▎
+ │  ├─ merge partners                         36  28.8ms    0.3%   801μs              83.2KiB    0.1%  2.31KiB
+ │  ├─ update self nhs                        36  16.7ms    0.2%   465μs              2.96MiB    3.2%  84.3KiB  ▎
+ │  ├─ update nhs                             12  6.08ms    0.1%   507μs              21.9KiB    0.0%  1.83KiB
+ │  ├─ count pairs                            36   754μs    0.0%  20.9μs                    ∅       ∅        ∅
+ │  └─ apply merging                          36   742μs    0.0%  20.6μs              17.4KiB    0.0%     496B
+ ├─ merge before splitting                    12  52.8ms    0.5%  4.40ms               960KiB    1.0%  80.0KiB  ▏
+ │  ├─ merge partners                         12  41.4ms    0.4%  3.45ms              27.8KiB    0.0%  2.31KiB
+ │  ├─ update nhs                             11  5.59ms    0.1%   508μs              20.1KiB    0.0%  1.83KiB
+ │  ├─ update self nhs                        11  5.16ms    0.0%   469μs               906KiB    0.9%  82.4KiB  ▏
+ │  ├─ count pairs                            12   400μs    0.0%  33.3μs                    ∅       ∅        ∅
+ │  └─ apply merging                          11   243μs    0.0%  22.1μs              5.33KiB    0.0%     496B
+ ├─ target spacing                            12  15.6ms    0.1%  1.30ms              26.1KiB    0.0%  2.17KiB
+ ├─ split                                     12  11.4ms    0.1%   946μs              1.55MiB    1.6%   132KiB  ▏
+ │  ├─ update nhs                             12  6.34ms    0.1%   528μs              21.9KiB    0.0%  1.83KiB
+ │  ├─ candidates                             12  3.97ms    0.0%   331μs              26.6KiB    0.0%  2.22KiB
+ │  ├─ apply splitting                        12   980μs    0.0%  81.6μs              1.39MiB    1.5%   119KiB  ▏
+ │  └─ resize systems                         12  46.5μs    0.0%  3.88μs               106KiB    0.1%  8.86KiB
+ ├─ criteria                                  12  10.4ms    0.1%   867μs              10.8MiB   11.5%   918KiB  ▉
+ ├─ update systems after                       1  7.01ms    0.1%  7.01ms              21.0KiB    0.0%  21.0KiB
+ │  ├─ compute average pressure                1  3.49ms    0.0%  3.49ms              2.53KiB    0.0%  2.53KiB
+ │  ├─ compute beta                            1  2.54ms    0.0%  2.54ms              13.6KiB    0.0%  13.6KiB
+ │  ├─ update nhs                              1   510μs    0.0%   510μs              1.83KiB    0.0%  1.83KiB
+ │  ├─ compute boundary pressure               1   393μs    0.0%   393μs              1.59KiB    0.0%  1.59KiB
+ │  ├─ inverse state equation                  1  8.65μs    0.0%  8.65μs                 288B    0.0%     288B
+ │  └─ update density diffusion                1  20.0ns    0.0%  20.0ns                    ∅       ∅        ∅
+ ├─ update shifting                            1  6.52ms    0.1%  6.52ms              13.2KiB    0.0%  13.2KiB
+ ├─ update nhs                                12  5.82ms    0.1%   485μs              21.9KiB    0.0%  1.83KiB
+ └─ update systems before                      1   959μs    0.0%   959μs              21.0KiB    0.0%  21.0KiB
+    ├─ compute beta                            1   278μs    0.0%   278μs              13.6KiB    0.0%  13.6KiB
+    ├─ compute average pressure                1   249μs    0.0%   249μs              2.53KiB    0.0%  2.53KiB
+    ├─ update nhs                              1   249μs    0.0%   249μs              1.83KiB    0.0%  1.83KiB
+    ├─ compute boundary pressure               1   144μs    0.0%   144μs              1.59KiB    0.0%  1.59KiB
+    ├─ inverse state equation                  1  9.24μs    0.0%  9.24μs                 288B    0.0%     288B
+    └─ update density diffusion                1  30.0ns    0.0%  30.0ns                    ∅       ∅        ∅
+ drift!                                      607  12.0ms    0.1%  19.8μs               939KiB    1.0%  1.55KiB  ▏
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+

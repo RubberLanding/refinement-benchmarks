@@ -1,0 +1,15 @@
+==== taylor_green, small, tree_variable, refinement=on, 8 threads, load 36.5 35.5 35.1
+State after the startup and 20 steps (t = 0.006782): active particles EntropicallyDampedSPHSystem 10740
+
+==== Timers of 100 RHS evaluations (kick!)
+kick!                                                                          13.967 ms/RHS    100.0%
+kick! / system interaction                                                      6.737 ms/RHS     48.2%
+kick! / system interaction / fluid1-fluid1                                      6.729 ms/RHS     48.2%
+kick! / update systems and nhs                                                  7.213 ms/RHS     51.6%
+kick! / update systems and nhs / update shifting                                3.662 ms/RHS     26.2%
+kick! / update systems and nhs / update nhs                                     0.594 ms/RHS      4.3%
+kick! / update systems and nhs / compute average pressure and beta              2.891 ms/RHS     20.7%
+kick! / reset ∂v/∂t                                                             0.015 ms/RHS      0.1%
+wall time per RHS evaluation: 13.969 ms
+
+Results in benchmarks/results/phase3/pinned_tgv_r3_1/profile

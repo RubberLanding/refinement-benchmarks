@@ -1,0 +1,22 @@
+==== taylor_green, small, tree_variable, refinement=on, 8 threads, load 36.3 35.2 34.1
+State after the startup and 20 steps (t = 0.006783): active particles EntropicallyDampedSPHSystem 10740
+
+==== Neighbors per particle and query times
+system                       neighbor                        uniform   variable in support     useful query R [ms] query r [ms]
+  tree leaves of EntropicallyDampedSPHSystem: level 0 (cell size 0.048): 78% of the points, level 1 (cell size 0.024): 22% of the points
+EntropicallyDampedSPHSystem  EntropicallyDampedSPHSystem       105.5       29.6       29.6       100%       3.010       2.414
+Neighbors per particle: `uniform` with the search radius R of the NHS, `variable` with the per-particle radii (NaN: not used for this pair), `in support` of the larger h. `useful`: in support / returned by the query that the interaction uses. Query times with an empty loop body (minimum of 100).
+
+==== Timers of 100 RHS evaluations (kick!)
+kick!                                                                          17.706 ms/RHS    100.0%
+kick! / system interaction                                                      5.487 ms/RHS     31.0%
+kick! / system interaction / fluid1-fluid1                                      5.486 ms/RHS     31.0%
+kick! / update systems and nhs                                                 12.207 ms/RHS     68.9%
+kick! / update systems and nhs / update shifting                                5.298 ms/RHS     29.9%
+kick! / update systems and nhs / update nhs                                     0.587 ms/RHS      3.3%
+kick! / update systems and nhs / compute average pressure                       3.576 ms/RHS     20.2%
+kick! / update systems and nhs / compute beta                                   2.684 ms/RHS     15.2%
+kick! / reset ∂v/∂t                                                             0.011 ms/RHS      0.1%
+wall time per RHS evaluation: 17.706 ms
+
+Results in benchmarks/results/phase3/r2_1_skip_support_check/profile_taylor_green

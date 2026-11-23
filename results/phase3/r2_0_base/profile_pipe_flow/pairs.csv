@@ -1,0 +1,6 @@
+system,neighbor,nhs,points,uniform_per_particle,variable_per_particle,in_support_per_particle,useful_fraction,query_uniform_ms,query_variable_ms
+EntropicallyDampedSPHSystem,EntropicallyDampedSPHSystem,TreeNeighborhoodSearch,10567,140.1717611431816,28.60632156714299,28.60632156714299,1.0,2.3543079999999996,1.695162
+EntropicallyDampedSPHSystem,OpenBoundarySystem,TreeNeighborhoodSearch,10567,3.4248130973786317,0.3227973880950128,0.3227973880950128,1.0,0.186145,0.13355299999999998
+EntropicallyDampedSPHSystem,WallBoundarySystem,TreeNeighborhoodSearch,10567,7.106463518500994,NaN,0.9928077978612662,0.13970490318800438,0.279717,NaN
+OpenBoundarySystem,EntropicallyDampedSPHSystem,TreeNeighborhoodSearch,1648,21.95995145631068,2.0697815533980584,2.0697815533980584,1.0,0.089602,0.038881000000000006
+OpenBoundarySystem,WallBoundarySystem,TreeNeighborhoodSearch,1648,0.4162621359223301,NaN,0.4162621359223301,1.0,0.015041,NaN

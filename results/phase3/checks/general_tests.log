@@ -1,0 +1,131 @@
+[ Info: To create the self-interaction neighborhood search of a `TotalLagrangianSPHSystem`, a deep copy of the system is created inside the `Semidiscretization`. Use `system = semi.systems[i]` to access simulation data.
+[ Info: To create the self-interaction neighborhood search of a `TotalLagrangianSPHSystem`, a deep copy of the system is created inside the `Semidiscretization`. Use `system = semi.systems[i]` to access simulation data.
+[ Info: To create the self-interaction neighborhood search of a `TotalLagrangianSPHSystem`, a deep copy of the system is created inside the `Semidiscretization`. Use `system = semi.systems[i]` to access simulation data.
+┌ Info: The desired face size is not a multiple of the resolution 0.5.
+└ New resolution is set to 0.4714045207910317.
+┌ Info: The desired face size is not a multiple of the resolution 0.5.
+└ New resolution is set to 0.4714045207910317.
+[ Info: You just called `trixi_include`. Julia may now compile the code, please be patient.
+[ Info: You just called `trixi_include`. Julia may now compile the code, please be patient.
+[ Info: You just called `trixi_include`. Julia may now compile the code, please be patient.
+[ Info: You just called `trixi_include`. Julia may now compile the code, please be patient.
+[ Info: To create the self-interaction neighborhood search of a `TotalLagrangianSPHSystem`, a deep copy of the system is created inside the `Semidiscretization`. Use `system = semi.systems[i]` to access simulation data.
+[ Info: You just called `trixi_include`. Julia may now compile the code, please be patient.
+[ Info: To create the self-interaction neighborhood search of a `TotalLagrangianSPHSystem`, a deep copy of the system is created inside the `Semidiscretization`. Use `system = semi.systems[i]` to access simulation data.
+[ Info: No 'pressure' field found in VTK file. Will be set to zero.
+[ Info: No 'pressure' field found in VTK file. Will be set to zero.
+════════════════════════════════════════════════════════════════════════════════════════════════════
+Semidiscretization
+════════════════════════════════════════════════════════════════════════════════════════════════════
+Restart
+════════════════════════════════════════════════════════════════════════════════════════════════════
+EDAC v_ode
+════════════════════════════════════════════════════════════════════════════════════════════════════
+Poiseuille Flow Half-Simulation Restart
+════════════════════════════════════════════════════════════════════════════════════════════════════
+Poiseuille Flow Restore Previous State
+════════════════════════════════════════════════════════════════════════════════════════════════════
+Oscillating Beam Half-Simulation Restart
+
+████████╗██████╗ ██╗██╗  ██╗██╗██████╗  █████╗ ██████╗ ████████╗██╗ ██████╗██╗     ███████╗███████╗
+╚══██╔══╝██╔══██╗██║╚██╗██╔╝██║██╔══██╗██╔══██╗██╔══██╗╚══██╔══╝██║██╔════╝██║     ██╔════╝██╔════╝
+   ██║   ██████╔╝██║ ╚███╔╝ ██║██████╔╝███████║██████╔╝   ██║   ██║██║     ██║     █████╗  ███████╗
+   ██║   ██╔══██╗██║ ██╔██╗ ██║██╔═══╝ ██╔══██║██╔══██╗   ██║   ██║██║     ██║     ██╔══╝  ╚════██║
+   ██║   ██║  ██║██║██╔╝ ██╗██║██║     ██║  ██║██║  ██║   ██║   ██║╚██████╗███████╗███████╗███████║
+   ╚═╝   ╚═╝  ╚═╝╚═╝╚═╝  ╚═╝╚═╝╚═╝     ╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝   ╚═╝ ╚═════╝╚══════╝╚══════╝╚══════╝
+
+
+┌──────────────────────────────────────────────────────────────────────────────────────────────────┐
+│ Semidiscretization                                                                               │
+│ ══════════════════                                                                               │
+│ #spatial dimensions: ………………………… 2                                                                │
+│ #systems: ……………………………………………………… 1                                                                │
+│ neighborhood search: ………………………… TrivialNeighborhoodSearch                                        │
+│ total #particles: ………………………………… 699                                                              │
+│ eltype: …………………………………………………………… Float64                                                          │
+│ coordinates eltype: …………………………… Float64                                                          │
+└──────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+┌──────────────────────────────────────────────────────────────────────────────────────────────────┐
+│ TotalLagrangianSPHSystem{2}                                                                      │
+│ ═══════════════════════════                                                                      │
+│ total #particles: ………………………………… 699                                                              │
+│ #clamped particles: …………………………… 294                                                              │
+│ Young's modulus: …………………………………… 1.4e6                                                            │
+│ Poisson ratio: ………………………………………… 0.4                                                              │
+│ smoothing kernel: ………………………………… WendlandC2Kernel                                                 │
+│ acceleration: …………………………………………… [0.0, -2.0]                                                      │
+│ boundary model: ……………………………………… nothing                                                          │
+│ penalty force: ………………………………………… nothing                                                          │
+│ viscosity: …………………………………………………… nothing                                                          │
+└──────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+┌──────────────────────────────────────────────────────────────────────────────────────────────────┐
+│ SolutionSavingCallback                                                                           │
+│ ══════════════════════                                                                           │
+│ dt: ……………………………………………………………………… 0.02                                                             │
+│ custom quantities: ……………………………… nothing                                                          │
+│ save initial solution: …………………… yes                                                              │
+│ save final solution: ………………………… yes                                                              │
+│ overwrite solution: …………………………… no                                                               │
+│ output directory: ………………………………… /mnt/ssd/home/nschum25/benchmark/out                             │
+│ prefix: ……………………………………………………………                                                                  │
+└──────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+┌──────────────────────────────────────────────────────────────────────────────────────────────────┐
+│ Time integration                                                                                 │
+│ ════════════════                                                                                 │
+│ Start time: ………………………………………………… 0.0                                                              │
+│ Final time: ………………………………………………… 0.5                                                              │
+│ time integrator: …………………………………… RDPK3SpFSAL49                                                    │
+│ adaptive: ……………………………………………………… true                                                             │
+│ abstol: …………………………………………………………… 1.0e-6                                                           │
+│ reltol: …………………………………………………………… 0.001                                                            │
+│ controller: ………………………………………………… PIDController(beta=(0.38, -0.18,…iter=default_dt_factor_limiter) │
+└──────────────────────────────────────────────────────────────────────────────────────────────────┘
+┌──────────────────────────────────────────────────────────────────────────────────────────────────┐
+│ Environment information                                                                          │
+│ ═══════════════════════                                                                          │
+│ Julia version: ………………………………………… 1.13.4                                                           │
+│ parallelization backend: ……………… PolyesterBackend                                                 │
+│ #threads: ……………………………………………………… 8                                                                │
+└──────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+#timesteps:   1000 │ Δt: 4.0702e-04 │ sim. time: 3.0871e-01 (61.743%)  │ run time: 1.6811e+00 s
+────────────────────────────────────────────────────────────────────────────────────────────────────
+Trixi simulation finished.
+  Final time:                            0.5
+  Time steps:                           1663 (accepted)       1737 (total)
+────────────────────────────────────────────────────────────────────────────────────────────────────
+
+                                     TrixiParticles.jl
+────────────────────────────────────────────────────────────────────────────────────────────
+                                                  Time                   Allocations
+                                         ──────────────────────    ────────────────────────
+           Tot / % measured:                 4.44s / 24.9%              326MiB / 57.3%
+ ──────────────────────────────────────  ──────────────────────    ────────────────────────
+ Section                         ncalls    time    %tot     avg      alloc    %tot      avg
+────────────────────────────────────────────────────────────────────────────────────────────
+ kick!                            15.6k   706ms   64.0%  45.1μs    25.8MiB   13.8%  1.69KiB
+ ├─ update systems and nhs        15.6k   416ms   37.7%  26.6μs    11.9MiB    6.4%     800B
+ │  ├─ stress tensor              15.6k   360ms   32.7%  23.0μs    8.11MiB    4.3%     544B
+ │  ├─ update TLSPH positions     15.6k  46.3ms    4.2%  2.96μs    3.82MiB    2.0%     256B
+ │  ├─ ~update systems and nhs~   15.6k  8.95ms    0.8%   572ns       576B    0.0%    0.04B
+ │  └─ update nhs                 15.6k   441μs    0.0%  28.2ns          ∅       ∅        ∅
+ ├─ system interaction            15.6k   194ms   17.6%  12.4μs    9.07MiB    4.8%     608B
+ │  ├─ structure1-structure1      15.6k   172ms   15.6%  11.0μs    5.01MiB    2.7%     336B
+ │  └─ ~system interaction~       15.6k  21.2ms    1.9%  1.36μs    4.06MiB    2.2%     272B
+ ├─ source terms                  15.6k  48.0ms    4.4%  3.07μs    4.29MiB    2.3%     288B
+ ├─ reset ∂v/∂t                   15.6k  37.4ms    3.4%  2.39μs     489KiB    0.3%    32.0B
+ └─ ~kick!~                       15.6k  11.0ms    1.0%   701ns       848B    0.0%    0.05B
+ save solution                       25   352ms   31.9%  14.1ms     157MiB   84.2%  6.30MiB
+ ├─ write to vtk                     25   327ms   29.6%  13.1ms     156MiB   83.5%  6.24MiB
+ ├─ ~save solution~                  25  22.3ms    2.0%   892μs     886KiB    0.5%  35.4KiB
+ ├─ update dvdu                      25  2.31ms    0.2%  92.3μs     414KiB    0.2%  16.6KiB
+ └─ update systems                   25   705μs    0.1%  28.2μs    32.4KiB    0.0%  1.30KiB
+ drift!                           15.6k  45.0ms    4.1%  2.88μs    3.82MiB    2.0%     256B
+────────────────────────────────────────────────────────────────────────────────────────────
+
+
+Test Summary: | Pass  Total     Time
+General       | 2773   2773  3m39.5s

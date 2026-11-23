@@ -45,11 +45,18 @@ Current state:
 - `refinement/main`: the PR stack (00–11), the vorticity criterion, the Eq. 37 free-slip
   fix, no shifting into OB zones (6a1ed36), the cell capacity (8dd9fab), the type
   stability of the shifting loops (540c784).
-- `refinement/benchmark`: + the timers (6863f05).
+- `refinement/benchmark`: + the timers (6863f05) + the variable search radii with the
+  tree NHS (5b73bd7, Phase 1), pushed. On top, not pushed (Phase 3, 2026-11-23):
+  6b5500a, f9db5fa, 7acd1aa, 65d0799, 21c205b, c4b66ab (see Phase 3).
+- Worktree `../benchmark-measure` (detached) with its own `run/`, for measurements of
+  a given commit while `src/` is edited (`MEASURE=../benchmark-measure benchmarks/ab.sh`).
+  `runtest/` in this worktree is the environment for the tests.
 - `refinement/gpu-compat`: 6a1ed36 + the GPU compatibility (81e7dd9). To be rebased onto
   `refinement/main` when it is picked up again.
-- Phase 1 is committed on the laptop, on top of the old timer commit cc44f48 (which
-  contained the GPU compatibility). Rebase it onto 6863f05 before pushing.
+- Phases 0 and 1 are done. Phase 2 has started (see the status in "Phase 2").
+- Open on `refinement/main` before the Phase 2 timings: the `dt_max` fix in the TGV
+  examples (still `h / 4 * (c + U)`), and the cell capacity factor from
+  `max_spacing / min_spacing` (needed for ratio 8).
 
 ## Fixes and findings from the server (2026-11-19/20)
 
@@ -91,7 +98,11 @@ benchmarks/
   SHIFTING.md
   BACKGROUND_STARTUP.md
   setups.jl        # cases with a size parameter, NHS choice and backend
-  run_full.jl      # phase 1: full runs, TimerOutputs per phase
+  run_full.jl      # phase 2: full runs, TimerOutputs per phase
+  run_matrix.sh    # phase 2: all full-run configurations of one size and thread count
+  summarize.py     # phase 2: table of medians of the full runs
+  ab.sh            # phase 3: measure the current state (or a commit) under a label
+  compare_ab.py    # phase 3: compare the labels of ab.sh
   run_isolated.jl  # phase 2: BenchmarkTools on single refinement calls and kernels
   profile.jl       # phase 2: Profile and Profile.Allocs on the slowest phases
   results/         # CSV per run + summary.md, with commit hashes, threads and machine
@@ -226,24 +237,152 @@ are covered in `SHIFTING.md`):
 Profiling (`profile.jl`): `Profile.print(format=:flat, sortedby=:count)` and
 `Profile.Allocs` for the slowest phases.
 
-## Phase 3: Candidate fixes (to be confirmed by the data)
+Status (2026-11-22):
+- `run/` created in the worktree (TrixiParticles `..`, PointNeighbors `../../PointNeighbors.jl`
+  at 7aeb2f0, OrdinaryDiffEqLowStorageRK), excluded in `.git/info/exclude`. BenchmarkTools
+  is not added yet (needed for `run_isolated.jl`).
+- `setups.jl` and `run_full.jl` written and smoke-tested at `tiny` for all NHS kinds and
+  baselines. `run_matrix.sh <size> <threads>` runs all configurations of one size.
+- The TGV `dt_max` is computed correctly in `setups.jl` (`h / (4 (c + U))`), so the TGV
+  timings don't wait for the fix in the example.
+- The example is included once per configuration, and each run starts from a `deepcopy`.
+  Including it again creates new types for its anonymous functions (the refinement
+  criteria are part of the system type), so every run would compile everything again
+  (startup 31 s instead of 2.4 s at tiny).
+- Sizes calibrated for small and medium, see `results/sizes.md`. Large is not measured yet.
+- pcm016 is shared (load ~32 of 128 cores from other jobs at the time of the first runs).
+  `meta.toml` records the load average. Timings from pcm016 are noisy until the machine
+  is free or the threads are pinned.
+- The small matrix at 8 threads (100 steps, 5 runs) is done, see `results/summary.md`.
+  Main finding: with refinement, the RHS is 3–7 times more expensive per particle than the
+  uniform baseline at `min_spacing`, so the steps are 4–10 times slower although the
+  refinement callback is only 20–35% of the step time.
+- `profile.jl` written (sections distribution, pairs, rhs, profile_rhs, shift,
+  profile_shift) and run at size small, see `results/summary.md`. Findings: the tree query
+  costs 3.7–9.5 times the grid query per particle and is about half of the RHS; the
+  shifting always runs 100 iterations because of a tail of particles; the target spacing of
+  the pipe flow stays fine, since the grading needs ~25–30 `max_spacing` and the pipe is
+  34 high.
+- The uniform tree (`max_level=0`) needs `max_points_per_cell=400`, otherwise the pipe
+  flow stops with `cell list is full`.
 
-1. NHS rebuilds per refinement call: full `update_nhs!(semi)` after merging before
-   splitting, splitting, merging after splitting and shifting; self updates per merge
-   round and per shifting iteration (up to 100); `update_systems_and_nhs` twice in the
-   callback. The tree is always rebuilt from scratch.
-   From the code (2026-11-19, to be confirmed by the timers): `update_nhs!(semi)` loops
-   over all pairs, and with the `SharedNHSHandler` the pairs (fluid, fluid), (OB, fluid)
-   and (wall, fluid) map to the same NHS (same radius `R`), so the fluid NHS of the pipe
-   flow is rebuilt three times per `update_nhs!(semi)`, also in every RHS.
-2. Shifting: see `SHIFTING.md` (convergence check, fixed iterations as in the
-   reference, reference variant, allocations, NHS update per iteration). The allocations
-   of "apply shift" and "correct properties" are fixed on `refinement/main` (540c784).
-3. Serial parts and allocations: `resize_systems!`, `split_capacity`, `count_merge_pairs`,
-   `maximum(relative_shift)`, `zeros(...)` in `split_particles!`, captured and reassigned
-   variables in closures (`n_merged`, `n_rounds` → `Core.Box`).
-4. Resizes: how often `resize_systems!` recreates the NHS; larger `buffer_size`.
-5. Tree options: `pruning`, `max_points_per_cell`.
+## Phase 3: Optimizations (plan of 2026-11-22, from the Phase 2 data)
+
+Based on the small matrix and `profile.jl` (`results/summary.md`, overview in the artifact
+"Refinement Cost Breakdown"). Reference: Taylor-Green refined with the tree and
+per-particle radii, 240 ms per step (10.8k particles), and the pipe flow, 201 ms. The
+uniform runs at `min_spacing` take 58 ms (16.4k) and 21 ms (11.6k).
+
+Where the 240 ms go (TGV): RHS 179 ms (75%), of which ~47% is the tree query and ~29% the
+loop bodies; refinement 47 ms (20%), of which compute shift 35 ms and apply shift 6.5 ms;
+update callback 12 ms (5%). The tree query is also the main cost of `compute shift`.
+
+Upper bound: even with no overhead, the refined TGV has 0.66 of the uniform particles,
+so it can at best be ~1.5 times faster than the uniform run (pipe flow: 0.92, ~1.1 times).
+The code optimizations below cannot change that; only the case can (see R4).
+
+### Ranking
+
+Gains are estimates per TGV step (240 ms) unless noted, to be measured.
+
+| # | Optimization | Where | Expected gain | Effort | Risk |
+|---|---|---|---|---|---|
+| 1 | Shifting with θ = 1, 20 iterations | `setups.jl` (default later on `refinement/main`) | −34 ms (−14%), startup −75% | trivial | low: quality checked on the server |
+| 2 | ~~Tree leaf size (`max_points_per_cell`, `max_level`)~~ No setting: see R1 | — | — | — | — |
+| 3 | Skip `pair_in_support` with per-particle radii | `src/`, benchmark branch | −12 ms (−5%) | small | low: covered by `check_variable_radii.jl` |
+| 4 | One neighbor loop for EDAC beta and the average pressure | `src/`, benchmark branch | −21 ms (−9%), also in the update callback | medium | medium: two quantities in one pass |
+| 5 | Radius of the average pressure (per-particle support) | `refinement/main`, after a decision | −6 ms (−3%) | small | it changes the result, so a correctness question first |
+| 6 | Per-pair cost with variable h (`pair_kernel_grads`, two kernel gradients) | `src/` | unknown, the loop bodies are ~29% of the RHS | medium–high | medium |
+| 7 | Tree splitting and query in PointNeighbors | `ef/tree-parallel` | the tree–grid gap (3.7–9.5× per particle); most leaves are at the root size `R` (see R1) | high | separate repository |
+| 8 | NHS rebuilds per `update_nhs!(semi)` (shared fluid NHS rebuilt per pair?) | `src/` | pipe: `update nhs` is 10% of the RHS (35% in the uniform run); TGV 3% | small to check | low |
+| 9 | Two full system updates per refinement call ("update systems before" and "after" in `apply_refinement!`) | `src/` | 16–25 ms per call (12–18% of a fast call, ~2.5 ms per TGV step) | small to check | medium: "before" computes the quantities that merging and Eq. 37 use |
+
+Deprioritized by the data: the serial parts and allocations of the refinement
+(merging, splitting, resize: 4–6 ms per step, 2%), the resizes (none with the buffers of
+`setups.jl`), the self NHS update per shift iteration (6 ms per step, shrinks 5 times with
+item 1).
+
+### R1: settings only (no code change), size small
+
+1. Item 1: `ShiftingHaftu(theta=1, max_iterations=20)` as an option in `setups.jl`
+   (`shifting=default|fast`). The default in `src/` stays until `SHIFTING.md` step 4.
+2. Item 2 dropped (2026-11-22). `max_points_per_cell` only sizes the storage of the leaf
+   lists; it doesn't decide the splitting. A cell is split if it is not empty, below
+   `max_level`, and its children are at least as large as the largest search radius in
+   the 3^d block around it (`split_cell!`, `can_split` in `src/cell_lists/tree.jl` of
+   PointNeighbors). With `max_spacing / min_spacing = 2`, `max_level = 1` and the children
+   are exactly the support of `min_spacing`, so a cell is only split where its whole
+   block is at the smallest h. Since Eq. 35 makes h continuous, almost every block has a
+   radius slightly above it: at size tiny, 77–81% of the fluid particles are in root
+   leaves (size `R`), even in the pipe flow with 81% fine particles. There the tree checks
+   the same points as a grid with `R`, plus its traversal. A higher `max_level` doesn't
+   help either (no radius is below `R / 2`). `profile.jl` now prints the points per leaf
+   level (`pairs` section). This moves the tree–grid gap to item 7.
+3. Measure: `run_full.jl` with the tree and per-particle radii, `shifting=default` and
+   `shifting=fast` in the same session, 5 runs, both cases. `profile.jl`
+   `sections=distribution,pairs,rhs,shift` for both settings.
+4. Keep: `shifting=fast` stays an option, since it is a change of the method; the
+   default in `src/` changes only after `SHIFTING.md` step 4.
+
+Done when: the step time, the startup time and the shift residuals are known for both
+settings.
+
+Status: done (2026-11-23), see `results/summary.md`, "Phase 3, R1". Fast shifting: startup
+−75%, refinement call −70%, step −15% (TGV 242.8 → 206.2 ms, pipe 143.8 → 121.5 ms), RHS
+unchanged. Next in the refinement call: the two full system updates ("update systems
+before" and "after", 16–25 ms per call, item 9). Use `shifting=fast` for all further
+Phase 3 measurements, and the default only as the reference.
+
+### R2: small code changes on `refinement/benchmark`, one commit each
+
+1. Item 3: in `skip_unsupported_pairs`, skip the check when the query used the
+   per-particle radius (dispatch on `VariableRadiusTreeNHS` and both systems with
+   variable h). Verify with `check_variable_radii.jl` (pairs and results unchanged).
+2. Item 8: count the tree rebuilds per `update_nhs!(semi)` in the pipe flow (the
+   `SharedNHSHandler` maps (fluid, fluid), (OB, fluid) and (wall, fluid) to one NHS).
+   Fix only if the fluid NHS is rebuilt more than once.
+3. Item 4: compute beta and the average pressure in one neighbor loop of the EDAC
+   system. Verify: beta and the average pressure equal before/after on a snapshot
+   (bitwise or up to rounding), and the refinement tests.
+4. After each: small matrix, tree only, `SerialUpdate()`, same session as a re-run of the
+   previous state (the machine is shared, so compare within a session).
+
+### R3: open questions, before more code
+
+- Item 5: which neighborhood the average pressure should use with variable h (the
+  support of the particle, as in the uniform run, or `R`). Decide on `refinement/main`,
+  since it changes results.
+- Item 6: profile the interaction body at line level (`profile.jl` tree output,
+  `pair_kernel_grads`, `kernel_grad`, `smoothing_length`), and compare with the uniform
+  run per pair. Candidates: compute the kernel normalization per particle once, avoid the
+  second gradient where `h_a = h_b`.
+- Item 7: only if the tree–grid gap stays large after R1. Then it is work for
+  PointNeighbors, with the query benchmark of `profile.jl` (`pairs`) as the test.
+
+Status R2 and R3 (2026-11-23): done, see `results/summary.md`, "Phase 3, R2–R4". Commits
+6b5500a (item 3), f9db5fa (tree capacity fix), 7acd1aa (item 8), 65d0799 (item 5),
+21c205b (item 4), c4b66ab (item 6) on `refinement/benchmark`, not pushed. RHS −35% (TGV)
+and −39% (pipe), step −37% and −35%. Item 5 changes results and needs a decision for
+`refinement/main`. Item 7 stays open (PointNeighbors).
+New open item: the capacity of searches that store walls finer than the coarse fluid
+(vortex street with ratio 4 stops with `cell list is full`).
+
+### R4: a case where the refinement should pay off
+
+The pipe flow keeps 92% of the fine particles (target spacing fine almost everywhere,
+`results/summary.md` section 3), so it only shows overhead. Before the medium and large
+sizes: a longer or wider channel, or the vortex street with a larger spacing ratio, with
+the ratio refined / uniform particles measured first (`profile.jl sections=distribution`).
+Keep Taylor-Green as the periodic case.
+
+Status R4 (2026-11-23): vortex street added (`case=vortex_street`, `ratio=`). At ratio 2,
+size small: 0.27 of the uniform fine particles, step 80.1 ms vs. 80.7 ms uniform at
+`min_spacing`, break-even. Ratio 4 blocked by the wall capacity bug.
+
+### After R1–R4
+
+Medium and large sizes (`run_matrix.sh`), then 1 thread, then the GPU. Before/after
+numbers for each applied optimization go to `results/summary.md`.
 
 ## GPU preparation
 

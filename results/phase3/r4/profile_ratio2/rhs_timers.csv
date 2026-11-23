@@ -1,0 +1,28 @@
+path,ncalls,time_ns,allocated_bytes,per_call_ms
+kick!,50,445847073,3192448,8.91694146
+kick! / system interaction,50,173047578,1075296,3.46095156
+kick! / system interaction / boundary4-fluid1,50,1130,0,2.2599999999999997e-5
+kick! / system interaction / open_boundary2-boundary4,50,1200,0,2.3999999999999997e-5
+kick! / system interaction / fluid1-open_boundary2,50,5532166,387200,0.11064332
+kick! / system interaction / open_boundary2-open_boundary2,50,1250,0,2.5e-5
+kick! / system interaction / fluid1-boundary3,50,12209866,81600,0.24419732
+kick! / system interaction / open_boundary2-boundary3,50,1150,0,2.3e-5
+kick! / system interaction / boundary3-boundary4,50,1160,0,2.32e-5
+kick! / system interaction / boundary3-boundary3,50,1140,0,2.28e-5
+kick! / system interaction / boundary3-fluid1,50,1210,0,2.42e-5
+kick! / system interaction / fluid1-boundary4,50,15917101,81600,0.31834202
+kick! / system interaction / open_boundary2-fluid1,50,1180,0,2.36e-5
+kick! / system interaction / fluid1-fluid1,50,138632291,303200,2.77264582
+kick! / system interaction / boundary3-open_boundary2,50,1280,0,2.5600000000000002e-5
+kick! / system interaction / boundary4-open_boundary2,50,1210,0,2.42e-5
+kick! / system interaction / boundary4-boundary4,50,1190,0,2.3800000000000003e-5
+kick! / system interaction / boundary4-boundary3,50,1170,0,2.34e-5
+kick! / update systems and nhs,50,272004298,2114976,5.44008596
+kick! / update systems and nhs / compute boundary pressure,100,7384690,172000,0.1476938
+kick! / update systems and nhs / update nhs,50,32055814,101600,0.64111628
+kick! / update systems and nhs / compute density,50,94531333,773600,1.8906266600000001
+kick! / update systems and nhs / compute average pressure and beta,50,108331174,877600,2.16662348
+kick! / update systems and nhs / evaluate characteristics,50,23724277,162400,0.47448554000000004
+kick! / update systems and nhs / update density diffusion,50,1150,0,2.3e-5
+kick! / update systems and nhs / inverse state equation,100,329073,26400,0.00658146
+kick! / reset ∂v/∂t,50,755327,1600,0.01510654

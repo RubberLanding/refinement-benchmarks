@@ -1,0 +1,23 @@
+[ Info: You just called `trixi_include`. Julia may now compile the code, please be patient.
+[ Info: You just called `trixi_include`. Julia may now compile the code, please be patient.
+==== taylor_green, small, tree_variable, refinement=on, 8 threads, load 40.2 37.0 35.3
+State after the startup and 20 steps (t = 0.006783): active particles EntropicallyDampedSPHSystem 10740
+
+==== Neighbors per particle and query times
+system                       neighbor                        uniform   variable in support     useful query R [ms] query r [ms]
+  tree leaves of EntropicallyDampedSPHSystem: level 0 (cell size 0.048): 78% of the points, level 1 (cell size 0.024): 22% of the points
+EntropicallyDampedSPHSystem  EntropicallyDampedSPHSystem       105.5       29.6       29.6       100%       3.000       2.440
+Neighbors per particle: `uniform` with the search radius R of the NHS, `variable` with the per-particle radii (NaN: not used for this pair), `in support` of the larger h. `useful`: in support / returned by the query that the interaction uses. Query times with an empty loop body (minimum of 100).
+
+==== Timers of 100 RHS evaluations (kick!)
+kick!                                                                          17.741 ms/RHS    100.0%
+kick! / system interaction                                                      5.450 ms/RHS     30.7%
+kick! / system interaction / fluid1-fluid1                                      5.449 ms/RHS     30.7%
+kick! / update systems and nhs                                                 12.282 ms/RHS     69.2%
+kick! / update systems and nhs / update shifting                                5.308 ms/RHS     29.9%
+kick! / update systems and nhs / update nhs                                     0.577 ms/RHS      3.3%
+kick! / update systems and nhs / compute average pressure                       3.647 ms/RHS     20.6%
+kick! / update systems and nhs / compute beta                                   2.702 ms/RHS     15.2%
+wall time per RHS evaluation: 17.741 ms
+
+Results in benchmarks/results/phase3/r2_3_shared_nhs_update/profile_taylor_green

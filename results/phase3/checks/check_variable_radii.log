@@ -1,0 +1,365 @@
+==== Taylor-Green vortex
+Tree max_level = 1
+
+████████╗██████╗ ██╗██╗  ██╗██╗██████╗  █████╗ ██████╗ ████████╗██╗ ██████╗██╗     ███████╗███████╗
+╚══██╔══╝██╔══██╗██║╚██╗██╔╝██║██╔══██╗██╔══██╗██╔══██╗╚══██╔══╝██║██╔════╝██║     ██╔════╝██╔════╝
+   ██║   ██████╔╝██║ ╚███╔╝ ██║██████╔╝███████║██████╔╝   ██║   ██║██║     ██║     █████╗  ███████╗
+   ██║   ██╔══██╗██║ ██╔██╗ ██║██╔═══╝ ██╔══██║██╔══██╗   ██║   ██║██║     ██║     ██╔══╝  ╚════██║
+   ██║   ██║  ██║██║██╔╝ ██╗██║██║     ██║  ██║██║  ██║   ██║   ██║╚██████╗███████╗███████╗███████║
+   ╚═╝   ╚═╝  ╚═╝╚═╝╚═╝  ╚═╝╚═╝╚═╝     ╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝   ╚═╝ ╚═════╝╚══════╝╚══════╝╚══════╝
+
+
+┌──────────────────────────────────────────────────────────────────────────────────────────────────┐
+│ Semidiscretization                                                                               │
+│ ══════════════════                                                                               │
+│ #spatial dimensions: ………………………… 2                                                                │
+│ #systems: ……………………………………………………… 1                                                                │
+│ neighborhood search: ………………………… TreeNeighborhoodSearch                                           │
+│ total #particles: ………………………………… 5400                                                             │
+│ eltype: …………………………………………………………… Float64                                                          │
+│ coordinates eltype: …………………………… Float64                                                          │
+└──────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+┌──────────────────────────────────────────────────────────────────────────────────────────────────┐
+│ EntropicallyDampedSPHSystem{2}                                                                   │
+│ ══════════════════════════════                                                                   │
+│ #particles: ………………………………………………… 5400                                                             │
+│ #buffer_particles: ……………………………… 5000                                                             │
+│ density calculator: …………………………… ContinuityDensity                                                │
+│ correction method: ……………………………… Nothing                                                          │
+│ viscosity: …………………………………………………… ViscosityAdami                                                   │
+│ ν₍EDAC₎: ………………………………………………………… ≈ 0.031                                                          │
+│ smoothing kernel: ………………………………… SchoenbergQuinticSplineKernel                                    │
+│ shifting technique: …………………………… ParticleShiftingTechnique{true, … MomentumEquationTermSun2019()) │
+│ average pressure reduction: ……… yes                                                              │
+│ acceleration: …………………………………………… [0.0, 0.0]                                                       │
+│ surface tension: …………………………………… nothing                                                          │
+│ surface normal method: …………………… nothing                                                          │
+└──────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+┌──────────────────────────────────────────────────────────────────────────────────────────────────┐
+│ UpdateCallback                                                                                   │
+│ ══════════════                                                                                   │
+│ interval: ……………………………………………………… 1                                                                │
+└──────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+┌──────────────────────────────────────────────────────────────────────────────────────────────────┐
+│ ParticleRefinementCallback                                                                       │
+│ ══════════════════════════                                                                       │
+│ interval: ……………………………………………………… 10                                                               │
+└──────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+┌──────────────────────────────────────────────────────────────────────────────────────────────────┐
+│ Time integration                                                                                 │
+│ ════════════════                                                                                 │
+│ Start time: ………………………………………………… 0.0                                                              │
+│ Final time: ………………………………………………… 5.0                                                              │
+│ time integrator: …………………………………… RDPK3SpFSAL49                                                    │
+│ adaptive: ……………………………………………………… true                                                             │
+│ abstol: …………………………………………………………… 1.0e-8                                                           │
+│ reltol: …………………………………………………………… 0.0001                                                           │
+│ controller: ………………………………………………… PIDController(beta=(0.38, -0.18,…iter=default_dt_factor_limiter) │
+└──────────────────────────────────────────────────────────────────────────────────────────────────┘
+┌──────────────────────────────────────────────────────────────────────────────────────────────────┐
+│ Environment information                                                                          │
+│ ═══════════════════════                                                                          │
+│ Julia version: ………………………………………… 1.13.4                                                           │
+│ parallelization backend: ……………… PolyesterBackend                                                 │
+│ #threads: ……………………………………………………… 8                                                                │
+└──────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+Check 1: neighbors after the refinement startup
+  EntropicallyDampedSPHSystem  -> EntropicallyDampedSPHSystem  pairs in support:    45485 (equal), returned: tree    45485, uniform   182951 (0.25)
+Check 2: one RHS and one shift (Eq. 15), relative to the grid NHS
+  tree_uniform   EntropicallyDampedSPHSystem    1525 active, relative max |Δdv| = 1.47e-15, |Δshift| = 3.59e-13
+  tree_variable  EntropicallyDampedSPHSystem    1525 active, relative max |Δdv| = 1.47e-15, |Δshift| = 3.67e-13
+==== Taylor-Green vortex, summation density
+Tree max_level = 1
+
+████████╗██████╗ ██╗██╗  ██╗██╗██████╗  █████╗ ██████╗ ████████╗██╗ ██████╗██╗     ███████╗███████╗
+╚══██╔══╝██╔══██╗██║╚██╗██╔╝██║██╔══██╗██╔══██╗██╔══██╗╚══██╔══╝██║██╔════╝██║     ██╔════╝██╔════╝
+   ██║   ██████╔╝██║ ╚███╔╝ ██║██████╔╝███████║██████╔╝   ██║   ██║██║     ██║     █████╗  ███████╗
+   ██║   ██╔══██╗██║ ██╔██╗ ██║██╔═══╝ ██╔══██║██╔══██╗   ██║   ██║██║     ██║     ██╔══╝  ╚════██║
+   ██║   ██║  ██║██║██╔╝ ██╗██║██║     ██║  ██║██║  ██║   ██║   ██║╚██████╗███████╗███████╗███████║
+   ╚═╝   ╚═╝  ╚═╝╚═╝╚═╝  ╚═╝╚═╝╚═╝     ╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝   ╚═╝ ╚═════╝╚══════╝╚══════╝╚══════╝
+
+
+┌──────────────────────────────────────────────────────────────────────────────────────────────────┐
+│ Semidiscretization                                                                               │
+│ ══════════════════                                                                               │
+│ #spatial dimensions: ………………………… 2                                                                │
+│ #systems: ……………………………………………………… 1                                                                │
+│ neighborhood search: ………………………… TreeNeighborhoodSearch                                           │
+│ total #particles: ………………………………… 5400                                                             │
+│ eltype: …………………………………………………………… Float64                                                          │
+│ coordinates eltype: …………………………… Float64                                                          │
+└──────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+┌──────────────────────────────────────────────────────────────────────────────────────────────────┐
+│ EntropicallyDampedSPHSystem{2}                                                                   │
+│ ══════════════════════════════                                                                   │
+│ #particles: ………………………………………………… 5400                                                             │
+│ #buffer_particles: ……………………………… 5000                                                             │
+│ density calculator: …………………………… SummationDensity                                                 │
+│ correction method: ……………………………… Nothing                                                          │
+│ viscosity: …………………………………………………… ViscosityAdami                                                   │
+│ ν₍EDAC₎: ………………………………………………………… ≈ 0.031                                                          │
+│ smoothing kernel: ………………………………… SchoenbergQuinticSplineKernel                                    │
+│ shifting technique: …………………………… ParticleShiftingTechnique{true, … MomentumEquationTermSun2019()) │
+│ average pressure reduction: ……… yes                                                              │
+│ acceleration: …………………………………………… [0.0, 0.0]                                                       │
+│ surface tension: …………………………………… nothing                                                          │
+│ surface normal method: …………………… nothing                                                          │
+└──────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+┌──────────────────────────────────────────────────────────────────────────────────────────────────┐
+│ UpdateCallback                                                                                   │
+│ ══════════════                                                                                   │
+│ interval: ……………………………………………………… 1                                                                │
+└──────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+┌──────────────────────────────────────────────────────────────────────────────────────────────────┐
+│ ParticleRefinementCallback                                                                       │
+│ ══════════════════════════                                                                       │
+│ interval: ……………………………………………………… 10                                                               │
+└──────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+┌──────────────────────────────────────────────────────────────────────────────────────────────────┐
+│ Time integration                                                                                 │
+│ ════════════════                                                                                 │
+│ Start time: ………………………………………………… 0.0                                                              │
+│ Final time: ………………………………………………… 5.0                                                              │
+│ time integrator: …………………………………… RDPK3SpFSAL49                                                    │
+│ adaptive: ……………………………………………………… true                                                             │
+│ abstol: …………………………………………………………… 1.0e-8                                                           │
+│ reltol: …………………………………………………………… 0.0001                                                           │
+│ controller: ………………………………………………… PIDController(beta=(0.38, -0.18,…iter=default_dt_factor_limiter) │
+└──────────────────────────────────────────────────────────────────────────────────────────────────┘
+┌──────────────────────────────────────────────────────────────────────────────────────────────────┐
+│ Environment information                                                                          │
+│ ═══════════════════════                                                                          │
+│ Julia version: ………………………………………… 1.13.4                                                           │
+│ parallelization backend: ……………… PolyesterBackend                                                 │
+│ #threads: ……………………………………………………… 8                                                                │
+└──────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+Check 1: neighbors after the refinement startup
+  EntropicallyDampedSPHSystem  -> EntropicallyDampedSPHSystem  pairs in support:    45331 (equal), returned: tree    45331, uniform   182943 (0.25)
+Check 2: one RHS and one shift (Eq. 15), relative to the grid NHS
+  tree_uniform   EntropicallyDampedSPHSystem    1525 active, relative max |Δdv| = 1.47e-15, |Δshift| = 1.42e-13
+  tree_variable  EntropicallyDampedSPHSystem    1525 active, relative max |Δdv| = 1.47e-15, |Δshift| = 1.29e-13
+==== Pipe flow
+Tree max_level = 1
+
+████████╗██████╗ ██╗██╗  ██╗██╗██████╗  █████╗ ██████╗ ████████╗██╗ ██████╗██╗     ███████╗███████╗
+╚══██╔══╝██╔══██╗██║╚██╗██╔╝██║██╔══██╗██╔══██╗██╔══██╗╚══██╔══╝██║██╔════╝██║     ██╔════╝██╔════╝
+   ██║   ██████╔╝██║ ╚███╔╝ ██║██████╔╝███████║██████╔╝   ██║   ██║██║     ██║     █████╗  ███████╗
+   ██║   ██╔══██╗██║ ██╔██╗ ██║██╔═══╝ ██╔══██║██╔══██╗   ██║   ██║██║     ██║     ██╔══╝  ╚════██║
+   ██║   ██║  ██║██║██╔╝ ██╗██║██║     ██║  ██║██║  ██║   ██║   ██║╚██████╗███████╗███████╗███████║
+   ╚═╝   ╚═╝  ╚═╝╚═╝╚═╝  ╚═╝╚═╝╚═╝     ╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝   ╚═╝ ╚═════╝╚══════╝╚══════╝╚══════╝
+
+
+┌──────────────────────────────────────────────────────────────────────────────────────────────────┐
+│ Semidiscretization                                                                               │
+│ ══════════════════                                                                               │
+│ #spatial dimensions: ………………………… 2                                                                │
+│ #systems: ……………………………………………………… 3                                                                │
+│ neighborhood search: ………………………… TreeNeighborhoodSearch                                           │
+│ total #particles: ………………………………… 5352                                                             │
+│ eltype: …………………………………………………………… Float64                                                          │
+│ coordinates eltype: …………………………… Float64                                                          │
+└──────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+┌──────────────────────────────────────────────────────────────────────────────────────────────────┐
+│ EntropicallyDampedSPHSystem{2}                                                                   │
+│ ══════════════════════════════                                                                   │
+│ #particles: ………………………………………………… 2200                                                             │
+│ #buffer_particles: ……………………………… 1200                                                             │
+│ density calculator: …………………………… ContinuityDensity                                                │
+│ correction method: ……………………………… Nothing                                                          │
+│ viscosity: …………………………………………………… ViscosityAdami                                                   │
+│ ν₍EDAC₎: ………………………………………………………… ≈ 0.019                                                          │
+│ smoothing kernel: ………………………………… WendlandC2Kernel                                                 │
+│ shifting technique: …………………………… ParticleShiftingTechnique{true, … MomentumEquationTermSun2019()) │
+│ average pressure reduction: ……… yes                                                              │
+│ acceleration: …………………………………………… [0.0, 0.0]                                                       │
+│ surface tension: …………………………………… nothing                                                          │
+│ surface normal method: …………………… nothing                                                          │
+└──────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+┌──────────────────────────────────────────────────────────────────────────────────────────────────┐
+│ OpenBoundarySystem{2}                                                                            │
+│ ═════════════════════                                                                            │
+│ #particles: ………………………………………………… 2160                                                             │
+│ #buffer_particles: ……………………………… 1200                                                             │
+│ #boundary_zones: …………………………………… 2                                                                │
+│ fluid system: …………………………………………… EntropicallyDampedSPHSystem                                      │
+│ boundary model: ……………………………………… BoundaryModelMirroringTafuni                                     │
+└──────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+┌──────────────────────────────────────────────────────────────────────────────────────────────────┐
+│ WallBoundarySystem{2}                                                                            │
+│ ═════════════════════                                                                            │
+│ #particles: ………………………………………………… 992                                                              │
+│ boundary model: ……………………………………… BoundaryModelDummyParticles(Adam…eExtrapolation, ViscosityAdami) │
+│ movement function: ……………………………… nothing                                                          │
+│ adhesion coefficient: ……………………… 0.0                                                              │
+│ color: ……………………………………………………………… 0                                                                │
+└──────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+┌──────────────────────────────────────────────────────────────────────────────────────────────────┐
+│ UpdateCallback                                                                                   │
+│ ══════════════                                                                                   │
+│ interval: ……………………………………………………… 1                                                                │
+└──────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+┌──────────────────────────────────────────────────────────────────────────────────────────────────┐
+[ Info: You just called `trixi_include`. Julia may now compile the code, please be patient.
+[ Info: You just called `trixi_include`. Julia may now compile the code, please be patient.
+[ Info: You just called `trixi_include`. Julia may now compile the code, please be patient.
+[ Info: You just called `trixi_include`. Julia may now compile the code, please be patient.
+[ Info: You just called `trixi_include`. Julia may now compile the code, please be patient.
+[ Info: You just called `trixi_include`. Julia may now compile the code, please be patient.
+[ Info: You just called `trixi_include`. Julia may now compile the code, please be patient.
+[ Info: You just called `trixi_include`. Julia may now compile the code, please be patient.
+│ ParticleRefinementCallback                                                                       │
+│ ══════════════════════════                                                                       │
+│ interval: ……………………………………………………… 10                                                               │
+└──────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+┌──────────────────────────────────────────────────────────────────────────────────────────────────┐
+│ Time integration                                                                                 │
+│ ════════════════                                                                                 │
+│ Start time: ………………………………………………… 0.0                                                              │
+│ Final time: ………………………………………………… 2.0                                                              │
+│ time integrator: …………………………………… RDPK3SpFSAL35                                                    │
+│ adaptive: ……………………………………………………… true                                                             │
+│ abstol: …………………………………………………………… 1.0e-5                                                           │
+│ reltol: …………………………………………………………… 0.001                                                            │
+│ controller: ………………………………………………… PIDController(beta=(0.7, -0.23, …iter=default_dt_factor_limiter) │
+└──────────────────────────────────────────────────────────────────────────────────────────────────┘
+┌──────────────────────────────────────────────────────────────────────────────────────────────────┐
+│ Environment information                                                                          │
+│ ═══════════════════════                                                                          │
+│ Julia version: ………………………………………… 1.13.4                                                           │
+│ parallelization backend: ……………… PolyesterBackend                                                 │
+│ #threads: ……………………………………………………… 8                                                                │
+└──────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+Check 1: neighbors after the refinement startup
+  EntropicallyDampedSPHSystem  -> EntropicallyDampedSPHSystem  pairs in support:   117011 (equal), returned: tree   117011, uniform   531723 (0.22)
+  EntropicallyDampedSPHSystem  -> OpenBoundarySystem           pairs in support:     2380 (equal), returned: tree     2380, uniform    20292 (0.12)
+  OpenBoundarySystem           -> EntropicallyDampedSPHSystem  pairs in support:     2380 (equal), returned: tree     2380, uniform    20292 (0.12)
+Check 2: one RHS and one shift (Eq. 15), relative to the grid NHS
+  tree_uniform   EntropicallyDampedSPHSystem    4129 active, relative max |Δdv| = 8.46e-16, |Δshift| = 2.06e-14
+  tree_uniform   OpenBoundarySystem              960 active, relative max |Δdv| = 0.00e+00, |Δshift| = 0.00e+00
+  tree_uniform   WallBoundarySystem              992 active, relative max |Δdv| = 0.00e+00, |Δshift| = 0.00e+00
+  tree_variable  EntropicallyDampedSPHSystem    4129 active, relative max |Δdv| = 8.46e-16, |Δshift| = 1.42e-14
+  tree_variable  OpenBoundarySystem              960 active, relative max |Δdv| = 0.00e+00, |Δshift| = 0.00e+00
+  tree_variable  WallBoundarySystem              992 active, relative max |Δdv| = 0.00e+00, |Δshift| = 0.00e+00
+==== Pipe flow, summation density
+Tree max_level = 1
+
+████████╗██████╗ ██╗██╗  ██╗██╗██████╗  █████╗ ██████╗ ████████╗██╗ ██████╗██╗     ███████╗███████╗
+╚══██╔══╝██╔══██╗██║╚██╗██╔╝██║██╔══██╗██╔══██╗██╔══██╗╚══██╔══╝██║██╔════╝██║     ██╔════╝██╔════╝
+   ██║   ██████╔╝██║ ╚███╔╝ ██║██████╔╝███████║██████╔╝   ██║   ██║██║     ██║     █████╗  ███████╗
+   ██║   ██╔══██╗██║ ██╔██╗ ██║██╔═══╝ ██╔══██║██╔══██╗   ██║   ██║██║     ██║     ██╔══╝  ╚════██║
+   ██║   ██║  ██║██║██╔╝ ██╗██║██║     ██║  ██║██║  ██║   ██║   ██║╚██████╗███████╗███████╗███████║
+   ╚═╝   ╚═╝  ╚═╝╚═╝╚═╝  ╚═╝╚═╝╚═╝     ╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝   ╚═╝ ╚═════╝╚══════╝╚══════╝╚══════╝
+
+
+┌──────────────────────────────────────────────────────────────────────────────────────────────────┐
+│ Semidiscretization                                                                               │
+│ ══════════════════                                                                               │
+│ #spatial dimensions: ………………………… 2                                                                │
+│ #systems: ……………………………………………………… 3                                                                │
+│ neighborhood search: ………………………… TreeNeighborhoodSearch                                           │
+│ total #particles: ………………………………… 5352                                                             │
+│ eltype: …………………………………………………………… Float64                                                          │
+│ coordinates eltype: …………………………… Float64                                                          │
+└──────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+┌──────────────────────────────────────────────────────────────────────────────────────────────────┐
+│ EntropicallyDampedSPHSystem{2}                                                                   │
+│ ══════════════════════════════                                                                   │
+│ #particles: ………………………………………………… 2200                                                             │
+│ #buffer_particles: ……………………………… 1200                                                             │
+│ density calculator: …………………………… SummationDensity                                                 │
+│ correction method: ……………………………… Nothing                                                          │
+│ viscosity: …………………………………………………… ViscosityAdami                                                   │
+│ ν₍EDAC₎: ………………………………………………………… ≈ 0.019                                                          │
+│ smoothing kernel: ………………………………… WendlandC2Kernel                                                 │
+│ shifting technique: …………………………… ParticleShiftingTechnique{true, … MomentumEquationTermSun2019()) │
+│ average pressure reduction: ……… yes                                                              │
+│ acceleration: …………………………………………… [0.0, 0.0]                                                       │
+│ surface tension: …………………………………… nothing                                                          │
+│ surface normal method: …………………… nothing                                                          │
+└──────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+┌──────────────────────────────────────────────────────────────────────────────────────────────────┐
+│ OpenBoundarySystem{2}                                                                            │
+│ ═════════════════════                                                                            │
+│ #particles: ………………………………………………… 2160                                                             │
+│ #buffer_particles: ……………………………… 1200                                                             │
+│ #boundary_zones: …………………………………… 2                                                                │
+│ fluid system: …………………………………………… EntropicallyDampedSPHSystem                                      │
+│ boundary model: ……………………………………… BoundaryModelMirroringTafuni                                     │
+└──────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+┌──────────────────────────────────────────────────────────────────────────────────────────────────┐
+│ WallBoundarySystem{2}                                                                            │
+│ ═════════════════════                                                                            │
+│ #particles: ………………………………………………… 992                                                              │
+│ boundary model: ……………………………………… BoundaryModelDummyParticles(Adam…eExtrapolation, ViscosityAdami) │
+│ movement function: ……………………………… nothing                                                          │
+│ adhesion coefficient: ……………………… 0.0                                                              │
+│ color: ……………………………………………………………… 0                                                                │
+└──────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+┌──────────────────────────────────────────────────────────────────────────────────────────────────┐
+│ UpdateCallback                                                                                   │
+│ ══════════════                                                                                   │
+│ interval: ……………………………………………………… 1                                                                │
+└──────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+┌──────────────────────────────────────────────────────────────────────────────────────────────────┐
+│ ParticleRefinementCallback                                                                       │
+│ ══════════════════════════                                                                       │
+│ interval: ……………………………………………………… 10                                                               │
+└──────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+┌──────────────────────────────────────────────────────────────────────────────────────────────────┐
+│ Time integration                                                                                 │
+│ ════════════════                                                                                 │
+│ Start time: ………………………………………………… 0.0                                                              │
+│ Final time: ………………………………………………… 2.0                                                              │
+│ time integrator: …………………………………… RDPK3SpFSAL35                                                    │
+│ adaptive: ……………………………………………………… true                                                             │
+│ abstol: …………………………………………………………… 1.0e-5                                                           │
+│ reltol: …………………………………………………………… 0.001                                                            │
+│ controller: ………………………………………………… PIDController(beta=(0.7, -0.23, …iter=default_dt_factor_limiter) │
+└──────────────────────────────────────────────────────────────────────────────────────────────────┘
+┌──────────────────────────────────────────────────────────────────────────────────────────────────┐
+│ Environment information                                                                          │
+│ ═══════════════════════                                                                          │
+│ Julia version: ………………………………………… 1.13.4                                                           │
+│ parallelization backend: ……………… PolyesterBackend                                                 │
+│ #threads: ……………………………………………………… 8                                                                │
+└──────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+Check 1: neighbors after the refinement startup
+  EntropicallyDampedSPHSystem  -> EntropicallyDampedSPHSystem  pairs in support:   116867 (equal), returned: tree   116867, uniform   530309 (0.22)
+  EntropicallyDampedSPHSystem  -> OpenBoundarySystem           pairs in support:     2378 (equal), returned: tree     2378, uniform    20296 (0.12)
+  OpenBoundarySystem           -> EntropicallyDampedSPHSystem  pairs in support:     2378 (equal), returned: tree     2378, uniform    20296 (0.12)
+Check 2: one RHS and one shift (Eq. 15), relative to the grid NHS
+  tree_uniform   EntropicallyDampedSPHSystem    4121 active, relative max |Δdv| = 8.31e-16, |Δshift| = 1.21e-14
+  tree_uniform   OpenBoundarySystem              960 active, relative max |Δdv| = 0.00e+00, |Δshift| = 0.00e+00
+  tree_uniform   WallBoundarySystem              992 active, relative max |Δdv| = 0.00e+00, |Δshift| = 0.00e+00
+  tree_variable  EntropicallyDampedSPHSystem    4121 active, relative max |Δdv| = 8.31e-16, |Δshift| = 1.61e-14
+  tree_variable  OpenBoundarySystem              960 active, relative max |Δdv| = 0.00e+00, |Δshift| = 0.00e+00
+  tree_variable  WallBoundarySystem              992 active, relative max |Δdv| = 0.00e+00, |Δshift| = 0.00e+00
+==== Summary
+Taylor-Green vortex                      neighbors equal: true  max relative difference: 3.67e-13
+Taylor-Green vortex, summation density   neighbors equal: true  max relative difference: 1.42e-13
+Pipe flow                                neighbors equal: true  max relative difference: 2.06e-14
+Pipe flow, summation density             neighbors equal: true  max relative difference: 1.61e-14

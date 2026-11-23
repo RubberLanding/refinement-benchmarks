@@ -1,0 +1,28 @@
+==== pipe_flow, small, tree_variable, refinement=on, 8 threads, load 34.6 34.7 34.8
+State after the startup and 20 steps (t = 0.00492): active particles EntropicallyDampedSPHSystem 10568, OpenBoundarySystem 1647, WallBoundarySystem 1552
+
+==== Neighbors per particle and query times
+system                       neighbor                        uniform   variable in support     useful query R [ms] query r [ms]
+  tree leaves of EntropicallyDampedSPHSystem: level 0 (cell size 0.0362): 56% of the points, level 1 (cell size 0.0181): 44% of the points
+EntropicallyDampedSPHSystem  EntropicallyDampedSPHSystem       140.2       28.6       28.6       100%       2.352       1.718
+EntropicallyDampedSPHSystem  OpenBoundarySystem                  3.4        0.3        0.3       100%       0.183       0.138
+EntropicallyDampedSPHSystem  WallBoundarySystem                  7.1        NaN        1.0        14%       0.278         NaN
+OpenBoundarySystem           EntropicallyDampedSPHSystem        21.9        2.1        2.1       100%       0.099       0.040
+OpenBoundarySystem           WallBoundarySystem                  0.4        NaN        0.4       100%       0.015         NaN
+Neighbors per particle: `uniform` with the search radius R of the NHS, `variable` with the per-particle radii (NaN: not used for this pair), `in support` of the larger h. `useful`: in support / returned by the query that the interaction uses. Query times with an empty loop body (minimum of 100).
+
+==== Timers of 100 RHS evaluations (kick!)
+kick!                                                                           8.535 ms/RHS     99.9%
+kick! / system interaction                                                      4.587 ms/RHS     53.7%
+kick! / system interaction / fluid1-open_boundary2                              0.219 ms/RHS      2.6%
+kick! / system interaction / fluid1-fluid1                                      3.623 ms/RHS     42.4%
+kick! / system interaction / fluid1-boundary3                                   0.722 ms/RHS      8.5%
+kick! / update systems and nhs                                                  3.920 ms/RHS     45.9%
+kick! / update systems and nhs / compute boundary pressure                      0.367 ms/RHS      4.3%
+kick! / update systems and nhs / update nhs                                     0.601 ms/RHS      7.0%
+kick! / update systems and nhs / compute average pressure and beta              2.792 ms/RHS     32.7%
+kick! / update systems and nhs / inverse state equation                         0.013 ms/RHS      0.2%
+kick! / reset ∂v/∂t                                                             0.025 ms/RHS      0.3%
+wall time per RHS evaluation: 8.539 ms
+
+Results in benchmarks/results/phase3/final_r3/profile_pipe_flow

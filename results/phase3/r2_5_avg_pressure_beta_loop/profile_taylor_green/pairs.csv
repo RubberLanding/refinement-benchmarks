@@ -1,0 +1,2 @@
+system,neighbor,nhs,points,uniform_per_particle,variable_per_particle,in_support_per_particle,useful_fraction,query_uniform_ms,query_variable_ms
+EntropicallyDampedSPHSystem,EntropicallyDampedSPHSystem,TreeNeighborhoodSearch,10742,105.4464717929622,29.595419847328245,29.595419847328245,1.0,3.0364210000000003,2.337895

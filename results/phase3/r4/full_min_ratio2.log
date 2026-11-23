@@ -1,0 +1,58 @@
+[ Info: You just called `trixi_include`. Julia may now compile the code, please be patient.
+==== Warm-up
+==== Run 1/3
+==== Run 2/3
+==== Run 3/3
+
+ run   init [s]  steps [s]  steps     RHS  n_start    n_end   RHS [ms] refine/call startup [s]
+   1      0.052      8.913    100     607    39038    39038     11.750        0.0      0.000
+   2      0.049      8.065    100     607    39038    39038     10.981        0.0      0.000
+   3      0.047      7.982    100     607    39038    39038     10.866        0.0      0.000
+median: init 0.049 s, steps 8.065 s, time per step 80.65 ms
+Results in benchmarks/results/phase3/r4/full_min_ratio2
+Timers of the median run (2):
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+                                                                Time                             Allocations
+                                                  ────────────────────────────────    ──────────────────────────────────
+                Tot / % measured:                          18.9s / 42.0%                        313MiB / 25.7%
+ ───────────────────────────────────────────────  ────────────────────────────────    ──────────────────────────────────
+ Section                                  ncalls    time    %tot     avg                alloc    %tot      avg
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+ kick!                                       607   6.65s   83.9%  11.0ms  ██████▊     10.5MiB   13.1%  17.7KiB  █
+ ├─ update systems and nhs                   607   4.23s   53.4%  6.97ms  ████▎       6.20MiB    7.7%  10.5KiB  ▋
+ │  ├─ compute density                       607   1.08s   13.6%  1.77ms  █▏          1.64MiB    2.0%  2.77KiB  ▏
+ │  ├─ evaluate characteristics              607   998ms   12.6%  1.64ms  █           1.27MiB    1.6%  2.14KiB  ▏
+ │  ├─ compute average pressure              607   996ms   12.6%  1.64ms  █           1.24MiB    1.5%  2.09KiB  ▏
+ │  ├─ update nhs                            607   969ms   12.2%  1.60ms  █           37.9KiB    0.0%    64.0B
+ │  ├─ compute boundary pressure           1.21k  35.9ms    0.5%  29.5μs               835KiB    1.0%     704B  ▏
+ │  ├─ deactivate out of bounds particle   1.21k  18.3ms    0.2%  15.1μs               910KiB    1.1%     768B  ▏
+ │  ├─ inverse state equation              1.21k  4.96ms    0.1%  4.09μs               313KiB    0.4%     264B
+ │  └─ update density diffusion              607  14.5μs    0.0%  23.9ns                    ∅       ∅        ∅
+ ├─ system interaction                       607   2.41s   30.4%  3.97ms  ██▍         4.29MiB    5.3%  7.24KiB  ▍
+ │  ├─ fluid1-fluid1                         607   1.97s   24.9%  3.25ms  ██           370KiB    0.4%     624B
+ │  ├─ fluid1-boundary3                      607   164ms    2.1%   271μs  ▏            341KiB    0.4%     576B
+ │  ├─ fluid1-boundary4                      607   143ms    1.8%   235μs  ▏            370KiB    0.4%     624B
+ │  ├─ fluid1-open_boundary2                 607   119ms    1.5%   197μs  ▏            740KiB    0.9%  1.22KiB  ▏
+ │  ├─ boundary4-boundary3                   607  15.2μs    0.0%  25.0ns                    ∅       ∅        ∅
+ │  ├─ boundary3-boundary3                   607  15.1μs    0.0%  24.9ns                    ∅       ∅        ∅
+ │  ├─ open_boundary2-boundary4              607  14.9μs    0.0%  24.6ns                    ∅       ∅        ∅
+ │  ├─ boundary4-boundary4                   607  14.8μs    0.0%  24.3ns                    ∅       ∅        ∅
+ │  ├─ boundary3-open_boundary2              607  14.7μs    0.0%  24.3ns                    ∅       ∅        ∅
+ │  ├─ boundary4-open_boundary2              607  14.7μs    0.0%  24.2ns                    ∅       ∅        ∅
+ │  ├─ boundary4-fluid1                      607  14.6μs    0.0%  24.1ns                    ∅       ∅        ∅
+ │  ├─ boundary3-boundary4                   607  14.6μs    0.0%  24.0ns                    ∅       ∅        ∅
+ │  ├─ open_boundary2-open_boundary2         607  14.4μs    0.0%  23.7ns                    ∅       ∅        ∅
+ │  ├─ open_boundary2-boundary3              607  14.4μs    0.0%  23.7ns                    ∅       ∅        ∅
+ │  ├─ open_boundary2-fluid1                 607  14.3μs    0.0%  23.6ns                    ∅       ∅        ∅
+ │  └─ boundary3-fluid1                      607  14.3μs    0.0%  23.5ns                    ∅       ∅        ∅
+ └─ reset ∂v/∂t                              607  4.43ms    0.1%  7.30μs              19.0KiB    0.0%    32.0B
+ update callback                             101   1.26s   15.9%  12.5ms  █▎          69.2MiB   86.1%   702KiB  ██████▉
+ ├─ update systems and nhs                   101   701ms    8.8%  6.94ms  ▊           1.22MiB    1.5%  12.3KiB  ▏
+ ├─ update shifting                          101   305ms    3.9%  3.02ms  ▎            303KiB    0.4%  3.00KiB
+ ├─ update open boundary                     101   255ms    3.2%  2.53ms  ▎           67.7MiB   84.2%   687KiB  ██████▊
+ │  ├─ check domain                          101   246ms    3.1%  2.44ms  ▎           66.7MiB   83.0%   676KiB  ██████▋
+ │  └─ update boundary quantities            101  8.67ms    0.1%  85.8μs              1.00MiB    1.2%  10.2KiB  ▏
+ └─ apply particle shifting                  101  2.42μs    0.0%  24.0ns                    ∅       ∅        ∅
+ drift!                                      607  18.4ms    0.2%  30.3μs               683KiB    0.8%  1.12KiB  ▏
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+

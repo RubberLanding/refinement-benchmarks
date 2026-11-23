@@ -1,0 +1,19 @@
+path,ncalls,time_ns,allocated_bytes,per_call_ms
+kick!,100,827275830,3501376,8.2727583
+kick! / system interaction,100,451124251,1656576,4.51124251
+kick! / system interaction / boundary3-boundary3,100,2420,0,2.42e-5
+kick! / system interaction / boundary3-fluid1,100,2380,0,2.3800000000000003e-5
+kick! / system interaction / fluid1-open_boundary2,100,20475893,716800,0.20475893
+kick! / system interaction / open_boundary2-fluid1,100,2401,0,2.401e-5
+kick! / system interaction / fluid1-fluid1,100,360552684,545600,3.60552684
+kick! / system interaction / open_boundary2-open_boundary2,100,2490,0,2.49e-5
+kick! / system interaction / fluid1-boundary3,100,69104563,148800,0.69104563
+kick! / system interaction / open_boundary2-boundary3,100,2450,0,2.45e-5
+kick! / system interaction / boundary3-open_boundary2,100,2440,0,2.44e-5
+kick! / update systems and nhs,100,374339249,1841024,3.7433924899999997
+kick! / update systems and nhs / compute boundary pressure,100,36058503,163200,0.36058503000000003
+kick! / update systems and nhs / update nhs,100,54589032,187200,0.54589032
+kick! / update systems and nhs / compute average pressure and beta,100,275351284,1460800,2.7535128400000004
+kick! / update systems and nhs / update density diffusion,100,2250,0,2.2499999999999998e-5
+kick! / update systems and nhs / inverse state equation,100,1055969,28800,0.01055969
+kick! / reset ∂v/∂t,100,1739029,3200,0.01739029

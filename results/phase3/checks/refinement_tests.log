@@ -1,0 +1,472 @@
+Test Summary:                                                                                                    | Pass  Total      Time
+Refinement                                                                                                       | 2019   2019  13m33.5s
+  Variable Smoothing Length                                                                                      |   41     41      4.5s
+    `ParticleRefinement` Constructor                                                                             |    6      6      0.3s
+    WeaklyCompressibleSPHSystem Without Refinement                                                               |    7      7      0.1s
+    EntropicallyDampedSPHSystem Without Refinement                                                               |    7      7      0.0s
+    WeaklyCompressibleSPHSystem With Refinement                                                                  |   10     10      0.2s
+    EntropicallyDampedSPHSystem With Refinement                                                                  |   10     10      0.2s
+    Buffer Particles Have a Smoothing Length                                                                     |    1      1      2.8s
+  Variable Smoothing Length Interactions                                                                         |   33     33   2m32.1s
+    Uniform Smoothing Length Matches Constant Smoothing Length                                                   |    8      8   1m17.6s
+      ContinuityDensity                                                                                          |    2      2     30.7s
+      SummationDensity                                                                                           |    2      2     19.0s
+      AdamiPressureExtrapolation                                                                                 |    2      2     20.8s
+      AdamiPressureExtrapolation                                                                                 |    2      2      0.0s
+    Fluid-Fluid Pair                                                                                             |    8      8      6.6s
+      Different Smoothing Lengths are Antisymmetric                                                              |    2      2      6.4s
+      Inside the Larger Compact Support Only                                                                     |    2      2      0.0s
+      Outside of Both Compact Supports                                                                           |    1      1      0.1s
+      Each Pressure Uses the Kernel Gradient of Its Own Particle                                                 |    3      3      0.2s
+    Formulation Without Two Gradients is Rejected                                                                |    1      1      1.1s
+    Wall Next to Fluid With Larger Smoothing Length                                                              |    6      6     20.4s
+      Search Radius                                                                                              |    2      2      0.4s
+      Continuity Equation                                                                                        |    2      2      9.7s
+      Pressure Extrapolation Does Not Depend on the Loop Order                                                   |    2      2      9.4s
+    Corrections Are Rejected                                                                                     |    2      2      0.8s
+      Fluid                                                                                                      |    1      1      0.5s
+      Boundary Model                                                                                             |    1      1      0.4s
+    Boundary Models and Structures                                                                               |    8      8     45.5s
+      Monaghan-Kajtar Wall                                                                                       |    2      2     12.8s
+      TLSPH With Different Smoothing Length                                                                      |    2      2     25.3s
+      Rigid Body Forces Are Opposite                                                                             |    4      4      7.5s
+  EDAC With Variable Smoothing Lengths                                                                           |   62     62   1m07.3s
+    Beta                                                                                                         |    6      6      9.8s
+      Regular Grid                                                                                               |    2      2      3.7s
+      Pair                                                                                                       |    2      2      0.0s
+      No Neighbors                                                                                               |    1      1      0.3s
+      Includes Boundary Particles                                                                                |    1      1      5.8s
+    Average Pressure                                                                                             |    2      2      3.3s
+    Average Pressure and Beta in One Loop                                                                        |    2      2      5.7s
+    Fluid-Fluid Pair                                                                                             |    9      9      0.4s
+      Pressure Acceleration                                                                                      |    2      2      0.0s
+      Pressure Acceleration is Antisymmetric                                                                     |    1      1      0.0s
+      Pressure Evolution                                                                                         |    2      2      0.0s
+      Inside the Larger Compact Support Only                                                                     |    2      2      0.0s
+      Outside of Both Compact Supports                                                                           |    1      1      0.0s
+      Average Pressure Reduction                                                                                 |    1      1      0.1s
+    Continuity Equation                                                                                          |    4      4      0.0s
+      Uses the Kernel Gradient of the Particle                                                                   |    2      2      0.0s
+      Inside the Compact Support of the Neighbor Only                                                            |    2      2      0.0s
+    Pressure Acceleration Formulations                                                                           |   22     22     18.5s
+      Default Formulation                                                                                        |    3      3      0.0s
+      Explicit Formulation is Used                                                                               |    1      1      0.1s
+      Nothing Chooses the Formulation of the Density Calculator                                                  |    4      4      0.6s
+      Formulation Without Two Gradients is Rejected                                                              |    1      1      0.0s
+      Inter-Particle Averaged Pressure With Symmetric Gradient                                                   |    1      1      0.1s
+      Summation Density                                                                                          |    1      1      0.0s
+      Continuity Density                                                                                         |    2      2      3.2s
+      Inter-Particle Averaged Pressure                                                                           |    5      5      3.2s
+      Shifting Term in the Pressure Evolution                                                                    |    4      4     11.3s
+    Viscosity is Not Scaled by Beta                                                                              |    3      3      5.2s
+    Damping Term With Wall Neighbors                                                                             |    5      5      6.1s
+      Eq. 6 Uses the Kernel Gradient of the Particle Without Beta                                                |    3      3      0.3s
+      Inter-Particle Averaged Pressure Uses the Kernel Gradient of the Particle                                  |    2      2      5.9s
+    Boundary Models and Structures                                                                               |    8      8     17.9s
+      Monaghan-Kajtar Wall Applies the Boundary Force                                                            |    2      2      5.0s
+      TLSPH Uses the Smoothing Length of the Boundary Model                                                      |    2      2      6.9s
+      Rigid Body Forces Are Opposite                                                                             |    4      4      6.0s
+    Corrections Are Rejected                                                                                     |    1      1      0.3s
+  Resize                                                                                                         |  892    892   4m40.0s
+    WCSPH with `ContinuityDensity`, `GridNeighborhoodSearch`, `SharedNHSHandler`                                 |   34     34     15.7s
+      Number of Particles                                                                                        |    8      8      0.1s
+      Ranges                                                                                                     |    6      6      0.0s
+      Data is Kept                                                                                               |    4      4      1.2s
+      New Particles are Inactive                                                                                 |    7      7      0.3s
+      Right-Hand Side is Unchanged                                                                               |    4      4      0.8s
+      Resize Again                                                                                               |    3      3      0.0s
+      Activated New Particle Interacts                                                                           |    2      2      0.8s
+    WCSPH with `ContinuityDensity`, `GridNeighborhoodSearch`, `PairsNHSHandler`                                  |   34     34      7.6s
+      Number of Particles                                                                                        |    8      8      0.0s
+      Ranges                                                                                                     |    6      6      0.0s
+      Data is Kept                                                                                               |    4      4      0.0s
+      New Particles are Inactive                                                                                 |    7      7      0.0s
+      Right-Hand Side is Unchanged                                                                               |    4      4      0.0s
+      Resize Again                                                                                               |    3      3      0.0s
+      Activated New Particle Interacts                                                                           |    2      2      0.0s
+    WCSPH with `ContinuityDensity`, `FullGridCellList`, `SharedNHSHandler`                                       |   34     34     12.3s
+      Number of Particles                                                                                        |    8      8      0.0s
+      Ranges                                                                                                     |    6      6      0.0s
+      Data is Kept                                                                                               |    4      4      0.0s
+      New Particles are Inactive                                                                                 |    7      7      0.0s
+      Right-Hand Side is Unchanged                                                                               |    4      4      0.0s
+      Resize Again                                                                                               |    3      3      0.0s
+      Activated New Particle Interacts                                                                           |    2      2      0.0s
+    WCSPH with `ContinuityDensity`, `TrivialNeighborhoodSearch`, `SharedNHSHandler`                              |   34     34      8.9s
+      Number of Particles                                                                                        |    8      8      0.0s
+      Ranges                                                                                                     |    6      6      0.0s
+      Data is Kept                                                                                               |    4      4      0.0s
+      New Particles are Inactive                                                                                 |    7      7      0.0s
+      Right-Hand Side is Unchanged                                                                               |    4      4      0.0s
+      Resize Again                                                                                               |    3      3      0.0s
+      Activated New Particle Interacts                                                                           |    2      2      0.0s
+    WCSPH with `ContinuityDensity`, `TrivialNeighborhoodSearch`, `PairsNHSHandler`                               |   34     34      7.2s
+      Number of Particles                                                                                        |    8      8      0.0s
+      Ranges                                                                                                     |    6      6      0.0s
+      Data is Kept                                                                                               |    4      4      0.0s
+      New Particles are Inactive                                                                                 |    7      7      0.0s
+      Right-Hand Side is Unchanged                                                                               |    4      4      0.0s
+      Resize Again                                                                                               |    3      3      0.0s
+      Activated New Particle Interacts                                                                           |    2      2      0.0s
+    WCSPH with `SummationDensity`, `GridNeighborhoodSearch`, `SharedNHSHandler`                                  |   34     34     11.5s
+      Number of Particles                                                                                        |    8      8      0.0s
+      Ranges                                                                                                     |    6      6      0.0s
+      Data is Kept                                                                                               |    4      4      0.0s
+      New Particles are Inactive                                                                                 |    7      7      0.0s
+      Right-Hand Side is Unchanged                                                                               |    4      4      0.3s
+      Resize Again                                                                                               |    3      3      0.0s
+      Activated New Particle Interacts                                                                           |    2      2      0.2s
+    WCSPH with `SummationDensity`, `GridNeighborhoodSearch`, `PairsNHSHandler`                                   |   34     34      7.6s
+      Number of Particles                                                                                        |    8      8      0.0s
+      Ranges                                                                                                     |    6      6      0.0s
+      Data is Kept                                                                                               |    4      4      0.0s
+      New Particles are Inactive                                                                                 |    7      7      0.0s
+      Right-Hand Side is Unchanged                                                                               |    4      4      0.0s
+      Resize Again                                                                                               |    3      3      0.0s
+      Activated New Particle Interacts                                                                           |    2      2      0.0s
+    WCSPH with `SummationDensity`, `FullGridCellList`, `SharedNHSHandler`                                        |   34     34     10.4s
+      Number of Particles                                                                                        |    8      8      0.0s
+      Ranges                                                                                                     |    6      6      0.0s
+      Data is Kept                                                                                               |    4      4      0.0s
+      New Particles are Inactive                                                                                 |    7      7      0.0s
+      Right-Hand Side is Unchanged                                                                               |    4      4      0.0s
+      Resize Again                                                                                               |    3      3      0.0s
+      Activated New Particle Interacts                                                                           |    2      2      0.0s
+    WCSPH with `SummationDensity`, `TrivialNeighborhoodSearch`, `SharedNHSHandler`                               |   34     34      9.4s
+      Number of Particles                                                                                        |    8      8      0.0s
+      Ranges                                                                                                     |    6      6      0.0s
+      Data is Kept                                                                                               |    4      4      0.0s
+      New Particles are Inactive                                                                                 |    7      7      0.0s
+      Right-Hand Side is Unchanged                                                                               |    4      4      0.0s
+      Resize Again                                                                                               |    3      3      0.0s
+      Activated New Particle Interacts                                                                           |    2      2      0.0s
+    WCSPH with `SummationDensity`, `TrivialNeighborhoodSearch`, `PairsNHSHandler`                                |   34     34      7.3s
+      Number of Particles                                                                                        |    8      8      0.0s
+      Ranges                                                                                                     |    6      6      0.0s
+      Data is Kept                                                                                               |    4      4      0.0s
+      New Particles are Inactive                                                                                 |    7      7      0.0s
+      Right-Hand Side is Unchanged                                                                               |    4      4      0.0s
+      Resize Again                                                                                               |    3      3      0.0s
+      Activated New Particle Interacts                                                                           |    2      2      0.0s
+    EDAC with `ContinuityDensity`, `GridNeighborhoodSearch`, `SharedNHSHandler`                                  |   34     34     12.4s
+      Number of Particles                                                                                        |    8      8      0.0s
+      Ranges                                                                                                     |    6      6      0.0s
+      Data is Kept                                                                                               |    4      4      0.1s
+      New Particles are Inactive                                                                                 |    7      7      0.1s
+      Right-Hand Side is Unchanged                                                                               |    4      4      0.3s
+      Resize Again                                                                                               |    3      3      0.0s
+      Activated New Particle Interacts                                                                           |    2      2      0.4s
+    EDAC with `ContinuityDensity`, `GridNeighborhoodSearch`, `PairsNHSHandler`                                   |   34     34      7.5s
+      Number of Particles                                                                                        |    8      8      0.0s
+      Ranges                                                                                                     |    6      6      0.0s
+      Data is Kept                                                                                               |    4      4      0.0s
+      New Particles are Inactive                                                                                 |    7      7      0.0s
+      Right-Hand Side is Unchanged                                                                               |    4      4      0.0s
+      Resize Again                                                                                               |    3      3      0.0s
+      Activated New Particle Interacts                                                                           |    2      2      0.0s
+    EDAC with `ContinuityDensity`, `FullGridCellList`, `SharedNHSHandler`                                        |   34     34     10.8s
+      Number of Particles                                                                                        |    8      8      0.0s
+      Ranges                                                                                                     |    6      6      0.0s
+      Data is Kept                                                                                               |    4      4      0.0s
+      New Particles are Inactive                                                                                 |    7      7      0.0s
+      Right-Hand Side is Unchanged                                                                               |    4      4      0.0s
+      Resize Again                                                                                               |    3      3      0.0s
+      Activated New Particle Interacts                                                                           |    2      2      0.0s
+    EDAC with `ContinuityDensity`, `TrivialNeighborhoodSearch`, `SharedNHSHandler`                               |   34     34      9.4s
+      Number of Particles                                                                                        |    8      8      0.0s
+      Ranges                                                                                                     |    6      6      0.0s
+      Data is Kept                                                                                               |    4      4      0.0s
+      New Particles are Inactive                                                                                 |    7      7      0.0s
+      Right-Hand Side is Unchanged                                                                               |    4      4      0.0s
+      Resize Again                                                                                               |    3      3      0.0s
+      Activated New Particle Interacts                                                                           |    2      2      0.0s
+    EDAC with `ContinuityDensity`, `TrivialNeighborhoodSearch`, `PairsNHSHandler`                                |   34     34      7.1s
+      Number of Particles                                                                                        |    8      8      0.0s
+      Ranges                                                                                                     |    6      6      0.0s
+      Data is Kept                                                                                               |    4      4      0.0s
+      New Particles are Inactive                                                                                 |    7      7      0.0s
+      Right-Hand Side is Unchanged                                                                               |    4      4      0.0s
+      Resize Again                                                                                               |    3      3      0.0s
+      Activated New Particle Interacts                                                                           |    2      2      0.0s
+    EDAC with `SummationDensity` and Average Pressure Reduction, `GridNeighborhoodSearch`, `SharedNHSHandler`    |   34     34     12.7s
+      Number of Particles                                                                                        |    8      8      0.0s
+      Ranges                                                                                                     |    6      6      0.0s
+      Data is Kept                                                                                               |    4      4      0.0s
+      New Particles are Inactive                                                                                 |    7      7      0.0s
+      Right-Hand Side is Unchanged                                                                               |    4      4      0.0s
+      Resize Again                                                                                               |    3      3      0.0s
+      Activated New Particle Interacts                                                                           |    2      2      0.0s
+    EDAC with `SummationDensity` and Average Pressure Reduction, `GridNeighborhoodSearch`, `PairsNHSHandler`     |   34     34      8.3s
+      Number of Particles                                                                                        |    8      8      0.0s
+      Ranges                                                                                                     |    6      6      0.0s
+      Data is Kept                                                                                               |    4      4      0.0s
+      New Particles are Inactive                                                                                 |    7      7      0.0s
+      Right-Hand Side is Unchanged                                                                               |    4      4      0.0s
+      Resize Again                                                                                               |    3      3      0.0s
+      Activated New Particle Interacts                                                                           |    2      2      0.0s
+    EDAC with `SummationDensity` and Average Pressure Reduction, `FullGridCellList`, `SharedNHSHandler`          |   34     34     11.9s
+      Number of Particles                                                                                        |    8      8      0.0s
+      Ranges                                                                                                     |    6      6      0.0s
+      Data is Kept                                                                                               |    4      4      0.0s
+      New Particles are Inactive                                                                                 |    7      7      0.0s
+      Right-Hand Side is Unchanged                                                                               |    4      4      0.0s
+      Resize Again                                                                                               |    3      3      0.0s
+      Activated New Particle Interacts                                                                           |    2      2      0.0s
+    EDAC with `SummationDensity` and Average Pressure Reduction, `TrivialNeighborhoodSearch`, `SharedNHSHandler` |   34     34     10.7s
+      Number of Particles                                                                                        |    8      8      0.0s
+      Ranges                                                                                                     |    6      6      0.0s
+      Data is Kept                                                                                               |    4      4      0.0s
+      New Particles are Inactive                                                                                 |    7      7      0.0s
+      Right-Hand Side is Unchanged                                                                               |    4      4      0.0s
+      Resize Again                                                                                               |    3      3      0.0s
+      Activated New Particle Interacts                                                                           |    2      2      0.0s
+    EDAC with `SummationDensity` and Average Pressure Reduction, `TrivialNeighborhoodSearch`, `PairsNHSHandler`  |   34     34      7.8s
+      Number of Particles                                                                                        |    8      8      0.0s
+      Ranges                                                                                                     |    6      6      0.0s
+      Data is Kept                                                                                               |    4      4      0.0s
+      New Particles are Inactive                                                                                 |    7      7      0.0s
+      Right-Hand Side is Unchanged                                                                               |    4      4      0.0s
+      Resize Again                                                                                               |    3      3      0.0s
+      Activated New Particle Interacts                                                                           |    2      2      0.0s
+    EDAC with Shifting, `GridNeighborhoodSearch`, `SharedNHSHandler`                                             |   37     37     13.1s
+      Number of Particles                                                                                        |    8      8      0.0s
+      Ranges                                                                                                     |    6      6      0.0s
+      Data is Kept                                                                                               |    7      7      0.0s
+      New Particles are Inactive                                                                                 |    7      7      0.0s
+      Right-Hand Side is Unchanged                                                                               |    4      4      0.0s
+      Resize Again                                                                                               |    3      3      0.0s
+      Activated New Particle Interacts                                                                           |    2      2      0.0s
+    EDAC with Shifting, `GridNeighborhoodSearch`, `PairsNHSHandler`                                              |   37     37      8.4s
+[ Info: To create the self-interaction neighborhood search of a `TotalLagrangianSPHSystem`, a deep copy of the system is created inside the `Semidiscretization`. Use `system = semi.systems[i]` to access simulation data.
+[ Info: To create the self-interaction neighborhood search of a `TotalLagrangianSPHSystem`, a deep copy of the system is created inside the `Semidiscretization`. Use `system = semi.systems[i]` to access simulation data.
+[ Info: To create the self-interaction neighborhood search of a `TotalLagrangianSPHSystem`, a deep copy of the system is created inside the `Semidiscretization`. Use `system = semi.systems[i]` to access simulation data.
+[ Info: To create the self-interaction neighborhood search of a `TotalLagrangianSPHSystem`, a deep copy of the system is created inside the `Semidiscretization`. Use `system = semi.systems[i]` to access simulation data.
+[ Info: To create the self-interaction neighborhood search of a `TotalLagrangianSPHSystem`, a deep copy of the system is created inside the `Semidiscretization`. Use `system = semi.systems[i]` to access simulation data.
+[ Info: To create the self-interaction neighborhood search of a `TotalLagrangianSPHSystem`, a deep copy of the system is created inside the `Semidiscretization`. Use `system = semi.systems[i]` to access simulation data.
+      Number of Particles                                                                                        |    8      8      0.0s
+      Ranges                                                                                                     |    6      6      0.0s
+      Data is Kept                                                                                               |    7      7      0.0s
+      New Particles are Inactive                                                                                 |    7      7      0.0s
+      Right-Hand Side is Unchanged                                                                               |    4      4      0.0s
+      Resize Again                                                                                               |    3      3      0.0s
+      Activated New Particle Interacts                                                                           |    2      2      0.0s
+    EDAC with Shifting, `FullGridCellList`, `SharedNHSHandler`                                                   |   37     37     12.1s
+      Number of Particles                                                                                        |    8      8      0.0s
+      Ranges                                                                                                     |    6      6      0.0s
+      Data is Kept                                                                                               |    7      7      0.0s
+      New Particles are Inactive                                                                                 |    7      7      0.0s
+      Right-Hand Side is Unchanged                                                                               |    4      4      0.0s
+      Resize Again                                                                                               |    3      3      0.0s
+      Activated New Particle Interacts                                                                           |    2      2      0.0s
+    EDAC with Shifting, `TrivialNeighborhoodSearch`, `SharedNHSHandler`                                          |   37     37     10.7s
+      Number of Particles                                                                                        |    8      8      0.0s
+      Ranges                                                                                                     |    6      6      0.0s
+      Data is Kept                                                                                               |    7      7      0.0s
+      New Particles are Inactive                                                                                 |    7      7      0.0s
+      Right-Hand Side is Unchanged                                                                               |    4      4      0.0s
+      Resize Again                                                                                               |    3      3      0.0s
+      Activated New Particle Interacts                                                                           |    2      2      0.0s
+    EDAC with Shifting, `TrivialNeighborhoodSearch`, `PairsNHSHandler`                                           |   37     37      8.0s
+      Number of Particles                                                                                        |    8      8      0.0s
+      Ranges                                                                                                     |    6      6      0.0s
+      Data is Kept                                                                                               |    7      7      0.0s
+      New Particles are Inactive                                                                                 |    7      7      0.0s
+      Right-Hand Side is Unchanged                                                                               |    4      4      0.0s
+      Resize Again                                                                                               |    3      3      0.0s
+      Activated New Particle Interacts                                                                           |    2      2      0.0s
+    Unchanged Number of Particles                                                                                |    1      1      1.7s
+    Rejected                                                                                                     |   22     22     19.3s
+      Without Refinement                                                                                         |    4      4      2.2s
+      Without Buffer                                                                                             |    4      4      3.7s
+      Shrinking                                                                                                  |    4      4      3.9s
+      Surface Normals                                                                                            |    4      4      5.0s
+      `DensityDiffusionAntuono`                                                                                  |    4      4      4.4s
+      Boundary System                                                                                            |    1      1      0.0s
+      Wrong Number of Entries                                                                                    |    1      1      0.1s
+    Shifting and Open Boundary                                                                                   |    4      4      9.4s
+  Search Radius                                                                                                  |   50     50     36.6s
+    Initial Spacing `max_spacing`, SharedNHSHandler                                                              |    7      7      5.0s
+      Initialization                                                                                             |    3      3      0.4s
+      After Resizing                                                                                             |    3      3      1.1s
+    Initial Spacing `max_spacing`, PairsNHSHandler                                                               |    7      7      3.0s
+      Initialization                                                                                             |    3      3      0.1s
+      After Resizing                                                                                             |    3      3      0.8s
+    Initial Spacing Above Maximum, SharedNHSHandler                                                              |    7      7      0.0s
+      Initialization                                                                                             |    3      3      0.0s
+      After Resizing                                                                                             |    3      3      0.0s
+    Initial Spacing Above Maximum, PairsNHSHandler                                                               |    7      7      0.0s
+      Initialization                                                                                             |    3      3      0.0s
+      After Resizing                                                                                             |    3      3      0.0s
+    Warning for Too Large Smoothing Length                                                                       |    1      1      0.3s
+    Second Fluid                                                                                                 |    7      7     15.2s
+      Without Refinement                                                                                         |    3      3      4.1s
+      With Refinement                                                                                            |    3      3      8.4s
+      Self-Interaction Without Refinement                                                                        |    1      1      2.7s
+    Open Boundary                                                                                                |   14     14     12.9s
+      Search Radius                                                                                              |    4      4      5.9s
+      Pair Outside of the Average Support With WCSPH                                                             |    5      5      0.9s
+      Pair Outside of the Average Support With EDAC                                                              |    5      5      6.1s
+  Cell Capacity                                                                                                  |   20     20     14.8s
+    SharedNHSHandler                                                                                             |    7      7      4.4s
+      Default Capacity                                                                                           |    5      5      4.4s
+      Larger Capacity Is Kept                                                                                    |    2      2      0.0s
+    PairsNHSHandler                                                                                              |    7      7      3.2s
+      Default Capacity                                                                                           |    5      5      3.2s
+      Larger Capacity Is Kept                                                                                    |    2      2      0.1s
+    Tree                                                                                                         |    5      5      6.6s
+    Without Refinement                                                                                           |    1      1      0.6s
+  Refinement Callback                                                                                            |  387    387     44.8s
+    `ParticleRefinement` Startup Rounds                                                                          |    3      3      0.0s
+    Show                                                                                                         |    5      5      0.5s
+    Startup With `interval`                                                                                      |  187    187     17.2s
+    Startup With `dt`                                                                                            |  187    187      1.1s
+    Missing `SystemBuffer` With `interval`                                                                       |    1      1      7.9s
+    Missing `SystemBuffer` With `dt`                                                                             |    1      1      0.5s
+    Order of Callbacks                                                                                           |    3      3     17.3s
+  Open Boundary                                                                                                  |   19     19      2.0s
+    Smoothing Length                                                                                             |    6      6      0.4s
+    Particle Transfer                                                                                            |   12     12      1.5s
+    EDAC Damping Term                                                                                            |    1      1      0.0s
+  Refinement Criteria                                                                                            |   70     70   1m03.2s
+    Default Criterion                                                                                            |    1      1      0.0s
+    Spatial Criterion                                                                                            |    6      6      4.4s
+    Solution Criterion Finer Than Boundary                                                                       |    5      5      4.1s
+    Solution Criterion Coarser Than Boundary                                                                     |    3      3      4.1s
+    Solution Criterion Without Spatial Criterion                                                                 |    2      2      3.4s
+    Multiple Solution Criteria                                                                                   |    3      3      3.6s
+    Inactive Solution Criterion                                                                                  |    2      2      0.0s
+    Inactive Particles Are Skipped                                                                               |    3      3      4.4s
+    Vorticity Criterion                                                                                          |   45     45     38.7s
+      Vorticity Shear Flow                                                                                       |    2      2      5.1s
+      Vorticity Rotation                                                                                         |    2      2      0.1s
+      Walls Do Not Contribute                                                                                    |    1      1      6.0s
+      Vorticity 3D                                                                                               |    9      9      5.5s
+      Smoothed Vorticity                                                                                         |    3      3      1.4s
+      Refines to Minimum Spacing                                                                                 |    2      2      5.6s
+      Target Spacing and Spatial Criterion                                                                       |    3      3      6.4s
+      Outlet Cutoff                                                                                              |   17     17      7.9s
+        Default                                                                                                  |    4      4      1.6s
+        Positive x                                                                                               |    4      4      6.2s
+        Negative x                                                                                               |    4      4      0.0s
+        Positive y                                                                                               |    4      4      0.0s
+      Absolute Threshold                                                                                         |    3      3      0.3s
+      Relative Threshold                                                                                         |    3      3      0.2s
+  Target Spacing                                                                                                 |   21     21      8.3s
+    Initialization From Mass                                                                                     |    2      2      0.1s
+    Uniform Spacing                                                                                              |    1      1      1.2s
+    Coarsening of an Unfixed Region                                                                              |    1      1      0.0s
+    Persistent Graded Band                                                                                       |    5      5      0.4s
+    Geometric Mean                                                                                               |    5      5      0.2s
+    Inactive Particles Are Skipped                                                                               |    2      2      4.6s
+    Sorting Keeps the Target Spacing                                                                             |    1      1      0.2s
+    Resizing Keeps the Target Spacing                                                                            |    4      4      1.5s
+  Splitting                                                                                                      |  248    248     28.9s
+    `HexagonalSplitting`                                                                                         |   10     10      0.2s
+    `TriangularSplitting`                                                                                        |    8      8      0.2s
+    WCSPH with `ContinuityDensity`                                                                               |   52     52      3.7s
+      Only the Heavy Particle is Split                                                                           |    3      3      0.0s
+      Mass and Momentum are Conserved                                                                            |    3      3      0.2s
+      Positions                                                                                                  |    7      7      0.0s
+      Properties are Copied                                                                                      |   35     35      0.0s
+      Other Particles are Unchanged                                                                              |    2      2      0.0s
+      New Particles Interact                                                                                     |    2      2      1.8s
+    WCSPH with `SummationDensity`                                                                                |   52     52      7.6s
+      Only the Heavy Particle is Split                                                                           |    3      3      0.0s
+      Mass and Momentum are Conserved                                                                            |    3      3      0.1s
+      Positions                                                                                                  |    7      7      0.0s
+      Properties are Copied                                                                                      |   35     35      0.0s
+      Other Particles are Unchanged                                                                              |    2      2      0.0s
+      New Particles Interact                                                                                     |    2      2      2.1s
+    EDAC with `ContinuityDensity`                                                                                |   52     52      7.5s
+      Only the Heavy Particle is Split                                                                           |    3      3      0.0s
+      Mass and Momentum are Conserved                                                                            |    3      3      0.1s
+      Positions                                                                                                  |    7      7      0.0s
+      Properties are Copied                                                                                      |   35     35      0.0s
+      Other Particles are Unchanged                                                                              |    2      2      0.0s
+      New Particles Interact                                                                                     |    2      2      2.1s
+    EDAC with `SummationDensity`                                                                                 |   52     52      0.6s
+      Only the Heavy Particle is Split                                                                           |    3      3      0.0s
+      Mass and Momentum are Conserved                                                                            |    3      3      0.1s
+      Positions                                                                                                  |    7      7      0.0s
+      Properties are Copied                                                                                      |   35     35      0.0s
+      Other Particles are Unchanged                                                                              |    2      2      0.0s
+      New Particles Interact                                                                                     |    2      2      0.0s
+    Split With `TriangularSplitting`                                                                             |    6      6      5.9s
+    No Splitting Below the Mass Limit                                                                            |    2      2      0.0s
+    Free Slots Between Active Particles                                                                          |    3      3      0.0s
+    Resize                                                                                                       |    3      3      0.0s
+    No Splitting Near Boundaries                                                                                 |    4      4      0.0s
+    No Splitting Into Open Boundary Zones                                                                        |    3      3      2.2s
+    Splitting Requires a Buffer                                                                                  |    1      1      0.9s
+  Merging                                                                                                        |   84     84      8.1s
+    WCSPH with `ContinuityDensity`                                                                               |   17     17      1.5s
+      Only the Light Pair is Merged                                                                              |    4      4      0.0s
+      Mass and Momentum are Conserved                                                                            |    2      2      0.1s
+      Merged Properties                                                                                          |    6      6      0.0s
+      Other Particles are Unchanged                                                                              |    2      2      0.0s
+      Deleted Particle Does Not Interact                                                                         |    3      3      0.3s
+    WCSPH with `SummationDensity`                                                                                |   17     17      1.1s
+      Only the Light Pair is Merged                                                                              |    4      4      0.0s
+      Mass and Momentum are Conserved                                                                            |    2      2      0.1s
+      Merged Properties                                                                                          |    6      6      0.0s
+      Other Particles are Unchanged                                                                              |    2      2      0.0s
+      Deleted Particle Does Not Interact                                                                         |    3      3      0.1s
+    EDAC with `ContinuityDensity`                                                                                |   17     17      1.2s
+      Only the Light Pair is Merged                                                                              |    4      4      0.0s
+      Mass and Momentum are Conserved                                                                            |    2      2      0.1s
+      Merged Properties                                                                                          |    6      6      0.0s
+      Other Particles are Unchanged                                                                              |    2      2      0.0s
+      Deleted Particle Does Not Interact                                                                         |    3      3      0.1s
+    EDAC with `SummationDensity`                                                                                 |   17     17      0.4s
+      Only the Light Pair is Merged                                                                              |    4      4      0.0s
+      Mass and Momentum are Conserved                                                                            |    2      2      0.1s
+      Merged Properties                                                                                          |    6      6      0.0s
+      Other Particles are Unchanged                                                                              |    2      2      0.0s
+      Deleted Particle Does Not Interact                                                                         |    3      3      0.1s
+    Mass Limits Before and After Splitting                                                                       |    3      3      0.4s
+    No Merging Above the Mass Limit                                                                              |    2      2      0.0s
+    Pairs Must Choose Each Other                                                                                 |    5      5      0.1s
+    Periodic Boundaries                                                                                          |    3      3      2.6s
+    Splitting Reuses the Free Slot                                                                               |    2      2      0.0s
+    Merging Requires a Buffer                                                                                    |    1      1      0.5s
+  Shifting                                                                                                       |   92     92   1m38.1s
+    Kernel Inflection Point                                                                                      |    7      7      0.1s
+      SchoenbergCubicSplineKernel                                                                                |    2      2      0.0s
+      SchoenbergQuinticSplineKernel                                                                              |    2      2      0.0s
+      WendlandC2Kernel                                                                                           |    2      2      0.0s
+    WCSPH with `ContinuityDensity`                                                                               |   14     14     18.3s
+      Uniform Lattice is Not Shifted                                                                             |    3      3      2.4s
+      Perturbed Particle is Shifted Back                                                                         |    3      3      0.2s
+      Properties of Linear Fields are Corrected                                                                  |    4      4      0.2s
+      Velocity Correction at Free-Slip Walls                                                                     |    2      2      8.0s
+      Velocity Correction at No-Slip Walls                                                                       |    2      2      7.5s
+    WCSPH with `SummationDensity`                                                                                |   14     14     18.5s
+      Uniform Lattice is Not Shifted                                                                             |    3      3      2.1s
+      Perturbed Particle is Shifted Back                                                                         |    3      3      0.0s
+      Properties of Linear Fields are Corrected                                                                  |    4      4      0.0s
+      Velocity Correction at Free-Slip Walls                                                                     |    2      2      8.4s
+      Velocity Correction at No-Slip Walls                                                                       |    2      2      7.9s
+    EDAC with `ContinuityDensity`                                                                                |   14     14     18.9s
+      Uniform Lattice is Not Shifted                                                                             |    3      3      2.6s
+      Perturbed Particle is Shifted Back                                                                         |    3      3      0.0s
+      Properties of Linear Fields are Corrected                                                                  |    4      4      0.0s
+      Velocity Correction at Free-Slip Walls                                                                     |    2      2      8.5s
+      Velocity Correction at No-Slip Walls                                                                       |    2      2      7.8s
+    EDAC with `SummationDensity`                                                                                 |   14     14     17.5s
+      Uniform Lattice is Not Shifted                                                                             |    3      3      0.1s
+      Perturbed Particle is Shifted Back                                                                         |    3      3      0.0s
+      Properties of Linear Fields are Corrected                                                                  |    4      4      0.0s
+      Velocity Correction at Free-Slip Walls                                                                     |    2      2      9.1s
+      Velocity Correction at No-Slip Walls                                                                       |    2      2      8.3s
+    Smoothing Length (Eq. 35)                                                                                    |    4      4      0.1s
+    Shifting Technique of the Refinement                                                                         |   18     18     16.7s
+      Default                                                                                                    |    5      5      0.0s
+      Without Shifting                                                                                           |    2      2      7.6s
+      One Iteration                                                                                              |    4      4      0.1s
+      No Shifting Into Open Boundary Zones                                                                       |    7      7      8.9s
+    Particle Shifting Technique                                                                                  |    2      2      6.5s
+      Uniform Smoothing Length Matches Constant Smoothing Length                                                 |    2      2      6.1s
+    Momentum Equation Term (Eq. 12 and 13)                                                                       |    5      5      1.3s
+      WCSPH                                                                                                      |    2      2      0.6s
+      EDAC                                                                                                       |    1      1      0.1s
+      Uniform Smoothing Length Matches Constant Smoothing Length                                                 |    2      2      0.5s

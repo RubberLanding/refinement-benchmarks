@@ -1,0 +1,41 @@
+==== vortex_street, small, tree_variable, refinement=on, 8 threads, load 34.2 33.8 33.8
+State after the startup and 20 steps (t = 0.003691): active particles EntropicallyDampedSPHSystem 10558, OpenBoundarySystem 1120, WallBoundarySystem 1248, WallBoundarySystem 154
+
+==== Distribution of the particle spacings
+EntropicallyDampedSPHSystem: 10558 particles, 6% at min_spacing (level < 0.1), 6% graded, 89% at max_spacing (level > 0.9)
+  target spacing: 4% at level < 0.1, 89% at level > 0.9, 6% below the merge level 0.46 (two particles at min_spacing can only merge above it)
+  uniform at min_spacing: 38992 particles (refined / uniform = 0.27), uniform at max_spacing: 9748
+  mean level along x1 (0.0106 to 2, 20 strips):         1.00 1.00 1.00 0.87 0.49 0.52 0.90 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00
+  mean target level along x1 (0.0106 to 2, 20 strips):  1.00 1.00 1.00 0.93 0.56 0.59 0.94 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00 1.00
+  mean level along x2 (0.00691 to 0.993, 20 strips):         1.00 1.00 1.00 1.00 1.00 1.00 0.98 0.86 0.71 0.68 0.68 0.71 0.87 0.98 1.00 1.00 1.00 1.00 1.00 1.00
+  mean target level along x2 (0.00691 to 0.993, 20 strips):  1.00 1.00 1.00 1.00 1.00 1.00 1.00 0.92 0.75 0.71 0.72 0.75 0.92 0.99 1.00 1.00 1.00 1.00 1.00 1.00
+
+==== Neighbors per particle and query times
+system                       neighbor                        uniform   variable in support     useful query R [ms] query r [ms]
+  tree leaves of EntropicallyDampedSPHSystem: level 0 (cell size 0.0439): 100% of the points, level 1 (cell size 0.022): 0% of the points
+EntropicallyDampedSPHSystem  EntropicallyDampedSPHSystem        36.3       26.1       26.1       100%       0.964       1.228
+EntropicallyDampedSPHSystem  OpenBoundarySystem                  0.2        0.2        0.2       100%       0.081       0.085
+EntropicallyDampedSPHSystem  WallBoundarySystem                  0.5        NaN        0.4        75%       0.095         NaN
+EntropicallyDampedSPHSystem  WallBoundarySystem                  1.0        NaN        0.1        12%       0.178         NaN
+OpenBoundarySystem           EntropicallyDampedSPHSystem         2.2        1.9        1.9       100%       0.012       0.013
+OpenBoundarySystem           WallBoundarySystem                  0.4        NaN        0.4       100%       0.020         NaN
+OpenBoundarySystem           WallBoundarySystem                  0.0        NaN        0.0       NaN%       0.017         NaN
+Neighbors per particle: `uniform` with the search radius R of the NHS, `variable` with the per-particle radii (NaN: not used for this pair), `in support` of the larger h. `useful`: in support / returned by the query that the interaction uses. Query times with an empty loop body (minimum of 50).
+
+==== Timers of 50 RHS evaluations (kick!)
+kick!                                                                           8.917 ms/RHS    100.0%
+kick! / system interaction                                                      3.461 ms/RHS     38.8%
+kick! / system interaction / fluid1-open_boundary2                              0.111 ms/RHS      1.2%
+kick! / system interaction / fluid1-boundary3                                   0.244 ms/RHS      2.7%
+kick! / system interaction / fluid1-boundary4                                   0.318 ms/RHS      3.6%
+kick! / system interaction / fluid1-fluid1                                      2.773 ms/RHS     31.1%
+kick! / update systems and nhs                                                  5.440 ms/RHS     61.0%
+kick! / update systems and nhs / compute boundary pressure                      0.148 ms/RHS      1.7%
+kick! / update systems and nhs / update nhs                                     0.641 ms/RHS      7.2%
+kick! / update systems and nhs / compute density                                1.891 ms/RHS     21.2%
+kick! / update systems and nhs / compute average pressure and beta              2.167 ms/RHS     24.3%
+kick! / update systems and nhs / evaluate characteristics                       0.474 ms/RHS      5.3%
+kick! / reset ∂v/∂t                                                             0.015 ms/RHS      0.2%
+wall time per RHS evaluation: 8.917 ms
+
+Results in benchmarks/results/phase3/r4/profile_ratio2
