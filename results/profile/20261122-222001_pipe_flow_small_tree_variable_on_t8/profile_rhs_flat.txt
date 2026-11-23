@@ -1,0 +1,454 @@
+ Count  Overhead File                                                                    Line Function
+ =====  ======== ====                                                                    ==== ========
+   365         0 @ThreadingUtilities/src/threadtasks.jl                                   28 (::ThreadingUtilities.ThreadTask)()
+   162         0 @ThreadingUtilities/src/atomics.jl                                      103 _atomic_state
+  4339         0 @ThreadingUtilities/src/threadtasks.jl                                   34 (::ThreadingUtilities.ThreadTask)()
+ 10143         0 @ThreadingUtilities/src/threadtasks.jl                                   29 (::ThreadingUtilities.ThreadTask)()
+ 11658         0 @Polyester/src/closure.jl                                               309 #parallel_foreach##0
+ 11658         0 @PointNeighbors/src/util.jl                                             135 macro expansion
+ 11612         0 @PointNeighbors/src/util.jl                                             120 #16
+ 11577         0 @PointNeighbors/src/neighborhood_search.jl                              220 macro expansion
+ 11577         0 @PointNeighbors/src/neighborhood_search.jl                              306 foreach_neighbor
+ 11574         0 @PointNeighbors/src/neighborhood_search.jl                              319 #foreach_neighbor#22
+ 11574         0 @PointNeighbors/src/neighborhood_search.jl                              346 foreach_neighbor
+ 10873         0 @PointNeighbors/src/nhs_tree.jl                                         360 mapreduce_neighbor_inner
+  8346         0 @PointNeighbors/src/nhs_tree.jl                                         448 mapreduce_block_cell
+ 10363         0 @PointNeighbors/src/nhs_tree.jl                                         587 mapreduce_leaf
+  5279         0 @PointNeighbors/src/nhs_tree.jl                                         622 mapreduce_points
+   355         0 @TrixiParticles/src/schemes/fluid/entropically_damped_sph/rhs.jl         25 (::TrixiParticles.var"#interact!##2#interact!##3"{TrixiParticles.ThreadedBroadcastArray{Float64, 2, StrideArraysCore.PtrArray{Float64, 2, (1, 2), Tuple{Static.Sta…
+   355         0 @TrixiParticles/src/schemes/fluid/fluid.jl                              102 symmetric_kernel_grad
+   355         0 @TrixiParticles/src/schemes/fluid/fluid.jl                              119 symmetric_kernel_grad
+   857         0 @TrixiParticles/src/schemes/fluid/fluid.jl                              134 pair_kernel_grads
+  2121         0 @Base/task.jl                                                          1196 wait_forever()
+  2196         0 @PointNeighbors/src/nhs_tree.jl                                         453 mapreduce_block_cell
+  1884         0 @PointNeighbors/src/nhs_tree.jl                                         522 mapreduce_non_leaf
+  2121         0 @Base/client.jl                                                         577 _start()
+  2121         0 @Base/client.jl                                                         344 exec_options(opts::Base.JLOptions)
+  2121         0 @Base/Base.jl                                                           309 include(mod::Module, _path::String)
+  2121         0 @Base/loading.jl                                                       3151 _include(mapexpr::Function, mod::Module, _path::String)
+  2121         0 @Base/loading.jl                                                       3091 include_string(mapexpr::typeof(identity), mod::Module, code::String, filename::String)
+  2121         0 @Base/boot.jl                                                           489 eval(m::Module, e::Any)
+  2121         0 @TrixiParticles/benchmarks/profile.jl                                   474 profile_main(args::Vector{String})
+  2121         0 @TrixiParticles/benchmarks/profile.jl                                   527 profile_case(config::@NamedTuple{case::Symbol, size::Symbol, nhs::Symbol, refinement::Symbol, update_strategy::SerialUpdate, advance::Int64, rhs_calls::Int64, pro…
+  2121         0 @TrixiParticles/benchmarks/profile.jl                                   330 section_profile_rhs(r::Report, out::String, integrator::OrdinaryDiffEqCore.ODEIntegrator{RDPK3SpFSAL35{typeof(OrdinaryDiffEqCore.trivial_limiter!), typeof(Ordinar…
+  2121         0 @Profile/src/Profile.jl                                                  60 macro expansion
+  2121         0 @TrixiParticles/benchmarks/profile.jl                                   331 macro expansion
+  2121         0 @TrixiParticles/src/general/ode_rhs.jl                                   84 kick!(dv_ode::TrixiParticles.ThreadedBroadcastArray{Float64, 1, Vector{Float64}, PolyesterBackend}, v_ode::TrixiParticles.ThreadedBroadcastArray{Float64, 1, Vecto…
+  2120         0 @TrixiBase/src/trixi_timeit.jl                                           68 macro expansion
+   932         0 @TrixiParticles/src/general/ode_rhs.jl                                   93 macro expansion
+   932         0 @TrixiParticles/src/general/ode_rhs.jl                                  266 system_interaction!(dv_ode::TrixiParticles.ThreadedBroadcastArray{Float64, 1, Vector{Float64}, PolyesterBackend}, v_ode::TrixiParticles.ThreadedBroadcastArray{Flo…
+  1206         0 @TrixiParticles/src/general/semidiscretization.jl                       238 foreach_system
+  1206         0 @TrixiParticles/src/util.jl                                              14 foreach_noalloc
+   932         0 @TrixiParticles/src/general/ode_rhs.jl                                  267 #system_interaction!##0
+   319         0 @TrixiParticles/src/util.jl                                              17 foreach_noalloc
+   930         0 @TrixiParticles/src/general/ode_rhs.jl                                  280 #system_interaction!##2
+   930         0 @TrixiParticles/src/general/ode_rhs.jl                                  300 interact!
+   930         0 @TrixiParticles/src/general/ode_rhs.jl                                  308 #interact!#624
+   930         0 @TrixiParticles/src/general/ode_rhs.jl                                  309 macro expansion
+   930         0 @TrixiParticles/src/general/ode_rhs.jl                                  316 apply_system_interaction!
+   930         0 @TrixiParticles/src/general/ode_rhs.jl                                  319 #apply_system_interaction!#625
+   930         0 @TrixiParticles/src/general/ode_rhs.jl                                  335 apply_interaction!
+   930         0 @TrixiParticles/src/general/ode_rhs.jl                                  339 #apply_interaction!#627
+   930         0 @TrixiParticles/src/schemes/fluid/entropically_damped_sph/rhs.jl         14 interact!(dv::TrixiParticles.ThreadedBroadcastArray{Float64, 2, StrideArraysCore.PtrArray{Float64, 2, (1, 2), Tuple{Static.StaticInt{4}, Int64}, Tuple{Nothing, No…
+   978         0 @TrixiParticles/src/general/neighborhood_search.jl                     1138 foreach_symmetric_point_neighbor
+   978         0 @TrixiParticles/src/general/neighborhood_search.jl                     1141 #foreach_symmetric_point_neighbor#423
+  1869         0 @TrixiParticles/src/general/neighborhood_search.jl                        7 foreach_point_neighbor
+  1869         0 @TrixiParticles/src/general/neighborhood_search.jl                       14 #foreach_point_neighbor#399
+  1869         0 @PointNeighbors/src/neighborhood_search.jl                              200 foreach_point_neighbor
+  1869         0 @PointNeighbors/src/neighborhood_search.jl                              212 foreach_point_neighbor(f::TrixiParticles.var"#skip_unsupported_pairs##0#skip_unsupported_pairs##1"{TrixiParticles.var"#interact!##2#interact!##3"{TrixiParticles.T…
+  1112         0 @PointNeighbors/src/util.jl                                             134 parallel_foreach(f::PointNeighbors.var"#16#17"{TrixiParticles.var"#search_radius_function##0#search_radius_function##1"{TreeNeighborhoodSearch{2, false, Float64, …
+  1881         0 @Polyester/src/closure.jl                                               456 macro expansion
+  1881         0 @Polyester/src/batch.jl                                                 335 batch
+  1881         0 @Polyester/src/batch.jl                                                 168 _batch_no_reserve
+  1554         0 @Polyester/src/batch.jl                                                 246 macro expansion
+   144         0 @PointNeighbors/src/nhs_tree.jl                                         332 mapreduce_neighbor_inner
+   134         0 @PointNeighbors/src/cell_lists/tree.jl                                  601 query_finest_cell
+   148         0 @PointNeighbors/src/cell_lists/tree.jl                                  334 cell_coords
+   320         0 @Base/broadcast.jl                                                      899 materialize
+   278         0 @StaticArrays/src/broadcast.jl                                           60 copy
+   162         0 @StaticArrays/src/broadcast.jl                                          119 _broadcast
+   162         0 @StaticArrays/src/broadcast.jl                                          123 __broadcast
+   162         0 @StaticArrays/src/broadcast.jl                                          135 macro expansion
+   143         0 @Base/broadcast.jl                                                      359 #flatten##0
+    47         0 @PointNeighbors/src/util.jl                                              21 floor_to_int
+   196         0 @TrixiParticles/src/schemes/fluid/entropically_damped_sph/rhs.jl         44 (::TrixiParticles.var"#interact!##2#interact!##3"{TrixiParticles.ThreadedBroadcastArray{Float64, 2, StrideArraysCore.PtrArray{Float64, 2, (1, 2), Tuple{Static.Sta…
+   180         0 @TrixiParticles/src/schemes/fluid/entropically_damped_sph/rhs.jl        124 add_momentum_equation
+   180         0 @TrixiParticles/src/schemes/fluid/fluid.jl                              148 pressure_acceleration_variable_h
+   180         0 @TrixiParticles/src/schemes/fluid/fluid.jl                              180 pressure_acceleration_variable_h
+   647         0 @TrixiParticles/src/general/smoothing_kernels.jl                         26 kernel_grad
+   647         0 @TrixiParticles/src/general/smoothing_kernels.jl                         36 kernel_grad_unsafe
+   334         0 @StaticArrays/src/linalg.jl                                              21 *
+   398         0 @StaticArrays/src/mapreduce.jl                                           33 map
+   657         0 @StaticArrays/src/mapreduce.jl                                           42 _map
+   657         0 @StaticArrays/src/mapreduce.jl                                           77 macro expansion
+   334         0 @StaticArrays/src/linalg.jl                                              21 #*##0
+   745         0 @TrixiParticles/src/schemes/fluid/entropically_damped_sph/rhs.jl         71 (::TrixiParticles.var"#interact!##2#interact!##3"{TrixiParticles.ThreadedBroadcastArray{Float64, 2, StrideArraysCore.PtrArray{Float64, 2, (1, 2), Tuple{Static.Sta…
+   745         0 @TrixiParticles/src/schemes/fluid/entropically_damped_sph/rhs.jl        195 pressure_evolution!
+   242         0 @TrixiParticles/src/schemes/fluid/entropically_damped_sph/rhs.jl        242 pressure_evolution!
+   174         0 @Base/operators.jl                                                      653 +
+   353         0 @PointNeighbors/src/nhs_tree.jl                                         425 #skip_neighbor_function##2
+   329         0 @Base/abstractarray.jl                                                 1366 getindex
+   474         0 @TrixiParticles/src/general/smoothing_kernels.jl                        456 kernel_deriv_div_r_unsafe
+   332         0 @Base/operators.jl                                                      653 *
+   789         0 @TrixiParticles/src/schemes/fluid/entropically_damped_sph/rhs.jl         55 (::TrixiParticles.var"#interact!##2#interact!##3"{TrixiParticles.ThreadedBroadcastArray{Float64, 2, StrideArraysCore.PtrArray{Float64, 2, (1, 2), Tuple{Static.Sta…
+   789         0 @TrixiParticles/src/schemes/fluid/shifting_techniques.jl                373 add_dv_shifting
+   789         0 @TrixiParticles/src/schemes/fluid/shifting_techniques.jl                386 add_dv_shifting
+   260         0 @TrixiParticles/src/schemes/fluid/shifting_techniques.jl                 65 delta_v
+   260         0 @TrixiParticles/src/schemes/fluid/shifting_techniques.jl                 74 delta_v
+   247         0 @TrixiParticles/src/schemes/fluid/shifting_techniques.jl                 48 extract_svector_flat
+   377         0 @Base/ntuple.jl                                                          19 ntuple
+   247         0 @TrixiParticles/src/schemes/fluid/shifting_techniques.jl                 48 #extract_svector_flat##0
+   918         0 @PointNeighbors/src/nhs_tree.jl                                         609 mapreduce_points
+  1025         0 @StaticArrays/src/linalg.jl                                             260 dot
+  1025         0 @StaticArrays/src/linalg.jl                                             273 _vecdot
+  1027         0 @Base/simdloop.jl                                                        77 macro expansion
+  1025         0 @StaticArrays/src/linalg.jl                                             274 macro expansion
+   194         0 @TrixiParticles/src/schemes/fluid/shifting_techniques.jl                442 add_dv_shifting
+   195         0 @TrixiParticles/src/schemes/fluid/shifting_techniques.jl                431 add_dv_shifting
+    27         0 @PointNeighbors/src/nhs_tree.jl                                         527 mapreduce_non_leaf
+    19         0 @PointNeighbors/src/cell_lists/tree.jl                                  321 n_finest_cells
+    89         0 @TrixiParticles/src/general/smoothing_kernels.jl                        460 normalization_factor
+   187         0 @Base/intfuncs.jl                                                       467 literal_pow
+   115         0 @TrixiParticles/src/schemes/fluid/entropically_damped_sph/rhs.jl        239 pressure_evolution!
+    66         0 @TrixiParticles/src/schemes/fluid/entropically_damped_sph/rhs.jl         64 (::TrixiParticles.var"#interact!##2#interact!##3"{TrixiParticles.ThreadedBroadcastArray{Float64, 2, StrideArraysCore.PtrArray{Float64, 2, (1, 2), Tuple{Static.Sta…
+    70         0 @TrixiParticles/src/util.jl                                             220 setindex!
+    70         0 @StrideArraysCore/src/ptr_array.jl                                     1023 setindex!
+    70         0 @StrideArraysCore/src/ptr_array.jl                                      987 unsafe_setindex!
+    70         0 @StrideArraysCore/src/ptr_array.jl                                      760 pstore!
+    70         0 @StrideArraysCore/src/ptr_array.jl                                      760 macro expansion
+   119         0 @TrixiParticles/src/schemes/fluid/entropically_damped_sph/rhs.jl        212 pressure_evolution!
+   599         0 @Base/essentials.jl                                                     974 getindex
+   160         0 @PointNeighbors/src/nhs_tree.jl                                         439 mapreduce_block_cell
+   205         0 @PointNeighbors/src/cell_lists/tree.jl                                  949 leaf_level
+    92         0 @Base/int.jl                                                           1063 &
+    21         0 @PointNeighbors/src/nhs_tree.jl                                         336 mapreduce_neighbor_inner
+    14         0 @PointNeighbors/src/cell_lists/tree.jl                                  613 query_cell
+    42         0 @Base/broadcast.jl                                                     1131 copy
+   431         0 @Base/ntuple.jl                                                          65 ntuple
+    42         0 @Base/broadcast.jl                                                     1131 #copy##0
+    44         0 @Base/broadcast.jl                                                      677 _broadcast_getindex
+    44         0 @Base/broadcast.jl                                                      704 _broadcast_getindex_evalf
+    82         0 @Base/int.jl                                                            585 >>
+    98         0 @TrixiParticles/src/schemes/fluid/entropically_damped_sph/system.jl     414 #update_beta!##2
+    97         0 @TrixiParticles/src/schemes/fluid/fluid.jl                               79 hydrodynamic_mass
+  1185         0 @TrixiParticles/src/general/ode_rhs.jl                                   90 macro expansion
+   905         0 @TrixiParticles/src/general/ode_rhs.jl                                  136 update_systems_and_nhs(v_ode::TrixiParticles.ThreadedBroadcastArray{Float64, 1, Vector{Float64}, PolyesterBackend}, u_ode::TrixiParticles.ThreadedBroadcastArray{F…
+   959         0 @TrixiParticles/src/general/semidiscretization.jl                       246 foreach_system_wrapped
+   959         0 @TrixiParticles/src/general/semidiscretization.jl                       258 foreach_system_wrapped
+   905         0 @TrixiParticles/src/general/ode_rhs.jl                                  137 #update_systems_and_nhs##8
+   905         0 @TrixiParticles/src/schemes/fluid/entropically_damped_sph/system.jl     374 update_final!
+   363         0 @TrixiParticles/src/schemes/fluid/entropically_damped_sph/system.jl     382 #update_final!#187
+   359         0 @TrixiParticles/src/schemes/fluid/entropically_damped_sph/system.jl     395 update_beta!(system::EntropicallyDampedSPHSystem{2, Float64, InitialCondition{Float64, Matrix{Float64}, Matrix{Float64}, Vector{Float64}, Nothing}, Vector{Float64…
+   358         0 @TrixiParticles/src/schemes/fluid/entropically_damped_sph/system.jl     396 macro expansion
+   356         0 @TrixiParticles/src/schemes/fluid/entropically_damped_sph/system.jl     411 #update_beta!##0
+   237         0 @PointNeighbors/src/nhs_tree.jl                                         607 mapreduce_points
+   202         0 @StaticArrays/src/linalg.jl                                              16 -
+   259         0 @StaticArrays/src/mapreduce.jl                                           39 map
+   542         0 @TrixiParticles/src/schemes/fluid/entropically_damped_sph/system.jl     381 #update_final!#187
+   535         0 @TrixiParticles/src/schemes/fluid/entropically_damped_sph/system.jl     463 update_average_pressure!(system::EntropicallyDampedSPHSystem{2, Float64, InitialCondition{Float64, Matrix{Float64}, Matrix{Float64}, Vector{Float64}, Nothing}, Ve…
+   535         0 @TrixiParticles/src/schemes/fluid/entropically_damped_sph/system.jl     464 macro expansion
+   234         0 @TrixiParticles/src/general/semidiscretization.jl                       261 foreach_system_wrapped
+   535         0 @TrixiParticles/src/schemes/fluid/entropically_damped_sph/system.jl     476 #update_average_pressure!##0
+   769         0 @PointNeighbors/src/util.jl                                             134 parallel_foreach
+    55         0 @PointNeighbors/src/nhs_tree.jl                                         438 mapreduce_block_cell
+   198         0 @Base/int.jl                                                            587 <<
+   320         0 @Polyester/src/batch.jl                                                 257 macro expansion
+   320         0 @ThreadingUtilities/src/threadtasks.jl                                  102 wait
+   263         0 @Base/operators.jl                                                      425 >
+    23         0 @TrixiParticles/src/schemes/fluid/entropically_damped_sph/system.jl     484 #update_average_pressure!##2
+   173         0 @Base/array.jl                                                         1020 setindex!
+   352         0 @TrixiParticles/src/schemes/fluid/entropically_damped_sph/system.jl     482 #update_average_pressure!##2
+    53         0 @TrixiParticles/src/general/ode_rhs.jl                                  131 update_systems_and_nhs(v_ode::TrixiParticles.ThreadedBroadcastArray{Float64, 1, Vector{Float64}, PolyesterBackend}, u_ode::TrixiParticles.ThreadedBroadcastArray{F…
+    53         0 @TrixiParticles/src/general/ode_rhs.jl                                  132 #update_systems_and_nhs##6
+    53         0 @TrixiParticles/src/schemes/boundary/wall_boundary/system.jl            229 update_boundary_interpolation!
+    53         0 @TrixiParticles/src/schemes/boundary/wall_boundary/dummy_particles.jl   402 update_pressure!
+    48         0 @TrixiParticles/src/schemes/boundary/wall_boundary/dummy_particles.jl   510 compute_pressure!(boundary_model::BoundaryModelDummyParticles{AdamiPressureExtrapolation{Int64}, Nothing, false, Float64, Vector{Float64}, WendlandC2Kernel{2}, Vi…
+    48         0 @TrixiParticles/src/schemes/boundary/wall_boundary/dummy_particles.jl   511 macro expansion
+    48         0 @TrixiParticles/src/schemes/boundary/wall_boundary/dummy_particles.jl   536 #compute_pressure!##6
+    48         0 @TrixiParticles/src/schemes/boundary/wall_boundary/dummy_particles.jl   602 boundary_pressure_extrapolation!
+   226         0 @TrixiParticles/src/general/ode_rhs.jl                                  112 update_systems_and_nhs(v_ode::TrixiParticles.ThreadedBroadcastArray{Float64, 1, Vector{Float64}, PolyesterBackend}, u_ode::TrixiParticles.ThreadedBroadcastArray{F…
+   226         0 @TrixiParticles/src/general/neighborhood_search.jl                      581 update_nhs!(semi::Semidiscretization{PolyesterBackend, Tuple{EntropicallyDampedSPHSystem{2, Float64, InitialCondition{Float64, Matrix{Float64}, Matrix{Float64}, V…
+   226         0 @TrixiParticles/src/general/neighborhood_search.jl                      584 #update_nhs!##0
+   226         0 @TrixiParticles/src/general/neighborhood_search.jl                      588 #update_nhs!##2
+    76         0 @TrixiParticles/src/general/neighborhood_search.jl                      644 update_nhs!
+   226         0 @TrixiParticles/src/general/neighborhood_search.jl                      920 update_neighborhood_search!
+   226         0 @TrixiParticles/src/general/neighborhood_search.jl                      926 #update_neighborhood_search!#417
+   226         0 @TrixiParticles/src/general/neighborhood_search.jl                      936 initialize_nhs!
+   219         0 @TrixiParticles/src/general/neighborhood_search.jl                      949 #initialize_nhs!#419
+   219         0 @PointNeighbors/src/nhs_tree.jl                                         269 initialize_tree!
+   218         0 @PointNeighbors/src/nhs_tree.jl                                         293 initialize_tree!(neighborhood_search::TreeNeighborhoodSearch{2, false, Float64, MaximumRadius, SerialUpdate, TreeCellList{2, Float64, DynamicVectorOfVectors{Int32…
+    68         0 @PointNeighbors/src/cell_lists/tree.jl                                  683 rebuild!(cell_list::TreeCellList{2, Float64, DynamicVectorOfVectors{Int32, Matrix{Int32}, Vector{Int32}, Base.RefValue{Int32}}, Vector{Int64}, Vector{Float64}, Ve…
+   199         0 @PointNeighbors/src/util.jl                                             128 parallel_foreach
+    68         0 @PointNeighbors/src/util.jl                                             120 #rebuild!##4
+    53         0 @PointNeighbors/src/cell_lists/tree.jl                                  692 macro expansion
+    87         0 @PointNeighbors/src/cell_lists/tree.jl                                  637 finest_cell_index
+   242         0 @PointNeighbors/src/cell_lists/tree.jl                                  387 cell_index
+   233         0 @PointNeighbors/src/cell_lists/tree.jl                                  387 #cell_index##0
+   188         0 @PointNeighbors/src/cell_lists/tree.jl                                  398 cell_index_part
+   239         0 @PointNeighbors/src/cell_lists/tree.jl                                  419 local_index_part
+   188         0 @PointNeighbors/src/cell_lists/tree.jl                                  437 spread_bits
+    45         0 @PointNeighbors/src/cell_lists/tree.jl                                  446 spread_bits_2d
+    91         0 @Base/intfuncs.jl                                                       468 literal_pow
+   336         0 @PointNeighbors/src/nhs_tree.jl                                         604 mapreduce_points
+   130         0 @PointNeighbors/src/util.jl                                               7 extract_svector
+   130         0 @PointNeighbors/src/util.jl                                               7 #extract_svector##0
+   118         0 @TrixiParticles/src/util.jl                                             216 getindex
+   114         0 @StrideArraysCore/src/ptr_array.jl                                     1015 getindex
+   114         0 @StrideArraysCore/src/ptr_array.jl                                      980 unsafe_getindex
+    47         0 @StrideArraysCore/src/ptr_array.jl                                      971 _offset_ptr
+    47         0 @Base/tuple.jl                                                          382 map
+    82         0 @Base/promotion.jl                                                      435 -
+    47         0 @Base/int.jl                                                           1063 -
+    57         0 @StaticArrays/src/linalg.jl                                              12 +
+    55         0 @TrixiParticles/src/general/smoothing_kernels.jl                        454 kernel_deriv_div_r_unsafe
+    80         0 @PointNeighbors/src/nhs_tree.jl                                         585 mapreduce_leaf
+    80         0 @PointNeighbors/src/cell_lists/tree.jl                                  968 points_in_leaf
+    50         0 @PointNeighbors/src/vector_of_vectors.jl                                 41 getindex
+    18         0 @Base/abstractarray.jl                                                  692 checkbounds
+    35         0 @StaticArrays/src/matrix_multiply.jl                                     10 *
+    35         0 @StaticArrays/src/matrix_multiply.jl                                     89 _mul
+    35         0 @StaticArrays/src/matrix_multiply.jl                                    108 macro expansion
+   397         0 @LinearAlgebra/src/generic.jl                                           988 dot
+   215         0 @PointNeighbors/src/nhs_tree.jl                                         490 mapreduce_non_leaf
+   207         0 @TrixiParticles/src/general/smoothing_kernels.jl                         52 kernel_deriv
+   160         0 @Base/promotion.jl                                                      434 *
+   150         0 @PointNeighbors/src/nhs_tree.jl                                         347 mapreduce_neighbor_inner
+   150         0 @PointNeighbors/src/nhs_tree.jl                                         347 #mapreduce_neighbor_inner##0
+    30         0 @PointNeighbors/src/nhs_tree.jl                                         379 neighbor_index
+    64         0 @StrideArraysCore/src/ptr_array.jl                                      974 _offset_ptr
+    64         0 @StrideArraysCore/src/ptr_array.jl                                      952 _offset_ptr_dense
+    64         0 @StrideArraysCore/src/ptr_array.jl                                      942 _offset_dense
+    11         0 @PointNeighbors/src/nhs_tree.jl                                         505 mapreduce_non_leaf
+   119         0 @PointNeighbors/src/cell_lists/tree.jl                                  764 rebuild!(cell_list::TreeCellList{2, Float64, DynamicVectorOfVectors{Int32, Matrix{Int32}, Vector{Int32}, Base.RefValue{Int32}}, Vector{Int64}, Vector{Float64}, Ve…
+   105         0 @PointNeighbors/src/util.jl                                             120 #rebuild!##16
+    24         0 @PointNeighbors/src/cell_lists/tree.jl                                  767 macro expansion
+    12         0 @PointNeighbors/src/cell_lists/tree.jl                                  955 leaf_first_cell
+   313         0 @TrixiParticles/src/general/neighborhood_search.jl                     1087 pair_in_support
+   163         0 @TrixiParticles/src/general/neighborhood_search.jl                     1098 pair_in_support
+    42         0 @TrixiParticles/src/general/neighborhood_search.jl                     1108 pair_smoothing_lengths
+   217         0 @TrixiParticles/src/general/neighborhood_search.jl                     1114 pair_smoothing_length
+   233         0 @TrixiParticles/src/general/abstract_system.jl                          218 smoothing_length
+   233         0 @TrixiParticles/src/general/abstract_system.jl                          222 smoothing_length
+    76         0 @TrixiParticles/src/schemes/fluid/shifting_techniques.jl                439 add_dv_shifting
+    44         0 @StaticArrays/src/linalg.jl                                              24 /
+    44         0 @StaticArrays/src/linalg.jl                                              24 #/##0
+   116         0 @StaticArrays/src/broadcast.jl                                          120 _broadcast
+    14         0 @PointNeighbors/src/util.jl                                              33 floor_to_int
+   175         0 @TrixiParticles/src/general/neighborhood_search.jl                     1107 pair_smoothing_lengths
+   214         0 @PointNeighbors/src/nhs_tree.jl                                         333 mapreduce_neighbor_inner
+   185         0 @PointNeighbors/src/nhs_tree.jl                                         390 query_level
+    28         0 @PointNeighbors/src/cell_lists/tree.jl                                  395 cell_index_part
+    26         0 @PointNeighbors/src/cell_lists/tree.jl                                  316 cell_size
+    79         0 @Base/promotion.jl                                                      436 /
+    11         0 @TrixiParticles/src/general/abstract_system.jl                           48 set_zero!
+    13         0 @Base/broadcast.jl                                                      907 materialize!
+    13         0 @Base/broadcast.jl                                                      910 materialize!
+    11         0 @Base/broadcast.jl                                                      960 copyto!
+   150         0 @TrixiParticles/src/general/neighborhood_search.jl                     1100 pair_in_support
+    12         0 @PointNeighbors/src/cell_lists/tree.jl                                  570 neighbor_index_parts
+    25         0 @PointNeighbors/src/cell_lists/tree.jl                                  445 spread_bits_2d
+   112         0 @TrixiParticles/src/schemes/fluid/shifting_techniques.jl                429 add_dv_shifting
+   143         0 @TrixiParticles/src/schemes/fluid/entropically_damped_sph/rhs.jl        234 pressure_evolution!
+   128         0 @TrixiParticles/src/schemes/fluid/entropically_damped_sph/rhs.jl        257 edac_shifting_pressure_gradient
+   128         0 @TrixiParticles/src/schemes/fluid/pressure_acceleration.jl               24 pressure_acceleration_summation_density
+    10         0 @PointNeighbors/src/cell_lists/tree.jl                                  574 neighbor_index_parts
+    19         0 @PointNeighbors/src/cell_lists/tree.jl                                  413 root_stride
+    69         0 @TrixiParticles/src/general/neighborhood_search.jl                      789 update_nhs!
+    14         0 @PointNeighbors/src/cell_lists/tree.jl                                  633 finest_cell_index
+    86         0 @TrixiParticles/src/schemes/fluid/entropically_damped_sph/rhs.jl         78 (::TrixiParticles.var"#interact!##2#interact!##3"{TrixiParticles.ThreadedBroadcastArray{Float64, 2, StrideArraysCore.PtrArray{Float64, 2, (1, 2), Tuple{Static.Sta…
+    86         0 @TrixiParticles/src/schemes/fluid/entropically_damped_sph/rhs.jl        156 add_continuity_equation
+    61         0 @TrixiParticles/src/schemes/fluid/entropically_damped_sph/rhs.jl        179 edac_continuity_equation
+    53         0 @TrixiParticles/src/schemes/fluid/fluid.jl                              132 pair_kernel_grads
+    62         0 @PointNeighbors/src/cell_lists/tree.jl                                  569 neighbor_index_parts
+    93         0 @Base/operators.jl                                                      610 afoldl
+   303         0 @PointNeighbors/src/nhs_tree.jl                                         600 mapreduce_points
+   318         0 @Base/subarray.jl                                                       334 getindex
+    53         0 @PointNeighbors/src/cell_lists/tree.jl                                  766 macro expansion
+    50         0 @TrixiParticles/src/schemes/fluid/entropically_damped_sph/rhs.jl         67 (::TrixiParticles.var"#interact!##2#interact!##3"{TrixiParticles.ThreadedBroadcastArray{Float64, 2, StrideArraysCore.PtrArray{Float64, 2, (1, 2), Tuple{Static.Sta…
+    58         0 @TrixiParticles/src/general/abstract_system.jl                          105 current_velocity
+    58         0 @TrixiParticles/src/schemes/fluid/entropically_damped_sph/system.jl     324 current_velocity
+    60         0 @Base/subarray.jl                                                       218 view
+    60         0 @Base/subarray.jl                                                       251 unsafe_view
+    60         0 @Base/subarray.jl                                                        28 SubArray
+    57         0 @Base/subarray.jl                                                        32 SubArray
+    16         0 @Base/array.jl                                                          963 getindex
+    14         0 @Base/abstractarray.jl                                                 1398 _to_linear_index
+    14         0 @Base/abstractarray.jl                                                 3074 _sub2ind
+    14         0 @Base/abstractarray.jl                                                 3090 _sub2ind
+    14         0 @Base/abstractarray.jl                                                 3106 _sub2ind_recurse
+    21         0 @PointNeighbors/src/cell_lists/tree.jl                                  443 spread_bits_2d
+    32         0 @PointNeighbors/src/cell_lists/tree.jl                                  963 leaf_slot
+    12         0 @Base/operators.jl                                                      320 !=
+    35         0 @TrixiParticles/src/general/abstract_system.jl                          118 current_pressure
+    28         0 @Base/abstractarray.jl                                                 1363 getindex
+    28         0 @Base/abstractarray.jl                                                 1387 _getindex
+    64         0 @TrixiParticles/src/general/neighborhood_search.jl                      602 update_nhs!
+    11         0 @PointNeighbors/src/util.jl                                             120 #4
+    11         0 @TrixiParticles/src/util.jl                                             228 macro expansion
+    16         0 @TrixiParticles/src/schemes/fluid/entropically_damped_sph/rhs.jl        131 add_momentum_equation
+    16         0 @TrixiParticles/src/schemes/fluid/viscosity.jl                           16 add_dv_viscosity
+    16         0 @TrixiParticles/src/schemes/fluid/viscosity.jl                           18 add_dv_viscosity
+    16         0 @TrixiParticles/src/schemes/fluid/viscosity.jl                           32 add_dv_viscosity
+    14         0 @TrixiParticles/src/schemes/fluid/viscosity.jl                          274 ViscosityAdami
+    14         0 @TrixiParticles/src/schemes/fluid/viscosity.jl                          243 add_dv_adami_viscosity
+    34         0 @PointNeighbors/src/cell_lists/tree.jl                                  447 spread_bits_2d
+    17         0 @TrixiParticles/src/general/neighborhood_search.jl                      630 update_nhs!
+    13         0 @Base/abstractarray.jl                                                  684 checkbounds
+    40         0 @StaticArrays/src/matrix_multiply.jl                                     14 *
+    40         0 @StaticArrays/src/matrix_multiply.jl                                    113 _mul
+    40         0 @StaticArrays/src/matrix_multiply.jl                                    121 macro expansion
+    10         0 @PointNeighbors/src/cell_lists/tree.jl                                  603 query_finest_cell
+    13         0 @TrixiParticles/src/schemes/fluid/entropically_damped_sph/rhs.jl         84 (::TrixiParticles.var"#interact!##2#interact!##3"{TrixiParticles.ThreadedBroadcastArray{Float64, 2, StrideArraysCore.PtrArray{Float64, 2, (1, 2), Tuple{Static.Sta…
+    13         0 @TrixiParticles/src/schemes/fluid/fluid.jl                              308 write_drho_particle!
+    15         0 @PointNeighbors/src/cell_lists/tree.jl                                  572 neighbor_index_parts
+    15         0 @PointNeighbors/src/cell_lists/tree.jl                                  535 morton_increment
+    42         0 @PointNeighbors/src/cell_lists/tree.jl                                  442 spread_bits_2d
+    14         0 @TrixiParticles/src/schemes/boundary/wall_boundary/dummy_particles.jl   606 (::TrixiParticles.var"#boundary_pressure_extrapolation!##0#boundary_pressure_extrapolation!##1"{BoundaryModelDummyParticles{AdamiPressureExtrapolation{Int64}, Not…
+    25         0 @PointNeighbors/src/util.jl                                             120 #set_search_radii!##0
+    25         0 @TrixiParticles/src/general/neighborhood_search.jl                     1007 macro expansion
+    11         0 @TrixiParticles/src/schemes/fluid/entropically_damped_sph/rhs.jl        183 edac_continuity_equation
+    11         0 @TrixiParticles/src/schemes/fluid/shifting_techniques.jl                461 continuity_equation_shifting_term
+    11         0 @TrixiParticles/src/schemes/fluid/shifting_techniques.jl                484 second_continuity_equation_term
+    17         0 @PointNeighbors/src/cell_lists/tree.jl                                  396 cell_index_part
+    20         0 @StaticArrays/src/linalg.jl                                              22 *
+    20         0 @StaticArrays/src/linalg.jl                                              22 #*##2
+    15         0 @Base/subarray.jl                                                       319 _reindexlinear
+    10         0 @TrixiParticles/src/schemes/fluid/entropically_damped_sph/system.jl     437 get_beta
+    10         0 @TrixiParticles/src/schemes/fluid/entropically_damped_sph/system.jl     441 get_beta
+    19         0 @Base/multidimensional.jl                                               453 iterate
+    10         0 @PointNeighbors/src/cell_lists/tree.jl                                  696 macro expansion
+    10         0 @PointNeighbors/src/cell_lists/tree.jl                                  825 maximum!
+    22         0 @PointNeighbors/src/cell_lists/tree.jl                                  769 macro expansion
+    22         0 @PointNeighbors/src/cell_lists/tree.jl                                  830 push_point!
+    11         0 @Base/array.jl                                                         1019 setindex!
+    13         0 @Base/number.jl                                                           7 convert
+    11         0 @Base/boot.jl                                                          1009 Int32
+    11         0 @Base/boot.jl                                                           919 toInt32
+    34         0 @Base/reduce.jl                                                         564 sum
+    34         0 @Base/reduce.jl                                                         564 #sum#279
+    34         0 @Base/reduce.jl                                                         535 sum
+    34         0 @Base/reduce.jl                                                         535 #sum#278
+    34         0 @Base/reduce.jl                                                         306 mapreduce
+    34         0 @Base/reduce.jl                                                         306 #mapreduce#275
+    34         0 @Base/reduce.jl                                                         173 mapfoldl
+    34         0 @Base/reduce.jl                                                         173 #mapfoldl#271
+    34         0 @Base/reduce.jl                                                          42 mapfoldl_impl
+    34         0 @Base/reduce.jl                                                          46 foldl_impl
+    34         0 @Base/reduce.jl                                                          66 _foldl_impl
+    34         0 @Base/operators.jl                                                      611 afoldl
+    34         0 @Base/reduce.jl                                                          84 BottomRF
+    34         0 @Base/reduce.jl                                                          19 add_sum
+    30         0 @PointNeighbors/src/neighborhood_search.jl                              213 macro expansion
+    30         0 @PointNeighbors/src/neighborhood_search.jl                              274 point_search_radius
+    30         0 @TrixiParticles/src/general/neighborhood_search.jl                     1040 #search_radius_function##0
+    21         0 @TrixiParticles/src/general/neighborhood_search.jl                      998 variable_search_radius
+    21         0 @PointNeighbors/src/cell_lists/tree.jl                                  444 spread_bits_2d
+    18         0 @PointNeighbors/src/util.jl                                             129 parallel_foreach
+    14         0 @Base/abstractarray.jl                                                 1247 iterate
+    20         0 @Base/abstractarray.jl                                                  757 checkindex
+    14         0 @TrixiParticles/src/schemes/fluid/entropically_damped_sph/rhs.jl        188 edac_continuity_equation
+    28         0 @TrixiParticles/src/schemes/fluid/shifting_techniques.jl                440 add_dv_shifting
+    23         0 @Base/broadcast.jl                                                      408 prepare_args
+    23         0 @Base/broadcast.jl                                                      403 #_make_makeargs1##0
+    26         0 @Base/boot.jl                                                          1015 UInt64
+    26         0 @Base/boot.jl                                                           985 toUInt64
+    18         0 @TrixiParticles/src/general/neighborhood_search.jl                     1001 variable_search_radius
+    19         0 @TrixiParticles/src/general/smoothing_kernels.jl                         21 kernel_grad
+    34         0 @TrixiParticles/src/general/smoothing_kernels.jl                        409 compact_support
+    29         0 @TrixiParticles/src/schemes/fluid/shifting_techniques.jl                428 add_dv_shifting
+    13         0 @TrixiParticles/src/general/smoothing_kernels.jl                         16 almostzero
+ 10118         1 @Polyester/src/batch.jl                                                  11 (::Polyester.BatchClosure{PointNeighbors.var"#parallel_foreach##0#parallel_foreach##1", ManualMemory.Reference{Tuple{Static.StaticInt{1}, Static.StaticInt{1}, Pol…
+    98         1 @PointNeighbors/src/nhs_tree.jl                                         365 mapreduce_neighbor_inner
+   431         1 @Base/ntuple.jl                                                          68 macro expansion
+    10         1 @Base/abstractarray.jl                                                  728 checkbounds_indices
+    29         2 @PointNeighbors/src/nhs_tree.jl                                         394 query_level
+    16         2 @PointNeighbors/src/vector_of_vectors.jl                                 76 pushat!
+    14         2 @Base/abstractarray.jl                                                 1254 _iterate_abstractarray
+ 10143         3 @ThreadingUtilities/src/threadtasks.jl                                   11 _call
+  2102         3 @PointNeighbors/src/util.jl                                             119 macro expansion
+   176         4 @ThreadingUtilities/src/threadtasks.jl                                  108 wait
+   381         5 @TrixiParticles/src/schemes/fluid/entropically_damped_sph/system.jl     417 #update_beta!##2
+   216         7 @PointNeighbors/src/util.jl                                               4 extract_svector
+    20         7 @TrixiParticles/src/schemes/fluid/entropically_damped_sph/rhs.jl         23 (::TrixiParticles.var"#interact!##2#interact!##3"{TrixiParticles.ThreadedBroadcastArray{Float64, 2, StrideArraysCore.PtrArray{Float64, 2, (1, 2), Tuple{Static.Sta…
+   104         9 @TrixiParticles/src/schemes/fluid/shifting_techniques.jl                  ? add_dv_shifting
+    11         9 @ThreadingUtilities/src/threadtasks.jl                                  106 wait
+    12         9 @PointNeighbors/src/nhs_tree.jl                                         504 mapreduce_non_leaf
+    14        10 @Base/intfuncs.jl                                                      1405 clamp
+    10        10 @Base/int.jl                                                             85 -
+    21        11 @PointNeighbors/src/cell_lists/tree.jl                                  576 neighbor_index_parts
+    11        11 @Base/essentials.jl                                                      10 size
+    11        11 @Base/multidimensional.jl                                                 ? mapreduce_neighbor_inner
+    11        11 @Base/boot.jl                                                           882 checked_trunc_sint
+    11        11 @Base/multidimensional.jl                                                 ? __inc
+    12        12 @Base/array.jl                                                            ? mapreduce_points
+    12        12 @Base/boot.jl                                                           859 is_top_bit_set
+    12        12 @Base/essentials.jl                                                       ? mapreduce_block_cell
+    13        13 @Base/abstractarray.jl                                                    ? (::TrixiParticles.var"#interact!##2#interact!##3"{TrixiParticles.ThreadedBroadcastArray{Float64, 2, StrideArraysCore.PtrArray{Float64, 2, (1, 2), Tuple{Static.Sta…
+    14        14 @Base/float.jl                                                          417 unsafe_trunc
+    14        14 @Base/int.jl                                                             83 <
+    26        14 @Base/boot.jl                                                           874 check_sign_bit
+    15        15 @PointNeighbors/src/nhs_tree.jl                                           ? #skip_neighbor_function##2
+    16        16 @Base/essentials.jl                                                       ? getindex
+    17        17 @Base/abstractarray.jl                                                    ? getindex
+    18        18 @Base/float.jl                                                            ? kernel_grad
+    19        19 @Base/Base_compiler.jl                                                   57 getproperty
+    19        19 @PointNeighbors/src/util.jl                                               ? floor_to_int
+    21        20 @TrixiParticles/src/general/smoothing_kernels.jl                         49 kernel_deriv
+    21        21 @Base/int.jl                                                            565 <=
+    21        21 @PointNeighbors/src/nhs_tree.jl                                           ? mapreduce_neighbor_inner
+    21        21 @Base/math.jl                                                           853 min
+    23        23 @PointNeighbors/src/cell_lists/tree.jl                                    ? mapreduce_neighbor_inner
+    24        24 @Base/essentials.jl                                                       ? mapreduce_non_leaf
+    24        24 @Base/essentials.jl                                                     854 ifelse
+    25        25 @Base/abstractarray.jl                                                    ? mapreduce_points
+    25        25 @Base/float.jl                                                          497 muladd
+   339        26 @TrixiParticles/src/general/neighborhood_search.jl                     1077 #skip_unsupported_pairs##0
+    26        26 @TrixiParticles/src/general/neighborhood_search.jl                        ? #skip_unsupported_pairs##0
+    29        29 @TrixiParticles/src/general/smoothing_kernels.jl                          ? kernel_deriv
+    29        29 @Base/float.jl                                                            ? (::TrixiParticles.var"#interact!##2#interact!##3"{TrixiParticles.ThreadedBroadcastArray{Float64, 2, StrideArraysCore.PtrArray{Float64, 2, (1, 2), Tuple{Static.Sta…
+   779        31 @Base/range.jl                                                          928 iterate
+    36        31 @PointNeighbors/src/util.jl                                              25 floor_to_int
+  1391        37 @PointNeighbors/src/nhs_tree.jl                                         616 mapreduce_points
+    46        46 @Base/essentials.jl                                                       ? add_dv_shifting
+    47        47 @Base/float.jl                                                          464 round
+    47        47 @PointNeighbors/src/nhs_tree.jl                                           ? mapreduce_block_cell
+    54        54 @PointNeighbors/src/nhs_tree.jl                                         599 mapreduce_points
+    60        60 @Base/subarray.jl                                                        22 SubArray
+   839        68 @PointNeighbors/src/nhs_tree.jl                                         625 mapreduce_points
+    70        70 @Base/pointer.jl                                                        178 unsafe_store!
+    76        76 @Base/int.jl                                                             86 -
+    77        77 @Base/int.jl                                                            423 |
+    78        78 @Base/multidimensional.jl                                               454 iterate
+    79        79 @Base/int.jl                                                            578 >>
+    82        82 @Base/float.jl                                                          622 <
+    84        84 @PointNeighbors/src/nhs_tree.jl                                           ? mapreduce_points
+   110       110 @Base/int.jl                                                             88 *
+   111       111 @TrixiParticles/src/schemes/fluid/entropically_damped_sph/rhs.jl          ? pressure_evolution!
+   116       116 @PointNeighbors/src/nhs_tree.jl                                           ? #update_beta!##2
+   116       116 @StaticArraysCore/src/StaticArraysCore.jl                               123 SArray
+   119       119 @TrixiParticles/src/schemes/fluid/entropically_damped_sph/rhs.jl          ? (::TrixiParticles.var"#interact!##2#interact!##3"{TrixiParticles.ThreadedBroadcastArray{Float64, 2, StrideArraysCore.PtrArray{Float64, 2, (1, 2), Tuple{Static.Sta…
+   133       133 @ThreadingUtilities/src/threadtasks.jl                                    ? wait
+   150       150 @Base/math.jl                                                           857 max
+   156       156 @Base/int.jl                                                            398 &
+   162       162 @ThreadingUtilities/src/atomics.jl                                        5 _atomic_load
+   165       165 @TrixiParticles/src/general/smoothing_kernels.jl                         23 kernel_grad
+   165       165 @Base/int.jl                                                            580 <<
+   170       169 @Base/array.jl                                                         1025 _setindex!
+   191       191 @Base/float.jl                                                          495 /
+   192       192 @Base/int.jl                                                            564 <
+   206       206 @Base/Base_compiler.jl                                                  301 ==
+   599       239 @Base/essentials.jl                                                     389 checkbounds
+   267       248 @Base/abstractarray.jl                                                  702 checkbounds
+   252       252 @Base/float.jl                                                          493 -
+   362       354 @Base/essentials.jl                                                     385 checkbounds
+   417       417 @Base/float.jl                                                          623 <=
+   880       700 @PointNeighbors/src/nhs_tree.jl                                         615 mapreduce_points
+   720       720 @Base/essentials.jl                                                     975 getindex
+   986       724 @PointNeighbors/src/nhs_tree.jl                                         423 #skip_neighbor_function##2
+   766       766 @Base/promotion.jl                                                      641 ==
+  1123      1123 @Base/float.jl                                                          492 +
+  3933      1419 @TrixiParticles/src/general/neighborhood_search.jl                     1081 #skip_unsupported_pairs##0
+  1543      1543 @Base/float.jl                                                          494 *
+  2121      2121 @Base/task.jl                                                          1297 wait()
+  4406      4405 @Base/int.jl                                                             87 +
+Total snapshots: 33936. Utilization: 94% across all threads and tasks. Use the `groupby` kwarg to break down by thread and/or task.

@@ -1,0 +1,37 @@
+[ Info: You just called `trixi_include`. Julia may now compile the code, please be patient.
+==== Warm-up
+==== Run 1/5
+==== Run 2/5
+==== Run 3/5
+==== Run 4/5
+==== Run 5/5
+
+ run   init [s]  steps [s]  steps     RHS  n_start    n_end   RHS [ms] refine/call startup [s]
+   1      0.007      1.507    100     903     4096     4096      1.522        0.0      0.000
+   2      0.007      1.546    100     903     4096     4096      1.561        0.0      0.000
+   3      0.007      1.504    100     903     4096     4096      1.519        0.0      0.000
+   4      0.007      1.507    100     903     4096     4096      1.523        0.0      0.000
+   5      0.007      1.507    100     903     4096     4096      1.522        0.0      0.000
+median: init 0.007 s, steps 1.507 s, time per step 15.07 ms
+Results in /mnt/ssd/home/nschum25/benchmark/benchmarks/results/full/20261122-213624_taylor_green_small_grid_max_serialupdate_t8
+Timers of the median run (4):
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+                                                       Time                             Allocations
+                                         ────────────────────────────────    ──────────────────────────────────
+           Tot / % measured:                      5.64s / 26.0%                        106MiB / 1.8%
+ ──────────────────────────────────────  ────────────────────────────────    ──────────────────────────────────
+ Section                         ncalls    time    %tot     avg                alloc    %tot      avg
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+ kick!                              903   1.37s   93.6%  1.52ms  ███████▌    1.61MiB   83.7%  1.83KiB  ██████▊
+ ├─ update systems and nhs          903   818ms   55.8%   906μs  ████▌        889KiB   45.1%  0.98KiB  ███▋
+ │  ├─ update shifting              903   410ms   28.0%   454μs  ██▎          508KiB   25.7%     576B  ██
+ │  ├─ compute average pressure     903   253ms   17.3%   280μs  █▍           353KiB   17.9%     400B  █▍
+ │  └─ update nhs                   903   139ms    9.5%   154μs  ▊           28.2KiB    1.4%    32.0B  ▏
+ ├─ system interaction              903   551ms   37.6%   611μs  ███          734KiB   37.2%     832B  ███
+ │  └─ fluid1-fluid1                903   550ms   37.5%   609μs  ███          508KiB   25.7%     576B  ██
+ └─ reset ∂v/∂t                     903  2.22ms    0.2%  2.46μs              28.2KiB    1.4%    32.0B  ▏
+ update callback                    101  90.7ms    6.2%   898μs  ▌            152KiB    7.7%  1.50KiB  ▋
+ └─ update systems and nhs          101  90.7ms    6.2%   898μs  ▌            152KiB    7.7%  1.50KiB  ▋
+ drift!                             903  3.43ms    0.2%  3.80μs               169KiB    8.6%     192B  ▋
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+

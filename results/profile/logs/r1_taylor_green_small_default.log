@@ -1,0 +1,55 @@
+[ Info: You just called `trixi_include`. Julia may now compile the code, please be patient.
+==== taylor_green, small, tree_variable, refinement=on, 8 threads, load 36.9 36.4 35.3
+State after the startup and 20 steps (t = 0.007102): active particles EntropicallyDampedSPHSystem 10743
+
+==== Distribution of the particle spacings
+EntropicallyDampedSPHSystem: 10743 particles, 41% at min_spacing (level < 0.1), 56% graded, 3% at max_spacing (level > 0.9)
+  target spacing: 28% at level < 0.1, 10% at level > 0.9, 54% below the merge level 0.46 (two particles at min_spacing can only merge above it)
+  uniform at min_spacing: 16384 particles (refined / uniform = 0.66), uniform at max_spacing: 4096
+  mean level along x1 (-0.00399 to 1.01, 20 strips):         0.76 0.68 0.57 0.48 0.37 0.27 0.19 0.14 0.13 0.13 0.13 0.14 0.14 0.20 0.29 0.39 0.51 0.58 0.69 0.74
+  mean target level along x1 (-0.00399 to 1.01, 20 strips):  0.92 0.85 0.76 0.66 0.55 0.43 0.32 0.21 0.20 0.20 0.21 0.20 0.21 0.34 0.45 0.57 0.67 0.77 0.87 0.93
+  mean level along x2 (-0.0118 to 1.01, 20 strips):         0.77 0.69 0.60 0.50 0.38 0.29 0.21 0.14 0.13 0.13 0.13 0.14 0.13 0.21 0.27 0.38 0.48 0.57 0.69 0.78
+  mean target level along x2 (-0.0118 to 1.01, 20 strips):  0.93 0.86 0.77 0.67 0.57 0.45 0.34 0.21 0.20 0.20 0.20 0.20 0.21 0.32 0.44 0.56 0.67 0.77 0.86 0.93
+
+==== Neighbors per particle and query times
+system                       neighbor                        uniform   variable in support     useful query R [ms] query r [ms]
+  tree leaves of EntropicallyDampedSPHSystem: level 0 (cell size 0.048): 78% of the points, level 1 (cell size 0.024): 22% of the points
+EntropicallyDampedSPHSystem  EntropicallyDampedSPHSystem       105.2       29.8       29.8       100%       2.977       2.320
+Neighbors per particle: `uniform` with the search radius R of the NHS, `variable` with the per-particle radii (NaN: not used for this pair), `in support` of the larger h. `useful`: in support / returned by the query that the interaction uses. Query times with an empty loop body (minimum of 50).
+
+==== Timers of 50 RHS evaluations (kick!)
+kick!                                                                          19.515 ms/RHS    100.0%
+kick! / system interaction                                                      7.244 ms/RHS     37.1%
+kick! / system interaction / fluid1-fluid1                                      7.243 ms/RHS     37.1%
+kick! / update systems and nhs                                                 12.254 ms/RHS     62.8%
+kick! / update systems and nhs / update shifting                                5.371 ms/RHS     27.5%
+kick! / update systems and nhs / update nhs                                     0.598 ms/RHS      3.1%
+kick! / update systems and nhs / compute average pressure                       3.549 ms/RHS     18.2%
+kick! / update systems and nhs / compute beta                                   2.674 ms/RHS     13.7%
+kick! / reset ∂v/∂t                                                             0.017 ms/RHS      0.1%
+wall time per RHS evaluation: 19.516 ms
+
+==== Shifting of one refinement call
+Active particles before / after merging and splitting: EntropicallyDampedSPHSystem 10743 -> 10735
+EntropicallyDampedSPHSystem: theta = 0.5, max_shift_factor = 0.05, tolerance = 0.002, 100 iterations (without stopping at the tolerance)
+ iter        max     median        p99    above  max total    compute      apply
+    1   9.09e-02   5.06e-04   2.30e-02     1543      0.045      3.744      0.756
+    2   6.72e-02   3.87e-04   1.75e-02     1044      0.079      3.590      0.649
+    3   5.08e-02   3.27e-04   1.40e-02      830      0.104      3.429      0.624
+    4   3.95e-02   2.94e-04   1.14e-02      715      0.124      3.426      0.646
+    5   3.17e-02   2.75e-04   9.30e-03      666      0.140      3.434      0.653
+   10   2.19e-02   2.47e-04   5.44e-03      515      0.187      3.479      0.684
+   20   1.41e-02   2.34e-04   3.35e-03      330      0.231      3.521      0.661
+   30   1.03e-02   2.27e-04   2.60e-03      189      0.258      3.442      0.616
+   40   1.02e-02   2.21e-04   2.11e-03      127      0.278      3.528      0.668
+   50   9.41e-03   2.17e-04   1.81e-03       85      0.293      3.509      0.646
+   60   7.73e-03   2.13e-04   1.68e-03       58      0.304      3.441      0.669
+   70   6.03e-03   2.08e-04   1.57e-03       47      0.335      3.547      0.639
+   80   4.71e-03   2.04e-04   1.45e-03       32      0.361      3.850      0.671
+   90   3.61e-03   2.00e-04   1.36e-03       19      0.381      3.578      0.638
+  100   2.90e-03   1.96e-04   1.27e-03       14      0.396      3.454      0.661
+Residuals are `|δr_Eq15| / h` before limiting, `max total` is the largest accumulated shift / h. `above`: particles above the tolerance.
+The tolerance is not reached in 100 iterations.
+One iteration: 4.158 ms (median) = 0.22 RHS evaluations (19.183 ms on this state)
+
+Results in /mnt/ssd/home/nschum25/benchmark/benchmarks/results/profile/20261122-235428_taylor_green_small_tree_variable_on_default_t8

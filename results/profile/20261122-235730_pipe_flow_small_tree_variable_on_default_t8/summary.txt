@@ -1,0 +1,61 @@
+==== pipe_flow, small, tree_variable, refinement=on, 8 threads, load 34.5 35.6 35.2
+State after the startup and 20 steps (t = 0.004883): active particles EntropicallyDampedSPHSystem 10599, OpenBoundarySystem 1646, WallBoundarySystem 1552
+
+==== Distribution of the particle spacings
+EntropicallyDampedSPHSystem: 10599 particles, 79% at min_spacing (level < 0.1), 14% graded, 8% at max_spacing (level > 0.9)
+  target spacing: 67% at level < 0.1, 10% at level > 0.9, 77% below the merge level 0.46 (two particles at min_spacing can only merge above it)
+  uniform at min_spacing: 11581 particles (refined / uniform = 0.92), uniform at max_spacing: 2895
+  mean level along x1 (0.00154 to 1, 20 strips):         0.00 0.00 0.00 0.16 0.39 0.39 0.40 0.43 0.42 0.41 0.41 0.43 0.40 0.40 0.42 0.40 0.17 0.00 0.00 0.00
+  mean target level along x1 (0.00154 to 1, 20 strips):  0.00 0.00 0.00 0.33 0.55 0.52 0.53 0.55 0.53 0.54 0.54 0.54 0.54 0.52 0.53 0.55 0.33 0.00 0.00 0.00
+  mean level along x2 (0.00138 to 0.399, 20 strips):         0.01 0.06 0.13 0.20 0.21 0.21 0.23 0.21 0.22 0.22 0.22 0.22 0.22 0.23 0.20 0.22 0.18 0.15 0.07 0.01
+  mean target level along x2 (0.00138 to 0.399, 20 strips):  0.04 0.19 0.26 0.29 0.28 0.25 0.25 0.24 0.25 0.25 0.25 0.24 0.24 0.25 0.25 0.29 0.29 0.26 0.18 0.04
+
+==== Neighbors per particle and query times
+system                       neighbor                        uniform   variable in support     useful query R [ms] query r [ms]
+  tree leaves of EntropicallyDampedSPHSystem: level 0 (cell size 0.0362): 54% of the points, level 1 (cell size 0.0181): 46% of the points
+EntropicallyDampedSPHSystem  EntropicallyDampedSPHSystem       140.5       28.7       28.7       100%       2.396       1.603
+EntropicallyDampedSPHSystem  OpenBoundarySystem                  3.4        0.3        0.3       100%       0.180       0.135
+EntropicallyDampedSPHSystem  WallBoundarySystem                  7.1        NaN        1.0        14%       0.313         NaN
+OpenBoundarySystem           EntropicallyDampedSPHSystem        22.0        2.1        2.1       100%       0.097       0.039
+OpenBoundarySystem           WallBoundarySystem                  0.4        NaN        0.4       100%       0.016         NaN
+Neighbors per particle: `uniform` with the search radius R of the NHS, `variable` with the per-particle radii (NaN: not used for this pair), `in support` of the larger h. `useful`: in support / returned by the query that the interaction uses. Query times with an empty loop body (minimum of 50).
+
+==== Timers of 50 RHS evaluations (kick!)
+kick!                                                                          14.342 ms/RHS    100.0%
+kick! / system interaction                                                      6.317 ms/RHS     44.0%
+kick! / system interaction / fluid1-open_boundary2                              0.303 ms/RHS      2.1%
+kick! / system interaction / fluid1-fluid1                                      5.250 ms/RHS     36.6%
+kick! / system interaction / fluid1-boundary3                                   0.728 ms/RHS      5.1%
+kick! / update systems and nhs                                                  7.994 ms/RHS     55.7%
+kick! / update systems and nhs / compute beta                                   2.435 ms/RHS     17.0%
+kick! / update systems and nhs / compute boundary pressure                      0.381 ms/RHS      2.7%
+kick! / update systems and nhs / update nhs                                     1.420 ms/RHS      9.9%
+kick! / update systems and nhs / compute average pressure                       3.591 ms/RHS     25.0%
+kick! / update systems and nhs / inverse state equation                         0.012 ms/RHS      0.1%
+kick! / reset ∂v/∂t                                                             0.027 ms/RHS      0.2%
+wall time per RHS evaluation: 14.347 ms
+
+==== Shifting of one refinement call
+Active particles before / after merging and splitting: EntropicallyDampedSPHSystem 10599 -> 10578, OpenBoundarySystem 1646 -> 1646, WallBoundarySystem 1552 -> 1552
+EntropicallyDampedSPHSystem: theta = 0.5, max_shift_factor = 0.05, tolerance = 0.002, 100 iterations (without stopping at the tolerance)
+ iter        max     median        p99    above  max total    compute      apply
+    1   1.40e-01   4.39e-04   3.53e-02     2460      0.050      3.364      0.553
+    2   9.20e-02   3.46e-04   2.08e-02     1397      0.096      3.918      0.552
+    3   5.73e-02   3.04e-04   1.56e-02     1066      0.123      3.088      0.474
+    4   3.78e-02   2.85e-04   1.24e-02      926      0.141      3.154      0.504
+    5   2.74e-02   2.76e-04   1.00e-02      852      0.154      3.145      0.476
+   10   1.51e-02   2.58e-04   5.83e-03      668      0.186      3.192      0.493
+   20   1.23e-02   2.49e-04   3.69e-03      430      0.219      3.147      0.512
+   30   8.76e-03   2.43e-04   2.89e-03      298      0.243      3.259      0.503
+   40   7.66e-03   2.36e-04   2.55e-03      197      0.264      3.213      0.478
+   50   6.61e-03   2.31e-04   2.24e-03      155      0.290      3.259      0.642
+   60   5.43e-03   2.26e-04   2.05e-03      112      0.310      3.270      0.519
+   70   5.17e-03   2.22e-04   1.85e-03       90      0.324      3.207      0.483
+   80   6.42e-03   2.18e-04   1.75e-03       70      0.334      3.129      0.488
+   90   8.14e-03   2.14e-04   1.68e-03       52      0.341      3.291      0.646
+  100   8.95e-03   2.10e-04   1.57e-03       42      0.347      3.198      0.501
+Residuals are `|δr_Eq15| / h` before limiting, `max total` is the largest accumulated shift / h. `above`: particles above the tolerance.
+The tolerance is not reached in 100 iterations.
+One iteration: 3.753 ms (median) = 0.27 RHS evaluations (14.099 ms on this state)
+
+Results in /mnt/ssd/home/nschum25/benchmark/benchmarks/results/profile/20261122-235730_pipe_flow_small_tree_variable_on_default_t8

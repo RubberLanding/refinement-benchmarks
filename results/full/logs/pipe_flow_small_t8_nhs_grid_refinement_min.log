@@ -1,0 +1,54 @@
+[ Info: You just called `trixi_include`. Julia may now compile the code, please be patient.
+==== Warm-up
+==== Run 1/5
+==== Run 2/5
+==== Run 3/5
+==== Run 4/5
+==== Run 5/5
+
+ run   init [s]  steps [s]  steps     RHS  n_start    n_end   RHS [ms] refine/call startup [s]
+   1      0.017      2.148    100     612    11560    11660      2.793        0.0      0.000
+   2      0.014      2.143    100     612    11560    11660      2.796        0.0      0.000
+   3      0.015      2.146    100     612    11560    11660      2.802        0.0      0.000
+   4      0.015      2.145    100     612    11560    11660      2.802        0.0      0.000
+   5      0.014      2.150    100     612    11560    11660      2.807        0.0      0.000
+median: init 0.015 s, steps 2.146 s, time per step 21.46 ms
+Results in /mnt/ssd/home/nschum25/benchmark/benchmarks/results/full/20261122-214854_pipe_flow_small_grid_min_serialupdate_t8
+Timers of the median run (3):
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+                                                                Time                             Allocations
+                                                  ────────────────────────────────    ──────────────────────────────────
+                Tot / % measured:                          9.36s / 22.2%                        213MiB / 13.1%
+ ───────────────────────────────────────────────  ────────────────────────────────    ──────────────────────────────────
+ Section                                  ncalls    time    %tot     avg                alloc    %tot      avg
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+ kick!                                       612   1.70s   81.9%  2.78ms  ██████▌     5.41MiB   19.4%  9.05KiB  █▌
+ ├─ update systems and nhs                   612   942ms   45.3%  1.54ms  ███▋        2.56MiB    9.2%  4.28KiB  ▊
+ │  ├─ update nhs                            612   567ms   27.3%   927μs  ██▏         76.5KiB    0.3%     128B
+ │  ├─ compute average pressure              612   302ms   14.5%   494μs  █▏          1.04MiB    3.7%  1.73KiB  ▎
+ │  ├─ compute boundary pressure             612  27.0ms    1.3%  44.1μs  ▏            440KiB    1.5%     736B  ▏
+ │  ├─ deactivate out of bounds particle   1.22k  8.15ms    0.4%  6.66μs               870KiB    3.0%     728B  ▎
+ │  ├─ inverse state equation                612  7.83ms    0.4%  12.8μs               172KiB    0.6%     288B
+ │  └─ update density diffusion              612  14.3μs    0.0%  23.3ns                    ∅       ∅        ∅
+ ├─ system interaction                       612   758ms   36.5%  1.24ms  ██▉         2.83MiB   10.2%  4.74KiB  ▊
+ │  ├─ fluid1-fluid1                         612   616ms   29.7%  1.01ms  ██▍          373KiB    1.3%     624B  ▏
+ │  ├─ fluid1-boundary3                      612  93.4ms    4.5%   153μs  ▍            373KiB    1.3%     624B  ▏
+ │  ├─ fluid1-open_boundary2                 612  42.4ms    2.0%  69.2μs  ▏            698KiB    2.4%  1.14KiB  ▎
+ │  ├─ open_boundary2-open_boundary2         612  14.8μs    0.0%  24.2ns                    ∅       ∅        ∅
+ │  ├─ boundary3-fluid1                      612  14.5μs    0.0%  23.7ns                    ∅       ∅        ∅
+ │  ├─ open_boundary2-fluid1                 612  14.5μs    0.0%  23.7ns                    ∅       ∅        ∅
+ │  ├─ open_boundary2-boundary3              612  14.5μs    0.0%  23.7ns                    ∅       ∅        ∅
+ │  ├─ boundary3-boundary3                   612  14.4μs    0.0%  23.5ns                    ∅       ∅        ∅
+ │  └─ boundary3-open_boundary2              612  14.4μs    0.0%  23.5ns                    ∅       ∅        ∅
+ └─ reset ∂v/∂t                              612  2.47ms    0.1%  4.04μs              19.1KiB    0.1%    32.0B
+ update callback                             101   364ms   17.5%  3.61ms  █▍          21.8MiB   78.2%   221KiB  ██████▎
+ ├─ update systems and nhs                   101   153ms    7.4%  1.52ms  ▋            554KiB    1.9%  5.48KiB  ▏
+ ├─ update open boundary                     101   117ms    5.6%  1.15ms  ▌           21.0MiB   75.4%   213KiB  ██████
+ │  ├─ check domain                          101   110ms    5.3%  1.09ms  ▍           20.8MiB   74.7%   211KiB  ██████
+ │  └─ update boundary quantities            101  6.87ms    0.3%  68.0μs               204KiB    0.7%  2.02KiB
+ │     └─ extrapolate and correct values     101  5.73ms    0.3%  56.7μs               115KiB    0.4%  1.14KiB
+ ├─ update shifting                          101  94.1ms    4.5%   931μs  ▍            238KiB    0.8%  2.36KiB  ▏
+ └─ apply particle shifting                  101  2.37μs    0.0%  23.5ns                    ∅       ∅        ∅
+ drift!                                      612  11.8ms    0.6%  19.2μs               679KiB    2.4%  1.11KiB  ▎
+─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+

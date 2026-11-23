@@ -1,0 +1,6 @@
+system,neighbor,nhs,points,uniform_per_particle,variable_per_particle,in_support_per_particle,useful_fraction,query_uniform_ms,query_variable_ms
+EntropicallyDampedSPHSystem,EntropicallyDampedSPHSystem,GridNeighborhoodSearch,11562,25.801245459263104,NaN,25.801245459263104,1.0,0.183504,NaN
+EntropicallyDampedSPHSystem,OpenBoundarySystem,GridNeighborhoodSearch,11562,0.19546791212592976,NaN,0.19546791212592976,1.0,0.039421,NaN
+EntropicallyDampedSPHSystem,WallBoundarySystem,GridNeighborhoodSearch,11562,0.4423110188548694,NaN,0.4423110188548694,1.0,0.06420100000000001,NaN
+OpenBoundarySystem,EntropicallyDampedSPHSystem,GridNeighborhoodSearch,816,2.769607843137255,NaN,2.769607843137255,1.0,0.01358,NaN
+OpenBoundarySystem,WallBoundarySystem,GridNeighborhoodSearch,816,0.41421568627450983,NaN,0.41421568627450983,1.0,0.00813,NaN

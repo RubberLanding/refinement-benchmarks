@@ -1,0 +1,2 @@
+system,neighbor,nhs,points,uniform_per_particle,variable_per_particle,in_support_per_particle,useful_fraction,query_uniform_ms,query_variable_ms
+EntropicallyDampedSPHSystem,EntropicallyDampedSPHSystem,GridNeighborhoodSearch,16384,27.009033203125,NaN,27.009033203125,1.0,0.93355,NaN

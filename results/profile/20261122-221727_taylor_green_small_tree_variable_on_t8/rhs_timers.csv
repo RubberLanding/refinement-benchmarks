@@ -1,0 +1,10 @@
+path,ncalls,time_ns,allocated_bytes,per_call_ms
+kick!,50,975385933,1110448,19.507718660000002
+kick! / system interaction,50,357722759,430624,7.15445518
+kick! / system interaction / fluid1-fluid1,50,357624007,417600,7.15248014
+kick! / update systems and nhs,50,616296899,677648,12.32593798
+kick! / update systems and nhs / update shifting,50,270682859,300000,5.41365718
+kick! / update systems and nhs / update nhs,50,29976064,33600,0.59952128
+kick! / update systems and nhs / compute average pressure,50,180500205,40800,3.6100041
+kick! / update systems and nhs / compute beta,50,129160691,302400,2.58321382
+kick! / reset ∂v/∂t,50,1328834,1600,0.026576680000000002
