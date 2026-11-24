@@ -1,0 +1,661 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Benchmark results</title>
+<style>
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+:root {
+  --bg: #f9f9f7;
+  --surface: #fcfcfb;
+  --ink: #0b0b0b;
+  --ink-2: #52514e;
+  --muted: #898781;
+  --grid: #e1e0d9;
+  --axis: #c3c2b7;
+  --border: rgba(11, 11, 11, 0.10);
+  --accent: #2a78d6;
+  --s1: #2a78d6; --s2: #eb6834; --s3: #1baf7a; --s4: #eda100; --s5: #e87ba4; --s6: #008300;
+  --font-text: system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-data: ui-monospace, "SFMono-Regular", Menlo, monospace;
+  --step--1: 0.8125rem; --step-0: 1rem; --step-1: 1.25rem; --step-2: 1.625rem;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0d0d0d; --surface: #1a1a19; --ink: #f0efec; --ink-2: #c3c2b7; --muted: #898781;
+    --grid: #2c2c2a; --axis: #383835; --border: rgba(255, 255, 255, 0.10); --accent: #3987e5;
+    --s1: #3987e5; --s2: #d95926; --s3: #199e70; --s4: #c98500; --s5: #d55181; --s6: #0ca30c;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0d0d0d; --surface: #1a1a19; --ink: #f0efec; --ink-2: #c3c2b7; --muted: #898781;
+  --grid: #2c2c2a; --axis: #383835; --border: rgba(255, 255, 255, 0.10); --accent: #3987e5;
+  --s1: #3987e5; --s2: #d95926; --s3: #199e70; --s4: #c98500; --s5: #d55181; --s6: #0ca30c;
+  color-scheme: dark;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-text);
+  font-size: var(--step-0);
+  line-height: 1.55;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 2.5rem 4rem;
+}
+main { max-width: 64rem; margin: 0 auto; display: flex; flex-direction: column; gap: 3rem; }
+header { display: flex; flex-direction: column; gap: 0.75rem; }
+.eyebrow {
+  font-family: var(--font-data); font-size: var(--step--1); color: var(--muted);
+  letter-spacing: 0.04em; text-transform: uppercase;
+}
+h1 { font-size: var(--step-2); font-weight: 600; line-height: 1.2; margin: 0; text-wrap: balance; }
+h2 { font-size: var(--step-1); font-weight: 600; line-height: 1.3; margin: 0; text-wrap: balance; }
+h3 { font-size: var(--step-0); font-weight: 600; margin: 0; }
+p { margin: 0; max-width: 68ch; }
+.lede { color: var(--ink-2); }
+section { display: flex; flex-direction: column; gap: 1rem; min-width: 0; }
+code, .num { font-family: var(--font-data); font-size: 0.92em; }
+.num { font-variant-numeric: tabular-nums; }
+
+.key-findings { display: grid; gap: 0.75rem; margin: 0; padding: 0; list-style: none; }
+.key-findings li {
+  display: grid; grid-template-columns: 6.5rem 1fr; gap: 1rem; align-items: baseline;
+  padding-block: 0.75rem; border-top: 1px solid var(--grid);
+}
+.key-findings li:last-child { border-bottom: 1px solid var(--grid); }
+.key-findings .figure { font-family: var(--font-data); font-size: var(--step-1); font-weight: 500;
+  font-variant-numeric: tabular-nums; }
+.key-findings p { color: var(--ink-2); }
+.key-findings strong { color: var(--ink); font-weight: 600; }
+@media (max-width: 30rem) { .key-findings li { grid-template-columns: 1fr; gap: 0.25rem; } }
+
+figure {
+  margin: 0; background: var(--surface); border: 1px solid var(--border); border-radius: 6px;
+  padding: 1rem; display: flex; flex-direction: column; gap: 0.75rem; min-width: 0;
+}
+figcaption { font-size: var(--step--1); color: var(--ink-2); }
+.legend { display: flex; flex-wrap: wrap; gap: 0.4rem 1rem; font-size: var(--step--1); color: var(--ink-2); }
+.legend span { display: inline-flex; align-items: center; gap: 0.4rem; }
+.legend i { width: 10px; height: 10px; border-radius: 2px; display: inline-block; }
+.legend i.line { height: 2px; width: 14px; border-radius: 1px; }
+.legend i.dash { height: 0; width: 14px; border-top: 2px dashed var(--muted); border-radius: 0; }
+.chart { position: relative; width: 100%; min-width: 0; }
+.chart svg { display: block; width: 100%; height: auto; overflow: visible; }
+.chart text { font-family: var(--font-text); fill: var(--ink-2); font-size: 12px; }
+.chart text.data { font-family: var(--font-data); font-variant-numeric: tabular-nums; }
+.chart text.muted { fill: var(--muted); }
+.chart text.strong { fill: var(--ink); font-weight: 500; }
+.tooltip {
+  position: absolute; pointer-events: none; z-index: 5; min-width: 10rem; max-width: 16rem;
+  background: var(--surface); color: var(--ink); border: 1px solid var(--border);
+  border-radius: 6px; padding: 0.5rem 0.65rem; font-size: var(--step--1); line-height: 1.4;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+}
+.tooltip .t-head { font-weight: 600; margin-bottom: 0.2rem; }
+.tooltip .t-row { display: flex; justify-content: space-between; gap: 1rem; color: var(--ink-2); }
+.tooltip .t-row b { font-family: var(--font-data); font-weight: 500; color: var(--ink); }
+.tooltip .t-row i { width: 8px; height: 8px; border-radius: 2px; display: inline-block; margin-right: 0.35rem; }
+.split { display: grid; grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr)); gap: 1rem; }
+
+details { font-size: var(--step--1); color: var(--ink-2); }
+summary { cursor: pointer; color: var(--accent); width: fit-content; }
+summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 2px; }
+.table-wrap { overflow-x: auto; margin-top: 0.5rem; }
+table { border-collapse: collapse; font-variant-numeric: tabular-nums; min-width: 100%; }
+th, td { text-align: right; padding: 0.3rem 0.6rem; border-bottom: 1px solid var(--grid); white-space: nowrap; }
+th:first-child, td:first-child { text-align: left; }
+th { color: var(--ink); font-weight: 600; }
+td { font-family: var(--font-data); }
+td:first-child { font-family: var(--font-text); }
+
+.next { display: flex; flex-direction: column; gap: 1rem; margin: 0; padding: 0; list-style: none; counter-reset: step; }
+.next li {
+  display: grid; grid-template-columns: 2rem 1fr; gap: 0.75rem; counter-increment: step;
+}
+.next li::before {
+  content: counter(step); font-family: var(--font-data); font-weight: 500; color: var(--accent);
+  border: 1px solid var(--border); border-radius: 50%; width: 1.75rem; height: 1.75rem;
+  display: grid; place-items: center; font-size: var(--step--1);
+}
+.next li > div { display: flex; flex-direction: column; gap: 0.25rem; min-width: 0; }
+.next p { color: var(--ink-2); }
+.tag {
+  font-family: var(--font-data); font-size: 0.75rem; color: var(--ink-2); border: 1px solid var(--border);
+  border-radius: 999px; padding: 0.05rem 0.5rem; width: fit-content;
+}
+.verdict {
+  border-left: 3px solid var(--accent); padding: 0.25rem 0 0.25rem 1rem; display: flex;
+  flex-direction: column; gap: 0.5rem;
+}
+footer { font-size: var(--step--1); color: var(--muted); display: flex; flex-direction: column; gap: 0.4rem; }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+
+/* Controls */
+header dl { margin: 0; display: flex; flex-wrap: wrap; gap: 0.25rem 1.5rem; font-size: var(--step--1); color: var(--ink-2); }
+nav { position: sticky; top: 0; z-index: 10; background: var(--bg); border-bottom: 1px solid var(--grid);
+  padding: 0.6rem 0; display: flex; flex-wrap: wrap; gap: 0.5rem 1.25rem; font-size: var(--step--1); }
+nav a { color: var(--ink-2); text-decoration: none; } nav a:hover { color: var(--accent); }
+section { scroll-margin-top: 3.5rem; }
+.controls { display: flex; flex-wrap: wrap; gap: 0.5rem 1rem; align-items: end; font-size: var(--step--1); color: var(--ink-2); }
+.controls label { display: flex; flex-direction: column; gap: 0.2rem; min-width: 0; }
+.controls label.row { flex-direction: row; align-items: center; gap: 0.4rem; padding-bottom: 0.35rem; }
+select, input[type=search] { font: inherit; color: var(--ink); background: var(--surface); max-width: 100%;
+  border: 1px solid var(--axis); border-radius: 4px; padding: 0.3rem 0.5rem; }
+td .off { opacity: 0.4; } td.name { font-family: var(--font-text); text-align: left; white-space: normal; min-width: 11rem; }
+th.l, td.l { text-align: left; } td.l { font-family: var(--font-text); }
+.hot { table-layout: fixed; width: 100%; min-width: 44rem; } .hot td { vertical-align: top; }
+.hot td.frame { text-align: left; white-space: normal; overflow-wrap: anywhere; font-family: var(--font-data); font-size: 0.75rem; }
+.hot td.frame small { display: block; color: var(--muted); font-size: 0.7rem; }
+.hot .bar { height: 10px; border-radius: 0 4px 4px 0; background: var(--s1); margin-top: 5px; }
+.hot tr.idle .bar { background: var(--muted); }
+.hot tr:hover td { background: var(--bg); }
+.note { font-size: var(--step--1); color: var(--ink-2); }
+</style></head><body>
+<main>
+  <header>
+    <div class="eyebrow">TrixiParticles benchmark results</div>
+    <h1 id="title"></h1>
+    <dl id="meta"></dl>
+  </header>
+  <nav id="nav" aria-label="Sections"></nav>
+
+  <section id="overview"><h2>Results</h2>
+    <p class="note">Untick a result to hide it in the charts. "Per time unit" is the wall time per unit of simulated
+      time. Compare it as well as the step time when the step sizes differ.</p>
+    <div class="table-wrap"><table id="overview-table"></table></div>
+    <p class="note" id="noise"></p>
+  </section>
+
+  <section id="step"><h2>Where a time step goes</h2>
+    <figure><div class="legend"></div><div class="chart"></div>
+      <figcaption>Wall time per time step of the run with the median step time, every run as a dot. The refinement only runs at some
+        steps and is averaged over all steps.</figcaption>
+      <details><summary>Table</summary><div class="table-wrap t"></div></details></figure>
+  </section>
+
+  <section id="rhs"><h2>Inside one RHS evaluation</h2>
+    <figure><div class="legend"></div><div class="chart"></div>
+      <figcaption>Timers of <code>kick!</code> per evaluation. "Isolated" are the evaluations of
+        <code>profile.jl</code> on one state, "in steps" the average over a full run.</figcaption>
+      <details><summary>Table</summary><div class="table-wrap t"></div></details></figure>
+  </section>
+
+  <section id="query"><h2>Neighbor query</h2>
+    <figure><div class="chart"></div>
+      <figcaption>Time per particle of the fluid&ndash;fluid query with an empty loop body. With per-particle
+        search radii if the search supports them, otherwise with the uniform radius.</figcaption>
+      <details><summary>Table</summary><div class="table-wrap t"></div></details></figure>
+  </section>
+
+  <section id="profile"><h2>Hotspots</h2>
+    <div class="controls">
+      <label>Profile <select id="hot-result"></select></label>
+      <label>Sort by <select id="hot-sort"><option value="own">Own samples</option><option value="count">Inclusive samples</option></select></label>
+      <label>Package <select id="hot-package"></select></label>
+      <label>Search <input type="search" id="hot-search" placeholder="function or file"></label>
+      <label class="row"><input type="checkbox" id="hot-idle"> Show waiting threads</label>
+    </div>
+    <figure><div class="table-wrap" style="margin:0"><table class="hot" id="hot-table"></table></div>
+      <figcaption id="hot-caption"></figcaption></figure>
+  </section>
+
+  <section id="shift"><h2>Convergence of the shifting</h2>
+    <div class="legend"></div>
+    <div class="split"></div>
+    <p class="note">Residual |&delta;r|/h before limiting. The dashed line is the default tolerance of <code>ShiftingHaftu</code>,
+      2&middot;10<sup>&minus;3</sup>.</p>
+  </section>
+
+  <section id="dist"><h2>Particle spacing</h2>
+    <div class="legend"></div>
+    <div class="split"></div>
+    <p class="note">Mean spacing level in strips along each coordinate, 0 = <code>min_spacing</code>, 1 =
+      <code>max_spacing</code>. Two particles at the fine spacing only merge above the dashed line.</p>
+  </section>
+</main>
+<script>
+const DATA = __DATA__;
+(function () {
+  const NS = "http://www.w3.org/2000/svg";
+  const css = name => getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+
+  function svgEl(tag, attrs, parent) {
+    const e = document.createElementNS(NS, tag);
+    for (const k in attrs) e.setAttribute(k, attrs[k]);
+    if (parent) parent.appendChild(e);
+    return e;
+  }
+
+  function niceTicks(max, count) {
+    const raw = max / count;
+    const mag = Math.pow(10, Math.floor(Math.log10(raw)));
+    const step = [1, 2, 2.5, 5, 10].map(m => m * mag).find(s => s >= raw);
+    const ticks = [];
+    for (let v = 0; v <= max + 1e-9; v += step) ticks.push(+v.toFixed(10));
+    return ticks;
+  }
+
+  // Bar with a square start at the baseline and a 4px rounded data end
+  function barPath(x, y, w, h, roundEnd) {
+    const r = roundEnd ? Math.min(4, w, h / 2) : 0;
+    return `M${x},${y}H${x + w - r}` + (r ? `Q${x + w},${y} ${x + w},${y + r}` : "") +
+      `V${y + h - r}` + (r ? `Q${x + w},${y + h} ${x + w - r},${y + h}` : "") + `H${x}Z`;
+  }
+
+  function tooltip(container) {
+    let tip = container.querySelector(".tooltip");
+    if (!tip) {
+      tip = document.createElement("div");
+      tip.className = "tooltip";
+      tip.hidden = true;
+      container.appendChild(tip);
+    }
+    return {
+      show(html, x, y) {
+        tip.innerHTML = html;
+        tip.hidden = false;
+        const cw = container.clientWidth;
+        const tw = tip.offsetWidth;
+        let left = x + 14;
+        if (left + tw > cw) left = Math.max(0, x - tw - 14);
+        tip.style.left = left + "px";
+        tip.style.top = Math.max(0, y - tip.offsetHeight - 10) + "px";
+      },
+      hide() { tip.hidden = true; }
+    };
+  }
+
+  function legend(id, items) {
+    const el = id;
+    el.innerHTML = items.map(it =>
+      `<span><i class="${it.kind || ""}" style="${it.kind === "dash" ? "" : "background:var(" + it.color + ")"}"></i>${it.label}</span>`
+    ).join("");
+  }
+
+  function table(id, head, rows) {
+    id.innerHTML =
+      "<table><thead><tr>" + head.map(h => `<th scope="col">${h}</th>`).join("") + "</tr></thead><tbody>" +
+      rows.map(r => "<tr>" + r.map(c => `<td>${esc(c)}</td>`).join("") + "</tr>").join("") + "</tbody></table>";
+  }
+
+  // ======================================================================================
+  // Horizontal stacked bars: each row is a label line and a bar below it
+  function stacked(id, opts) {
+    const container = id;
+    const { rows, series, unit, decimals, max } = opts;
+    container.querySelectorAll("svg").forEach(s => s.remove());
+    const tip = tooltip(container);
+    const width = Math.max(280, container.clientWidth);
+    const right = 64, rowH = 46, barH = 16, top = 4, axisH = 24;
+    const height = top + rows.length * rowH + axisH;
+    const svg = svgEl("svg", { viewBox: `0 0 ${width} ${height}`, role: "img",
+      "aria-label": opts.aria });
+    container.insertBefore(svg, container.firstChild);
+    const plotW = width - right;
+    const reach = r => Math.max(r.total, ...(r.dots || []));
+    const xMax = max || Math.max(...rows.map(reach), 1e-6) * 1.02;
+    const ticks = niceTicks(xMax, width < 420 ? 3 : 5);
+    const xScale = v => v / ticks[ticks.length - 1] * plotW;
+
+    const gridTop = top, gridBottom = top + rows.length * rowH;
+    ticks.forEach(t => {
+      svgEl("line", { x1: xScale(t), x2: xScale(t), y1: gridTop, y2: gridBottom,
+        stroke: css("--grid"), "stroke-width": 1 }, svg);
+      const label = svgEl("text", { x: xScale(t), y: gridBottom + 16, "text-anchor": t === 0 ? "start" : "middle",
+        class: "data muted" }, svg);
+      label.textContent = t + (t === ticks[ticks.length - 1] ? " " + unit : "");
+    });
+
+    rows.forEach((row, i) => {
+      const y0 = top + i * rowH;
+      const name = svgEl("text", { x: 0, y: y0 + 13, class: "strong" }, svg);
+      name.textContent = row.label;
+      const note = svgEl("tspan", { class: "muted", dx: 6 }, name);
+      note.textContent = row.note;
+      const yBar = y0 + 20;
+      let x = 0;
+      const visible = series.filter(s => row.segs[s.key] > 0);
+      visible.forEach((s, j) => {
+        const v = row.segs[s.key];
+        const w = xScale(v);
+        const last = j === visible.length - 1;
+        // 2px surface gap between adjacent segments
+        const drawW = last ? w : Math.max(w - 2, 0.5);
+        const path = svgEl("path", { d: barPath(x, yBar, drawW, barH, last), fill: css(s.color) }, svg);
+        const share = 100 * v / row.total;
+        const html = `<div class="t-head">${esc(row.label)}</div><div class="t-row"><span>${esc(row.note)}</span></div>` +
+          `<div class="t-row"><span><i style="background:${css(s.color)}"></i>${s.label}</span><b>${v.toFixed(decimals)} ${unit}</b></div>` +
+          `<div class="t-row"><span>Share of the bar</span><b>${share.toFixed(0)}%</b></div>`;
+        // Hit target taller than the mark
+        const hit = svgEl("rect", { x, y: yBar - 6, width: Math.max(w, 6), height: barH + 12,
+          fill: "transparent" }, svg);
+        const enter = ev => {
+          path.setAttribute("opacity", "0.8");
+          const r = container.getBoundingClientRect();
+          tip.show(html, ev.clientX - r.left, ev.clientY - r.top);
+        };
+        hit.addEventListener("mousemove", enter);
+        hit.addEventListener("mouseleave", () => { path.removeAttribute("opacity"); tip.hide(); });
+        x += w;
+      });
+      // Every run as a dot
+      (row.dots || []).forEach(v => {
+        svgEl("circle", { cx: xScale(v), cy: yBar + barH / 2, r: 3.5, fill: css("--ink"),
+          stroke: css("--surface"), "stroke-width": 1.5, "pointer-events": "none" }, svg);
+      });
+      const total = svgEl("text", { x: xScale(reach(row)) + 8, y: yBar + 12, class: "data strong" }, svg);
+      total.textContent = row.total.toFixed(decimals);
+    });
+  }
+
+  // ======================================================================================
+  // Line chart with a crosshair, direct labels at the line ends and optional reference lines
+  function lines(id, opts) {
+    const container = id;
+    const { data, series, x, yLog, yDomain, refs, xLabel, fmtY, fmtX } = opts;
+    container.querySelectorAll("svg").forEach(s => s.remove());
+    const tip = tooltip(container);
+    const width = Math.max(260, container.clientWidth);
+    const height = Math.round(Math.min(300, Math.max(220, width * 0.7)));
+    const m = { top: 10, right: 58, bottom: 34, left: 46 };
+    const pw = width - m.left - m.right, ph = height - m.top - m.bottom;
+    const svg = svgEl("svg", { viewBox: `0 0 ${width} ${height}`, role: "img", "aria-label": opts.aria });
+    container.insertBefore(svg, container.firstChild);
+    const g = svgEl("g", { transform: `translate(${m.left},${m.top})` }, svg);
+
+    const xs = data.map(d => d[x]);
+    const xMin = Math.min(...xs), xMax = Math.max(...xs);
+    const xScale = v => (v - xMin) / ((xMax - xMin) || 1) * pw;
+    const [y0, y1] = yDomain;
+    const yScale = yLog ? v => ph - (Math.log10(v) - Math.log10(y0)) / (Math.log10(y1) - Math.log10(y0)) * ph
+                        : v => ph - (v - y0) / (y1 - y0) * ph;
+
+    const yTicks = opts.yTicks;
+    yTicks.forEach(t => {
+      svgEl("line", { x1: 0, x2: pw, y1: yScale(t), y2: yScale(t), stroke: css("--grid"), "stroke-width": 1 }, g);
+      const label = svgEl("text", { x: -6, y: yScale(t) + 4, "text-anchor": "end", class: "data muted" }, g);
+      label.textContent = fmtY(t);
+    });
+    opts.xTicks.forEach(t => {
+      const label = svgEl("text", { x: xScale(t), y: ph + 16, "text-anchor": "middle", class: "data muted" }, g);
+      label.textContent = fmtX ? fmtX(t) : t;
+    });
+    svgEl("line", { x1: 0, x2: pw, y1: ph, y2: ph, stroke: css("--axis"), "stroke-width": 1 }, g);
+    const xl = svgEl("text", { x: pw / 2, y: ph + 31, "text-anchor": "middle", class: "muted" }, g);
+    xl.textContent = xLabel;
+
+    (refs || []).forEach(r => {
+      svgEl("line", { x1: 0, x2: pw, y1: yScale(r.y), y2: yScale(r.y), stroke: css("--muted"),
+        "stroke-width": 1.5, "stroke-dasharray": "5 4" }, g);
+      const label = svgEl("text", { x: pw + 6, y: yScale(r.y) + 4, class: "muted" }, g);
+      label.textContent = r.label;
+    });
+
+    const endLabels = [];
+    series.forEach(s => {
+      const pts = data.filter(d => d[s.key] !== null && (d[s.key] > 0 || !yLog));
+      if (!pts.length) return;
+      const d = pts.map((p, i) => (i ? "L" : "M") + xScale(p[x]).toFixed(1) + "," + yScale(p[s.key]).toFixed(1)).join("");
+      svgEl("path", { d, fill: "none", stroke: css(s.color), "stroke-width": 2, "stroke-linejoin": "round",
+        "stroke-linecap": "round" }, g);
+      const last = pts[pts.length - 1];
+      endLabels.push({ y: yScale(last[s.key]), label: s.short || s.label });
+    });
+    // Direct labels at the line ends, pushed apart so they don't overlap
+    endLabels.sort((a, b) => a.y - b.y);
+    for (let i = 1; i < endLabels.length; i++) {
+      if (endLabels[i].y - endLabels[i - 1].y < 13) endLabels[i].y = endLabels[i - 1].y + 13;
+    }
+    endLabels.forEach(l => {
+      const t = svgEl("text", { x: pw + 6, y: l.y + 4, class: "strong" }, g);
+      t.textContent = l.label;
+    });
+
+    // Crosshair and tooltip
+    const cross = svgEl("line", { y1: 0, y2: ph, stroke: css("--axis"), "stroke-width": 1, visibility: "hidden" }, g);
+    const dots = series.map(s => svgEl("circle", { r: 4, fill: css(s.color), stroke: css("--surface"),
+      "stroke-width": 2, visibility: "hidden" }, g));
+    const overlay = svgEl("rect", { x: 0, y: 0, width: pw, height: ph, fill: "transparent" }, g);
+    overlay.addEventListener("mousemove", ev => {
+      const r = svg.getBoundingClientRect();
+      const scale = width / r.width;
+      const px = (ev.clientX - r.left) * scale - m.left;
+      let best = data[0];
+      data.forEach(d => { if (Math.abs(xScale(d[x]) - px) < Math.abs(xScale(best[x]) - px)) best = d; });
+      const cx = xScale(best[x]);
+      cross.setAttribute("x1", cx); cross.setAttribute("x2", cx); cross.setAttribute("visibility", "visible");
+      series.forEach((s, i) => {
+        const v = best[s.key];
+        if (v === null || (yLog && !(v > 0))) { dots[i].setAttribute("visibility", "hidden"); return; }
+        dots[i].setAttribute("cx", cx); dots[i].setAttribute("cy", yScale(v));
+        dots[i].setAttribute("visibility", "visible");
+      });
+      const html = `<div class="t-head">${esc(opts.tipHead(best))}</div>` + series.map(s =>
+        `<div class="t-row"><span><i style="background:${css(s.color)}"></i>${s.label}</span><b>${best[s.key] === null ? "–" : fmtY(best[s.key], true)}</b></div>`
+      ).join("") + (opts.tipExtra ? opts.tipExtra(best) : "");
+      const cr = container.getBoundingClientRect();
+      tip.show(html, ev.clientX - cr.left, ev.clientY - cr.top);
+    });
+    overlay.addEventListener("mouseleave", () => {
+      cross.setAttribute("visibility", "hidden");
+      dots.forEach(dt => dt.setAttribute("visibility", "hidden"));
+      tip.hide();
+    });
+  }
+
+
+  const esc = s => String(s).replace(/[&<>"']/g, c => "&#" + c.charCodeAt(0) + ";");
+  const $ = id => document.getElementById(id);
+  const STEP_SERIES = [
+    { key: "rhs", label: "RHS evaluations", color: "--s1" },
+    { key: "shiftCompute", label: "Refinement: compute shift", color: "--s2" },
+    { key: "shiftApply", label: "Refinement: rest of shifting", color: "--s3" },
+    { key: "refineRest", label: "Refinement: everything else", color: "--s4" },
+    { key: "update", label: "Update callback", color: "--s5" },
+    { key: "other", label: "Other", color: "--muted" }
+  ];
+  const RHS_SERIES = [
+    { key: "interaction", label: "Interaction", color: "--s1" },
+    { key: "shifting", label: "Per-step shifting", color: "--s2" },
+    { key: "avgp", label: "Average pressure + beta", color: "--s3" },
+    { key: "nhs", label: "NHS update", color: "--s4" },
+    { key: "other", label: "Other", color: "--muted" }
+  ];
+  const SHIFT_SERIES = [
+    { key: "max", label: "Maximum", short: "max", color: "--s1" },
+    { key: "p99", label: "99th percentile", short: "p99", color: "--s2" },
+    { key: "median", label: "Median", short: "median", color: "--s3" }
+  ];
+  const DIST_SERIES = [
+    { key: "target", label: "Target spacing", short: "target", color: "--s1" },
+    { key: "actual", label: "Particles", short: "particles", color: "--s2" }
+  ];
+  const IDLE = f => ["ThreadingUtilities", "Polyester", "PolyesterWeave"].includes(f.package) ||
+    (f.file === "@Base/task.jl" && f.function.startsWith("wait"));
+
+  const CASES = { taylor_green: "Taylor-Green", pipe_flow: "Pipe flow", vortex_street: "Vortex street" };
+  const caseName = r => CASES[r.meta.case] || r.meta.case || "?";
+  const kind = r => ({ on: "refined", min: "uniform fine", max: "uniform coarse" })[r.meta.refinement] || "";
+  const label = r => `${caseName(r)}, ${kind(r)}`;
+  const note = r => `${r.meta.nhs}, ${r.name}`;
+  const num = (v, d) => v === null || v === undefined ? "–" : v.toFixed(d);
+  const int = v => v === null || v === undefined ? "–" : v.toLocaleString("en-US");
+  const hidden = new Set();
+  const shown = () => DATA.filter(r => !hidden.has(r));
+
+  // ======================================================================================
+  // Header and overview
+  $("title").textContent = DATA.length === 1 ? label(DATA[0]) : `${DATA.length} results`;
+  document.title = $("title").textContent + " – benchmark";
+  const common = [["Size", "size"], ["Threads", "threads"], ["Shifting", "shifting"], ["Code", "trixiparticles"],
+    ["PointNeighbors", "pointneighbors"], ["Julia", "julia"], ["Machine", "hostname"], ["Load", "loadavg"], ["Date", "date"]];
+  $("meta").innerHTML = common.map(([name, key]) => {
+    const values = [...new Set(DATA.map(r => r.meta[key]).filter(Boolean))];
+    if (!values.length) return "";
+    return `<span><b>${name}</b> ${esc(values.length > 2 ? values.length + " different" : values.join(" | "))}</span>`;
+  }).join("");
+
+  const particles = r => r.step ? r.step.n : r.query.length ? r.query[0].n : null;
+  const isolated = r => r.rhs ? r.rhs.total : null;
+  $("overview-table").innerHTML = "<thead><tr>" +
+    ["", "Result", "Particles", "Step [ms]", "Spread", "Per time unit [s]", "RHS isolated [ms]", "Startup [s]", "Commit"]
+      .map((h, i) => `<th scope="col"${i === 1 ? ' class="l"' : ""}>${h}</th>`).join("") + "</tr></thead><tbody>" +
+    DATA.map((r, i) => `<tr title="${esc(r.path)}"><td><input type="checkbox" checked data-i="${i}" aria-label="Show ${esc(r.name)}"></td>` +
+      `<td class="name"><b>${esc(label(r))}</b><br>${esc(note(r))}</td><td>${int(particles(r))}</td>` +
+      `<td>${r.step ? num(r.step.total, 1) : "–"}</td>` +
+      `<td>${r.step ? (100 * (r.step.max - r.step.min) / r.step.total).toFixed(0) + "%" : "–"}</td>` +
+      `<td>${r.step ? num(r.step.perTime, 1) : "–"}</td><td>${num(isolated(r), 2)}</td>` +
+      `<td>${r.step && r.step.startup ? num(r.step.startup, 2) : "–"}</td>` +
+      `<td>${esc((r.meta.trixiparticles || "–").split(" ").pop())}</td></tr>`).join("") + "</tbody>";
+  $("overview-table").addEventListener("change", ev => {
+    const r = DATA[ev.target.dataset.i];
+    if (ev.target.checked) hidden.delete(r); else hidden.add(r);
+    render();
+  });
+  const noisy = DATA.filter(r => r.step && (r.step.max - r.step.min) / r.step.total > 0.06);
+  const single = DATA.filter(r => r.step && r.step.runs === 1);
+  $("noise").textContent = [
+    noisy.length ? `Noisy, the step times of the runs differ by more than 6%: ${noisy.map(r => r.name).join(", ")}.` : "",
+    single.length ? `Only one run, so no spread is known: ${single.map(r => r.name).join(", ")}.` : ""].join(" ").trim();
+
+  // ======================================================================================
+  // Hotspots
+  const profiles = [];
+  DATA.forEach(r => ["rhs", "shift"].forEach(k => {
+    if (r.profile[k] && r.profile[k].length) profiles.push({ r, k, frames: r.profile[k] });
+  }));
+  $("hot-result").innerHTML = profiles.map((p, i) =>
+    `<option value="${i}">${p.k === "rhs" ? "RHS" : "compute shift"}: ${esc(label(p.r))} (${esc(p.r.name)})</option>`).join("");
+  function packages() {
+    const p = profiles[$("hot-result").value];
+    if (!p) return;
+    const before = $("hot-package").value;
+    const names = [...new Set(p.frames.map(f => f.package))].sort();
+    $("hot-package").innerHTML = '<option value="">All</option><option value="*">TrixiParticles + PointNeighbors</option>' +
+      names.map(n => `<option>${esc(n)}</option>`).join("");
+    $("hot-package").value = before === "*" || names.includes(before) ? before : "";
+  }
+  function hotspots() {
+    const p = profiles[$("hot-result").value];
+    if (!p) return;
+    const sort = $("hot-sort").value, pack = $("hot-package").value, text = $("hot-search").value.toLowerCase();
+    const busy = p.frames.filter(f => !IDLE(f)).reduce((s, f) => s + f.own, 0) || 1;
+    const all = p.frames.filter(f => ($("hot-idle").checked || !IDLE(f)) &&
+      (!pack || f.package === pack || (pack === "*" && ["TrixiParticles", "PointNeighbors"].includes(f.package))) &&
+      (!text || (f.function + " " + f.file).toLowerCase().includes(text)));
+    all.sort((a, b) => b[sort] - a[sort]);
+    const rows = all.slice(0, 40), max = rows.length ? Math.max(rows[0][sort], 1) : 1;
+    $("hot-table").innerHTML = '<colgroup><col style="width:52%"><col style="width:20%"><col><col><col></colgroup>' +
+      '<thead><tr><th scope="col">Frame</th><th></th><th scope="col">Own</th><th scope="col">Own share</th><th scope="col">Inclusive</th></tr></thead><tbody>' +
+      (rows.map(f => `<tr class="${IDLE(f) ? "idle" : ""}"><td class="frame">${esc(f.function)}<small>${esc(f.file)}:${esc(f.line)}</small></td>` +
+        `<td><div class="bar" style="width:${(100 * f[sort] / max).toFixed(1)}%"></div></td><td>${int(f.own)}</td>` +
+        `<td>${IDLE(f) ? "–" : (100 * f.own / busy).toFixed(1) + "%"}</td><td>${int(f.count)}</td></tr>`).join("") ||
+        '<tr><td class="frame">No frames match.</td></tr>') + "</tbody>";
+    $("hot-caption").textContent = `${rows.length} of ${all.length} frames. Own samples are in the frame itself, inclusive ` +
+      "samples also in what it calls. Shares are of the listed own samples without waiting threads; frames with fewer than " +
+      "10 samples are not in the file. Own time is mostly in inlined arithmetic, so sort by inclusive samples and choose " +
+      "TrixiParticles + PointNeighbors to see the loops.";
+  }
+  ["hot-sort", "hot-package", "hot-idle"].forEach(id => $(id).addEventListener("change", hotspots));
+  $("hot-search").addEventListener("input", hotspots);
+  $("hot-result").addEventListener("change", () => { packages(); hotspots(); });
+  packages(); hotspots();
+
+  // ======================================================================================
+  const sup = v => { const e = Math.round(Math.log10(v)); return "10" + (e < 0 ? "⁻" : "") + [...String(Math.abs(e))].map(d => "⁰¹²³⁴⁵⁶⁷⁸⁹"[d]).join(""); };
+  function barSection(id, rows, series, opts) {
+    const s = $(id);
+    // Keep the legend when all results are hidden, the colors don't depend on the rows
+    if (s.querySelector(".legend")) legend(s.querySelector(".legend"), series);
+    const chart = s.querySelector(".chart");
+    if (rows.length) stacked(chart, { rows, series, ...opts });
+    else chart.innerHTML = '<p class="note">All results with this data are hidden.</p>';
+    if (rows.length) chart.querySelectorAll("p").forEach(p => p.remove());
+  }
+  function lineSection(id, series, refLabel, charts) {
+    const s = $(id), split = s.querySelector(".split");
+    legend(s.querySelector(".legend"), series.map(x => ({ ...x, kind: "line" })).concat([{ label: refLabel, kind: "dash" }]));
+    split.innerHTML = "";
+    charts.forEach(c => {
+      const figure = document.createElement("figure");
+      figure.innerHTML = `<h3>${esc(c.title)}</h3><figcaption>${esc(c.sub)}</figcaption><div class="chart"></div>` +
+        '<details><summary>Table</summary><div class="table-wrap"></div></details>';
+      split.appendChild(figure);
+      c.draw(figure.querySelector(".chart"));
+      table(figure.querySelector(".table-wrap"), c.head, c.rows);
+    });
+  }
+
+  function render() {
+    const results = shown();
+    const step = results.filter(r => r.step);
+    barSection("step", step.map(r => ({ label: label(r), note: note(r), ...r.step })), STEP_SERIES,
+      { unit: "ms", decimals: 1, aria: "Wall time per time step by part" });
+    table($("step").querySelector(".t"), ["Result", "Step [ms]", "Min", "Max", "Runs", ...STEP_SERIES.map(s => s.label), "RHS / step", "Rejected"],
+      step.map(r => [`${label(r)} (${note(r)})`, num(r.step.total, 1), num(r.step.min, 1), num(r.step.max, 1), r.step.runs,
+        ...STEP_SERIES.map(s => num(r.step.segs[s.key], 1)), num(r.step.rhsPerStep, 1), r.step.rejected]));
+
+    const rhs = [];
+    results.forEach(r => {
+      if (r.rhs) rhs.push({ label: label(r), note: "isolated, " + note(r), ...r.rhs });
+      if (r.step && r.step.rhs.total > 0) rhs.push({ label: label(r), note: "in steps, " + note(r), ...r.step.rhs });
+    });
+    barSection("rhs", rhs, RHS_SERIES, { unit: "ms", decimals: 2, aria: "Time of one RHS evaluation by part" });
+    table($("rhs").querySelector(".t"), ["Result", "RHS [ms]", ...RHS_SERIES.map(s => s.label)],
+      rhs.map(r => [`${r.label} (${r.note})`, num(r.total, 2), ...RHS_SERIES.map(s => num(r.segs[s.key], 2))]));
+
+    const query = results.flatMap(r => r.query.map(q => ({ label: label(r), note: note(r), total: q.us, segs: { us: q.us }, q })));
+    barSection("query", query, [{ key: "us", label: "Query time per particle", color: "--s1" }],
+      { unit: "µs", decimals: 3, aria: "Neighbor query time per particle" });
+    table($("query").querySelector(".t"), ["Result", "System", "Particles", "Neighbors in support", "Candidates with largest radius", "Query [ms]", "Per particle [µs]"],
+      query.map(x => [`${x.label} (${x.note})`, x.q.system, int(x.q.n), num(x.q.neighbors, 1), num(x.q.candidates, 1), num(x.q.ms, 3), num(x.q.us, 3)]));
+
+    lineSection("shift", SHIFT_SERIES, "Default tolerance", results.flatMap(r => Object.entries(r.shift).map(([system, data]) => {
+      const values = data.flatMap(d => [d.max, d.p99, d.median]).filter(v => v > 0);
+      const lo = Math.min(Math.floor(Math.log10(Math.min(...values, 2e-3))), -3), hi = Math.ceil(Math.log10(Math.max(...values, 2e-3)));
+      const yTicks = []; for (let e = lo; e <= hi; e++) yTicks.push(Math.pow(10, e));
+      const n = data.length;
+      return { title: label(r), sub: `${note(r)}, ${system}`,
+        head: ["Iteration", "Max", "p99", "Median", "Above tol.", "Largest total shift / h"],
+        rows: data.map(d => [d.i, d.max.toExponential(2), d.p99.toExponential(2), d.median.toExponential(2), d.above, num(d.total, 3)]),
+        draw: el => lines(el, { data, series: SHIFT_SERIES, x: "i", yLog: true, yDomain: [Math.pow(10, lo), Math.pow(10, hi)], yTicks,
+          xTicks: [...new Set([1, Math.round(n / 4), Math.round(n / 2), Math.round(3 * n / 4), n])].filter(t => t >= 1),
+          refs: [{ y: 2e-3, label: "tol." }], xLabel: "Shift iteration", fmtY: (v, p) => p ? v.toExponential(2) : sup(v),
+          tipHead: d => `Iteration ${d.i}`, aria: "Residual of the shifting per iteration",
+          tipExtra: d => `<div class="t-row"><span>Particles above tolerance</span><b>${d.above}</b></div>` }) };
+    })));
+
+    lineSection("dist", DIST_SERIES, "Merge level", results.flatMap(r => Object.entries(r.dist).map(([key, data]) => {
+      const a = data[0].x, b = data[data.length - 1].x, axis = key.split(", ").pop();
+      const series = DIST_SERIES.filter(s => data.some(d => d[s.key] !== null));
+      return { title: `${label(r)}, ${axis}`, sub: `${note(r)}, ${key.split(", ")[0]}`,
+        head: ["Strip center", "Target", "Particles (level)", "Number"],
+        rows: data.map(d => [d.x.toFixed(3), num(d.target, 2), num(d.actual, 2), d.n]),
+        draw: el => lines(el, { data, series, x: "x", yDomain: [0, 1], yTicks: [0, 0.25, 0.5, 0.75, 1],
+          xTicks: [a, (a + b) / 2, b], refs: r.merge === null ? [] : [{ y: r.merge, label: "merge" }], xLabel: axis,
+          fmtY: (v, p) => p ? v.toFixed(2) : String(v), fmtX: v => v.toFixed(2),
+          tipHead: d => `${axis} = ${d.x.toFixed(3)}`, aria: "Mean spacing level of particles and target",
+          tipExtra: d => `<div class="t-row"><span>Particles in strip</span><b>${d.n}</b></div>` }) };
+    })));
+  }
+
+  // Only show the sections with data
+  const has = { overview: true, step: DATA.some(r => r.step), rhs: DATA.some(r => r.rhs || r.step),
+    query: DATA.some(r => r.query.length), profile: profiles.length > 0,
+    shift: DATA.some(r => Object.keys(r.shift).length), dist: DATA.some(r => Object.keys(r.dist).length) };
+  Object.entries(has).forEach(([id, visible]) => {
+    $(id).hidden = !visible;
+    if (visible) $("nav").insertAdjacentHTML("beforeend", `<a href="#${id}">${esc($(id).querySelector("h2").textContent)}</a>`);
+  });
+
+  render();
+  let timer;
+  window.addEventListener("resize", () => { clearTimeout(timer); timer = setTimeout(render, 120); });
+  window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", render);
+})();
+</script>
+</body></html>
