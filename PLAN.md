@@ -101,8 +101,11 @@ benchmarks/
   run_full.jl      # phase 2: full runs, TimerOutputs per phase
   run_matrix.sh    # phase 2: all full-run configurations of one size and thread count
   summarize.py     # phase 2: table of medians of the full runs
-  ab.sh            # phase 3: measure the current state (or a commit) under a label
+  ab.sh            # phase 3, superseded by ab_interleaved.py: measure one state under a label
   compare_ab.py    # phase 3: compare the labels of ab.sh
+  ab_interleaved.py      # compare commits: warm processes that take turns (replaces ab.sh)
+  ab_worker.jl           # the Julia process of one commit and case for ab_interleaved.py
+  compare_interleaved.py # report of ab_interleaved.py (ratios per block with intervals)
   run_isolated.jl  # phase 2: BenchmarkTools on single refinement calls and kernels
   profile.jl       # phase 2: Profile and Profile.Allocs on the slowest phases
   results/         # CSV per run + summary.md, with commit hashes, threads and machine

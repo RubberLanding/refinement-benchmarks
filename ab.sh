@@ -1,4 +1,6 @@
 #!/bin/bash
+# Superseded by `ab_interleaved.py`: separate sessions are not comparable on a shared machine.
+# Kept for the results in `results/phase3`.
 # Phase 3: measure the current state of `src/` under a label, for before/after
 # comparisons in one session. Full runs (tree with per-particle radii, fast shifting,
 # 3 runs) and the isolated RHS timers of `profile.jl`, for both cases.

@@ -150,13 +150,20 @@ function write_csv(file, rows)
     end
 end
 
+# `ab_interleaved.py` measures exported sources, which are not git checkouts.
+# The file `.exported` has their commit.
+exported_commit(dir) = joinpath(dir, ".exported")
+
 function git_commit(dir)
+    file = exported_commit(dir)
+    isfile(file) && return readchomp(file)
     commit = readchomp(`git -C $dir rev-parse --short HEAD`)
     dirty = !isempty(readchomp(`git -C $dir status --porcelain --untracked-files=no`))
     return dirty ? commit * "-dirty" : commit
 end
 
 function git_branch(dir)
+    isfile(exported_commit(dir)) && return "exported"
     return readchomp(`git -C $dir rev-parse --abbrev-ref HEAD`)
 end
 
