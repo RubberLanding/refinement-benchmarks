@@ -2,10 +2,10 @@
 """Compare commits with interleaved measurements in warm processes.
 
 Run from the worktree root with
-    python3 benchmarks/ab_interleaved.py base=5b73bd7 final=c4b66ab
+    python3 benchmarks/ab_interleaved.py base=5b73bd7 final=655fd1b
 The first label is the reference. A label is `name=commit`, or `name=.` for the current
 state of `src/` (a snapshot is taken). Settings of a label follow the commit, in any order and
-separated by colons, for example `tree=c4b66ab:ratio4` or `fine=c4b66ab:min:ratio4`:
+separated by colons, for example `tree=655fd1b:ratio4` or `fine=655fd1b:min:ratio4`:
 - `min`, `max`: the uniform runs without refinement at the minimum and maximum spacing
 - `grid`, `tree_uniform`, `tree_variable`: the neighborhood search. The default is
   `tree_variable` with refinement and `grid` for the uniform runs.

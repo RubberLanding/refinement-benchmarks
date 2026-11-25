@@ -67,7 +67,7 @@ storing refined fluid are enlarged.
 ## Measured capacities (2026-11-23)
 
 Nothing in the code was changed. Measured with PointNeighbors 3bef14f, TrixiParticles
-c4b66ab (benchmark) and 0f6ef96 (experiments), 8 threads. "Fullest" is the largest number of
+655fd1b (benchmark) and 0f6ef96 (experiments), 8 threads. "Fullest" is the largest number of
 particles that any cell held, including the startup after splitting, measured with a
 capacity large enough not to overflow. "Now" is the capacity that is used now.
 A fix for both problems exists on `refinement/cell-capacity` (d79e10c, 83e8632). It is in
@@ -94,7 +94,7 @@ the fullest cell. `profile.jl` uses the same setups as `run_full.jl`.
 
 ### Capacities to use without the fix
 
-Updated 2026-11-24, measured with c4b66ab and PointNeighbors 4842a89 (`leaves.jl` and `e1.jl`,
+Updated 2026-11-24, measured with 655fd1b and PointNeighbors 4842a89 (`leaves.jl` and `e1.jl`,
 not in the repository), 21 steps after the startup. Not set in any script yet.
 
 | Run | What overflows | Fullest | `max_points_per_cell` |
@@ -189,14 +189,14 @@ ratio 2 finish without an error, and so did `test_forces.jl`. `uniform_*` runs: 
 ## Where to work
 
 Both bugs are independent of the benchmark, so the recommended base is `refinement/main`.
-`refinement/benchmark` is `refinement/main` plus 8 commits, and f9db5fa (tree capacity)
+`refinement/benchmark` is `refinement/main` plus 8 commits, and b7d0949 (tree capacity)
 exists only there. `refinement/main` has no tree method, so the tree test belongs on
 `refinement/benchmark`, after rebasing it onto the fix.
 
 - `/mnt/ssd/home/nschum25/TrixiParticles.jl` is the checkout of `refinement/main` and may be
   used by others. Create a new worktree and branch from `refinement/main`.
 - `../benchmark-measure` is for measurements. Don't edit it.
-- Six commits on `refinement/benchmark` (6b5500a to c4b66ab) are unpushed (2026-11-24) and
+- Six commits on `refinement/benchmark` (265dcd5 to 655fd1b) are unpushed (2026-11-24) and
   the user hasn't decided whether to push them. Don't push, and ask the user before rebasing.
 - `git stash` is shared between all worktrees. Use WIP commits instead.
 
@@ -250,7 +250,7 @@ Confirm that the new tests fail without the fix.
   A new worktree needs its own copies; their `[sources]` use relative paths.
 
 Out of scope: the tree's split rule, the performance work, and the item 5 decision
-(65d0799).
+(ee083ac).
 
 Report back: the rule you chose for the capacity and the measured fullest cells, the
 commits, the test results, and whether the ratio 4 run completed. The ratio 4 benchmark

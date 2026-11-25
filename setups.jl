@@ -28,7 +28,7 @@
 # - `:default`: the `ShiftingHaftu()` default (θ = 0.5, at most 100 iterations)
 # - `:fast`: `ShiftingHaftu(theta=1, max_iterations=20)`, the setting suggested by the
 #   server study (`dev/refinement_diagnostics/README.md` on `server/refinement-diagnostics`)
-# - `:fast_pst`: `:fast` with `pst_equilibrium=true` (needs 5819670)
+# - `:fast_pst`: `:fast` with `pst_equilibrium=true` (needs b8a4e7f)
 #
 # Cell capacity: cells that store the cylinder of the vortex street overflow the default of
 # 100 at `spacing_ratio >= 4` (see `HANDOFF_CELL_CAPACITY.md`). `setup` then passes

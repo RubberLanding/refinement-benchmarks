@@ -33,7 +33,7 @@ The neighborhood search is the `TreeNeighborhoodSearch` of PointNeighbors.jl
   The tree NHS (splitting rule and query, item 7) is named as future work.
 - Fixes and features that `refinement/experiments` needs for correctness usually also go to
   `refinement/benchmark` (2026-11-25), so that both measure the same method.
-- Item 5 (65d0799, average pressure over the pairs in support) stays on `refinement/benchmark`
+- Item 5 (ee083ac, average pressure over the pairs in support) stays on `refinement/benchmark`
   and doesn't go into the experiments for now (2026-11-25). Until then, the benchmarked
   pressure term differs from the one of the experiments.
 - 327b648 (interpolation) stays off this branch: it only affects evaluation, not the
@@ -70,15 +70,31 @@ The neighborhood search is the `TreeNeighborhoodSearch` of PointNeighbors.jl
 | `refinement/benchmark` | Code in `src/` that the measurements need but that isn't ready for the trunk: the timers (Phase 0), the variable search radii with the tree NHS (Phase 1), the reference shifting variant (`SHIFTING.md` step 3), candidate fixes until the data decides (Phase 3, `SHIFTING.md` step 5). |
 | not in TrixiParticles | Scripts, `run/`, results and these notes. |
 
+The commit messages of the unpushed commits were reworded on 2026-11-25. Only the hashes changed, the
+contents are the same. Recorded results, `run_accuracy.sh` and the folders in `.ab_src` use the old
+hashes; this file uses the new ones.
+
+| old | new |
+|---|---|
+| 6b5500a | 265dcd5 |
+| f9db5fa | b7d0949 |
+| 7acd1aa | ca4d0cb |
+| 65d0799 | ee083ac |
+| 21c205b | eeda08f |
+| c4b66ab | 655fd1b |
+| 251bba0 | ecee413 |
+| 5819670 | b8a4e7f |
+| 9b02352 | 4ed798a |
+
 Current state:
 - `refinement/main`: the PR stack (00–11), the vorticity criterion, the Eq. 37 free-slip
   fix, no shifting into OB zones (6a1ed36), the cell capacity (8dd9fab), the type
   stability of the shifting loops (540c784).
 - `refinement/benchmark`: + the timers (6863f05) + the variable search radii with the
   tree NHS (5b73bd7, Phase 1), pushed. On top, not to be pushed (decided 2026-11-25):
-  6b5500a, f9db5fa, 7acd1aa, 65d0799, 21c205b, c4b66ab (Phase 3, 2026-11-23), and from
-  `refinement/experiments` (2026-11-25): 251bba0 (`SummationDensity` in the pipe and
-  Taylor-Green examples, 960af49 there) and 5819670 (`pst_equilibrium`, b689757 there).
+  265dcd5, b7d0949, ca4d0cb, ee083ac, eeda08f, 655fd1b (Phase 3, 2026-11-23), and from
+  `refinement/experiments` (2026-11-25): ecee413 (`SummationDensity` in the pipe and
+  Taylor-Green examples, 960af49 there) and b8a4e7f (`pst_equilibrium`, b689757 there).
 - Worktree `../benchmark-measure` (detached) with its own `run/`, for measurements of
   a given commit while `src/` is edited (`MEASURE=../benchmark-measure benchmarks/ab.sh`).
   `runtest/` in this worktree is the environment for the tests.
@@ -394,8 +410,8 @@ Phase 3 measurements, and the default only as the reference.
   PointNeighbors, with the query benchmark of `profile.jl` (`pairs`) as the test.
 
 Status R2 and R3 (2026-11-23): done, see `results/summary.md`, "Phase 3, R2–R4". Commits
-6b5500a (item 3), f9db5fa (tree capacity fix), 7acd1aa (item 8), 65d0799 (item 5),
-21c205b (item 4), c4b66ab (item 6) on `refinement/benchmark`, not pushed. RHS −35% (TGV)
+265dcd5 (item 3), b7d0949 (tree capacity fix), ca4d0cb (item 8), ee083ac (item 5),
+eeda08f (item 4), 655fd1b (item 6) on `refinement/benchmark`, not pushed. RHS −35% (TGV)
 and −39% (pipe), step −37% and −35%. Item 5 changes results and needs a decision for
 `refinement/main`. Item 7 stays open (PointNeighbors).
 New open item: the capacity of searches that store walls finer than the coarse fluid
@@ -416,7 +432,7 @@ size small: 0.27 of the uniform fine particles, step 80.1 ms vs. 80.7 ms uniform
 ### Interleaved measurements and accuracy (2026-11-23)
 
 Size small, 8 threads, `ContinuityDensity`, PointNeighbors 7aeb2f0, base 5b73bd7, final
-c4b66ab, uniform runs with the final code. `results/interleaved/` and `results/accuracy/`.
+655fd1b, uniform runs with the final code. `results/interleaved/` and `results/accuracy/`.
 `20261123_refined_vs_uniform` was disturbed by other jobs and repeated as
 `20261123_refined_vs_uniform_2`, which is the one to cite.
 
@@ -507,7 +523,7 @@ When E1 and E2 are done, E3 passes its gate and no `src/` change is open:
 
 1. Freeze one commit with the thesis setup. It also needs the viscosity settings
    (`ViscosityMorris`, `epsilon=1e-6`) and the splitting pattern, if the settled setup uses
-   them, and a decision on 65d0799.
+   them, and a decision on ee083ac.
 2. Time budget: vortex street, ratios 2 and 4, early and developed state.
 3. Ladder on frozen states, time per particle and RHS, A and C at the finest spacing:
    A uniform with the grid, C refinement on at ratio 1 with grid and tree (the refinement
@@ -523,10 +539,10 @@ When E1 and E2 are done, E3 passes its gate and no `src/` change is open:
 Dropped: the medium and large Taylor-Green and pipe runs, the GPU.
 
 Things to watch:
-- 251bba0 changes the density calculator of the pipe and Taylor-Green cases, so timings
+- ecee413 changes the density calculator of the pipe and Taylor-Green cases, so timings
   across it compare a different method, not the code. Override the calculator
   (`density_calculator`, `fluid_density_calculator` in the pipe) to compare the code.
-- `profile.jl sections=shift,profile_shift` needs the `compute_shift!` signature of 5819670,
+- `profile.jl sections=shift,profile_shift` needs the `compute_shift!` signature of b8a4e7f,
   so use the scripts of 680d0e3 for older commits.
 - `profile.jl` and `check_variable_radii.jl` take `pst_equilibrium` from the refinement.
 
