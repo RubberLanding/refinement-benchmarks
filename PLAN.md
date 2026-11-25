@@ -473,6 +473,30 @@ iterations) mostly doesn't.
 6. `profile.jl` on the three largest sections. Rank candidates by the guideline. The pressure
    loop isn't touched.
 
+### Pilot (2026-11-25)
+
+Vortex street, small, ratio 2, tree, `shifting=fast`, 8 threads, to t = 8
+(`results/pilot/20261125_vortex_ratio2`, `pilot.jl`). No overflow or failure. 10,559 fluid
+particles after the startup, a peak of 15,731 at t = 2.9, then 14,600 to 15,250 (mean about
+14,950) from t = 3.5 to 8. Judged by the particle count, the state is developed from t of 3.5 to 4
+(3,440 steps to t = 4, 10 minutes of stepping on a loaded machine). The periodicity of the shedding
+wasn't checked. The early state has 42% fewer particles than that.
+
+### Candidate: fluid neighbors of density, beta and average pressure in one loop
+
+Not implemented: it changes the average pressure loop, which isn't touched until the momentum
+drift is settled. One RHS searches the fluid neighbors three times (density; average pressure and
+beta; interaction), and the first two could share one search.
+- Order in the RHS: density (`update_quantities!`), wall pressure (`update_boundary_interpolation!`,
+  needs the fluid density), average pressure and beta (`update_final!`, needs the wall pressure).
+- The density loop could also sum beta (needs only distance, `h_a` and mass; the division by the
+  density comes in `finalize_beta!`) and the pressure of fluid neighbors (an integrated quantity).
+  The wall part of the average pressure stays in a later loop over the wall neighbors only.
+- Open: whether the pressure of the open boundary is known before the density loop.
+- Estimated gain: one fluid search is about 15% of the RHS in a tiny profile (0.93 of 6.1 ms, one
+  noisy run), so at most about 11% of the step; a guess is 7 to 10%. Uniform runs could gain too.
+- Must keep the average pressure bitwise or up to rounding, and the pairs that it counts.
+
 ### While the experiments run
 
 For every fix in `src/`, an interleaved before/after run of only that fix (about 15 minutes).
