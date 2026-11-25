@@ -36,6 +36,8 @@ The neighborhood search is the `TreeNeighborhoodSearch` of PointNeighbors.jl
 - Item 5 (65d0799, average pressure over the pairs in support) stays on `refinement/benchmark`
   and doesn't go into the experiments for now (2026-11-25). Until then, the benchmarked
   pressure term differs from the one of the experiments.
+- 327b648 (interpolation) stays off this branch: it only affects evaluation, not the
+  simulation, and the benchmarks don't interpolate (2026-11-25).
 - No work in the pressure loop until the momentum drift is settled (2026-11-25).
 - Shifting: the experiments use the same setting as the benchmarks, θ = 1 with 20 iterations
   (`shifting=fast`, 2026-11-25). Not changed in the experiments yet, see "Phase 4".
@@ -457,14 +459,15 @@ iterations) mostly doesn't.
      per label, default `--pn` 4842a89.
    - `run_full.jl`, `profile.jl`: ratio 1 (refinement on, nothing to refine), and a developed
      state (simulate, then copy; `restart_with` isn't supported with refinement).
-   - A script for grid and tree on the same particle state, based on
-     `check_variable_radii.jl`: build, query with an empty loop body, full RHS.
    - The size of the search structures once per run.
 2. Pilot: particle count over time in the vortex street, to find when it levels off.
 3. Time budget: vortex street, size small, ratio 2, early state (after 20 steps), 8 threads,
    `SerialUpdate()`, `shifting=fast`, 100 steps, 3 runs. All sections in ms and percent, the
    startup separately. Report per step, per simulated time, and the startup.
-4. Grid and tree on the same state.
+4. Fastest setup with refinement: the same refined case with the grid and the tree (and other
+   settings of the setup), with `ab_interleaved.py` and the wall time per simulated time. The
+   tree is being developed and the grid is a backup, so this is not a benchmark of the
+   searches. It only matters whether the grid is faster for some setup (2026-11-25).
 5. Tree settings on that state (`pruning`, `capacity`, `max_level`), with identical pairs
    required. Optimizing the tree itself is out of scope.
 6. `profile.jl` on the three largest sections. Rank candidates by the guideline. The pressure
@@ -486,7 +489,7 @@ When E1 and E2 are done, E3 passes its gate and no `src/` change is open:
    A uniform with the grid, B uniform with the tree (A to B: the tree), C refinement on at
    ratio 1 with grid and tree (the refinement code), D ratios 2 and 4 with grid and tree
    (the grading).
-4. Grid against tree, profiles, and the final candidates, each accepted by an interleaved
+4. Fastest setup (as in stage 1), profiles, and the final candidates, each accepted by an interleaved
    comparison and an accuracy check if results change beyond rounding.
 5. Scaling (1, 8, 32 threads; small and medium), interval and `ParallelUpdate()` checks if
    time remains.
@@ -504,13 +507,12 @@ Things to watch:
 - `profile.jl` and `check_variable_radii.jl` take `pst_equilibrium` from the refinement.
 
 Open:
-- The experiments branch doesn't have the shifting setting yet: E1 is to be rewritten anyway,
-  and E2 is in the Poiseuille investigation (its fixed runs use the default θ), so E3 is the
-  first that can change.
-- Whether 327b648 (interpolation with the smoothing length of each particle) and d67a555
-  (`ParticleRefinementCallback` in the vortex street example) from `refinement/experiments`
-  also go to this branch. The second replaces the manual callback of the example, which the
-  benchmark overrides already.
+- The experiments don't have the shifting setting yet. They aren't touched from here until the
+  user says so (2026-11-25).
+- Whether d67a555 (`ParticleRefinementCallback` in the vortex street example) from
+  `refinement/experiments` also goes to this branch. It replaces the manual callback of the
+  example, which the benchmark overrides already.
+- Whether run B of the ladder (uniform with the tree) is still wanted.
 - Whether the 1-thread runs and `run_isolated.jl` are still wanted.
 - The startup and shifting notes in `SHIFTING.md` are not revisited.
 
