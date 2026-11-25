@@ -28,6 +28,12 @@
 # - `:default`: the `ShiftingHaftu()` default (θ = 0.5, at most 100 iterations)
 # - `:fast`: `ShiftingHaftu(theta=1, max_iterations=20)`, the setting suggested by the
 #   server study (`dev/refinement_diagnostics/README.md` on `server/refinement-diagnostics`)
+# - `:fast_pst`: `:fast` with `pst_equilibrium=true` (needs 5819670)
+#
+# Cell capacity: cells that store the cylinder of the vortex street overflow the default of
+# 100 at `spacing_ratio >= 4` (see `HANDOFF_CELL_CAPACITY.md`). `setup` then passes
+# a larger `max_points_per_cell` (see `cell_capacity`), which can be overridden with
+# `max_points_per_cell`.
 #
 # `update_strategy=SerialUpdate()` by default, since runs with `ParallelUpdate()` differ
 # in the particle count (see `PLAN.md`, "Reproducibility").
@@ -74,12 +80,25 @@ function tree_max_level(fluid_system)
     return max(floor(Int, log2(radius_max / radius_min)), 0)
 end
 
+# The capacity of the template cell list. The numbers were measured for sizes up to `small`
+# (fullest cell: 152 particles at ratio 4, 607 at ratio 8); the capacity of searches that
+# store refined fluid is larger and chosen by TrixiParticles.
+# At ratio 3, the cylinder needs about 85.
+function cell_capacity(case, refinement, spacing_ratio)
+    (case === :vortex_street && refinement === :on) || return 100
+    spacing_ratio <= 3 && return 100
+    spacing_ratio <= 4 && return 200
+    spacing_ratio <= 8 && return 700
+
+    throw(ArgumentError("pass `max_points_per_cell` for `spacing_ratio` $spacing_ratio"))
+end
+
 function template_nhs(kind, min_corner, max_corner, max_level, update_strategy;
-                      periodic_box=nothing)
+                      periodic_box=nothing, max_points_per_cell=100)
     NDIMS = length(min_corner)
 
     if kind === :grid
-        cell_list = FullGridCellList(; min_corner, max_corner)
+        cell_list = FullGridCellList(; min_corner, max_corner, max_points_per_cell)
         return GridNeighborhoodSearch{NDIMS}(; cell_list, update_strategy, periodic_box)
     elseif kind === :tree_uniform
         # With `QueryRadius()` and `max_level=0`, all particles have the uniform radius
@@ -87,11 +106,11 @@ function template_nhs(kind, min_corner, max_corner, max_level, update_strategy;
         # These leaves can't be split, so they need more than the default 100 points:
         # in the refined zones of the pipe flow, a root cell holds more than 100.
         cell_list = TreeCellList(; min_corner, max_corner, max_level=0,
-                                 max_points_per_cell=400)
+                                 max_points_per_cell=max(400, max_points_per_cell))
         return TreeNeighborhoodSearch{NDIMS}(; cell_list, periodic_box, update_strategy,
                                              neighbor_criterion=QueryRadius())
     elseif kind === :tree_variable
-        cell_list = TreeCellList(; min_corner, max_corner, max_level)
+        cell_list = TreeCellList(; min_corner, max_corner, max_level, max_points_per_cell)
         return TreeNeighborhoodSearch{NDIMS}(; cell_list, periodic_box, update_strategy,
                                              neighbor_criterion=MaximumRadius())
     end
@@ -101,7 +120,8 @@ end
 
 function setup(case; size=:tiny, nhs=:tree_variable, refinement=:on,
                update_strategy=SerialUpdate(), parallelization_backend=PolyesterBackend(),
-               refinement_interval=10, shifting=:default, kwargs...)
+               refinement_interval=10, shifting=:default, max_points_per_cell=nothing,
+               kwargs...)
     max_spacing = spacing_of(case, size)
     shifting_technique = shifting_technique_of(shifting)
 
@@ -121,8 +141,13 @@ function setup(case; size=:tiny, nhs=:tree_variable, refinement=:on,
 
     fluid_system = first(systems)
     max_level = tree_max_level(fluid_system)
-    neighborhood_search = template_nhs(nhs, min_corner, max_corner, max_level,
-                                       update_strategy; periodic_box)
+    if isnothing(max_points_per_cell)
+        max_points_per_cell = cell_capacity(case, refinement, get(kwargs, :spacing_ratio, 2))
+    end
+    # Also returned, to get the template NHS of another kind for the same systems
+    nhs_of(kind) = template_nhs(kind, min_corner, max_corner, max_level, update_strategy;
+                                periodic_box, max_points_per_cell)
+    neighborhood_search = nhs_of(nhs)
 
     semi = Semidiscretization(systems...; neighborhood_search, parallelization_backend)
     ode = semidiscretize(semi, tspan)
@@ -130,15 +155,19 @@ function setup(case; size=:tiny, nhs=:tree_variable, refinement=:on,
     meta = (; case, size=string(size), max_spacing, nhs, refinement, shifting,
             update_strategy=nameof(typeof(update_strategy)),
             backend=nameof(typeof(parallelization_backend)), refinement_interval,
-            max_level, n_initial=length(TP.each_active_particle(fluid_system)),
+            max_level, max_points_per_cell,
+            n_initial=length(TP.each_active_particle(fluid_system)),
             options=join(("$key=$value" for (key, value) in pairs(kwargs)), " "))
 
-    return (; ode, result.callbacks, result.alg, result.solve_kwargs, meta)
+    return (; ode, result.callbacks, result.alg, result.solve_kwargs, meta, nhs_of)
 end
 
 shifting_technique_of(shifting) = shifting === :default ? nothing :
                                   shifting === :fast ?
                                   ShiftingHaftu(theta=1.0, max_iterations=20) :
+                                  shifting === :fast_pst ?
+                                  ShiftingHaftu(theta=1.0, max_iterations=20,
+                                                pst_equilibrium=true) :
                                   throw(ArgumentError("unknown shifting `$shifting`"))
 
 # The examples construct `ParticleRefinement` without `shifting_technique`. Include the

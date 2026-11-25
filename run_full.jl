@@ -109,11 +109,13 @@ function measure(config, case, steps)
 
     timer = deepcopy(TP.timer())
     n_end = n_active(integrator.p.semi)
+    # The memory of all neighborhood searches at the end of the run
+    nhs_bytes = Base.summarysize(integrator.p.semi.neighborhood_search_handler)
 
     run = (; time_init, time_steps, steps=integrator.stats.naccept,
            rejected=integrator.stats.nreject, rhs_evaluations=integrator.stats.nf,
            t_end=integrator.t, n_initial=meta.n_initial, n_startup=last(first(n_startup)),
-           n_end=last(first(n_end)), n_total_end=sum(last, n_end))
+           n_end=last(first(n_end)), n_total_end=sum(last, n_end), nhs_bytes)
 
     return (; run, timer, counts, meta)
 end

@@ -8,8 +8,9 @@
 #   quit
 # Everything else that the process prints goes to the log file.
 #
-# Arguments (`key=value`): `case`, `size`, `nhs`, `refinement`, `shifting`, `steps`, `rhs_calls`,
-# `advance` (steps before the state of the RHS calls), `commit`, `pn_commit`, `out`.
+# Arguments (`key=value`): `case`, `size`, `nhs`, `refinement`, `shifting`, `ratio` (only for
+# the vortex street, see `setups.jl`), `steps`, `rhs_calls`, `advance` (steps before the
+# state of the RHS calls), `commit`, `pn_commit`, `out`.
 #
 # Output in `out`, one set of files per file prefix (empty for the measured blocks,
 # `block0_` for the discarded first block), with a column `block` in each:
@@ -20,7 +21,7 @@ include("profile.jl")
 
 const WORKER_DEFAULTS = Dict("case" => "taylor_green", "size" => "small",
                              "nhs" => "tree_variable", "refinement" => "on",
-                             "shifting" => "fast",
+                             "shifting" => "fast", "ratio" => "",
                              "steps" => "100", "rhs_calls" => "100", "advance" => "20",
                              "commit" => "", "pn_commit" => "", "out" => "")
 
@@ -149,9 +150,11 @@ function worker_main(args)
         config[key] = value
     end
     size = something(tryparse(Float64, config["size"]), Symbol(config["size"]))
+    ratio = isempty(config["ratio"]) ? (;) :
+            (; spacing_ratio=parse(Int, config["ratio"]))
     case = setup(Symbol(config["case"]); size, nhs=Symbol(config["nhs"]),
                  refinement=Symbol(config["refinement"]), shifting=Symbol(config["shifting"]),
-                 update_strategy=SerialUpdate())
+                 update_strategy=SerialUpdate(), ratio...)
 
     # The examples define closures in `trixi_include`, which are newer than this function
     return Base.invokelatest(worker_loop, config, case)

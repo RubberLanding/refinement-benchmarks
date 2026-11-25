@@ -4,8 +4,14 @@
 Run from the worktree root with
     python3 benchmarks/ab_interleaved.py base=5b73bd7 final=c4b66ab
 The first label is the reference. A label is `name=commit`, or `name=.` for the current
-state of `src/` (a snapshot is taken). `name=commit:min` and `name=commit:max` are the uniform
-runs without refinement at the minimum and maximum spacing (with the grid NHS).
+state of `src/` (a snapshot is taken). Settings of a label follow the commit, in any order and
+separated by colons, for example `tree=c4b66ab:ratio4` or `fine=c4b66ab:min:ratio4`:
+- `min`, `max`: the uniform runs without refinement at the minimum and maximum spacing
+- `grid`, `tree_uniform`, `tree_variable`: the neighborhood search. The default is
+  `tree_variable` with refinement and `grid` for the uniform runs.
+- `ratioN`: the spacing ratio of the vortex street (default: that of `setups.jl`). It has no
+  effect on the other cases. A uniform run at `min` needs the ratio of the refined run.
+- `default`, `fast`, `fast_pst`: the shifting of the refinement (default `fast`)
 
 One Julia process per label and case is started and compiles once. Then the processes take
 turns, in alternating order (A B, B A, ...), while the others wait. In its turn, a process
@@ -33,8 +39,8 @@ Options:
     --threads N      default 8
     --cpus LIST      `auto` (default: the quietest 8 neighboring cores), `none`,
                      or a list such as `48-55`
-    --pn COMMIT      PointNeighbors commit, default `7aeb2f0` (the one of the Phase 2 and
-                     Phase 3 results)
+    --pn COMMIT      PointNeighbors commit, default `4842a89`. The Phase 2 and Phase 3 results
+                     use `7aeb2f0`, where the grid doesn't report a cell overflow.
     --steps N        steps per full run, default 100
     --rhs-calls N    RHS evaluations per turn, default 100
     --name NAME      name of the output directory in `results/interleaved`
@@ -109,12 +115,28 @@ def environment(source, pn_source):
 
 
 def prepare(spec, pn_source):
-    """Source directory and commit text of a label."""
+    """Name, commit text, source directory and settings of a label."""
     name, _, what = spec.partition("=")
-    what, _, refinement = what.partition(":")
-    refinement = refinement or "on"
-    if refinement not in ("on", "min", "max"):
-        sys.exit(f"`{spec}`: unknown refinement `{refinement}`")
+    what, *tokens = what.split(":")
+    settings = {}
+    for token in tokens:
+        if token in ("on", "min", "max"):
+            key, value = "refinement", token
+        elif token in ("grid", "tree_uniform", "tree_variable"):
+            key, value = "nhs", token
+        elif token in ("default", "fast", "fast_pst"):
+            key, value = "shifting", token
+        elif re.fullmatch(r"ratio\d+", token):
+            key, value = "ratio", token.removeprefix("ratio")
+        else:
+            sys.exit(f"`{spec}`: unknown setting `{token}`")
+        if key in settings:
+            sys.exit(f"`{spec}`: `{key}` is set twice")
+        settings[key] = value
+    settings.setdefault("refinement", "on")
+    settings.setdefault("nhs", "tree_variable" if settings["refinement"] == "on" else "grid")
+    settings.setdefault("shifting", "fast")
+    settings.setdefault("ratio", "")
     if not re.fullmatch(r"\w[\w.-]*", name) or not what:
         sys.exit(f"`{spec}` is not `name=commit`")
     if what == ".":
@@ -139,7 +161,7 @@ def prepare(spec, pn_source):
         export(REPO, commit, source)
         text = commit
     environment(source, pn_source)
-    return name, text, source, refinement
+    return name, text, source, settings
 
 
 # ==========================================================================================
@@ -215,15 +237,15 @@ def die_with_parent():
 
 
 class Worker:
-    def __init__(self, label, case, source, commit, refinement, pn_commit, out, options):
+    def __init__(self, label, case, source, commit, settings, pn_commit, out, options):
         self.label, self.case = label, case
         self.out = out / label / case
         self.out.mkdir(parents=True)
         self.log = open(self.out / "worker.log", "w")
         command = ["julia", f"--project={source / 'run'}", "-t", str(options.threads),
                    str(BENCH / "ab_worker.jl"), f"case={case}", f"size={options.size}",
-                   f"refinement={refinement}",
-                   f"nhs={'tree_variable' if refinement == 'on' else 'grid'}",
+                   *(f"{key}={value}" for key, value in settings.items()
+                     if key != "ratio" or case == "vortex_street"),
                    f"steps={options.steps}", f"rhs_calls={options.rhs_calls}",
                    f"commit={commit}", f"pn_commit={pn_commit}", f"out={self.out}"]
         self.process = subprocess.Popen(command, stdin=subprocess.PIPE,
@@ -335,7 +357,7 @@ def main():
     parser.add_argument("--aa", action="store_true")
     parser.add_argument("--threads", type=int, default=8)
     parser.add_argument("--cpus", default="auto")
-    parser.add_argument("--pn", default="7aeb2f0")
+    parser.add_argument("--pn", default="4842a89")
     parser.add_argument("--steps", type=int, default=100)
     parser.add_argument("--rhs-calls", type=int, default=100)
     parser.add_argument("--name")
@@ -368,7 +390,7 @@ def main():
     session = Session(options, out, cpus)
 
     info = {"date": datetime.now().isoformat(timespec="seconds"), "cases": cases,
-            "labels": [{"name": n, "commit": c, "refinement": r} for n, c, _, r in labels],
+            "labels": [{"name": n, "commit": c, **s} for n, c, _, s in labels],
             "reference": labels[0][0],
             "aa": labels[-1][0] if options.aa else None,
             "pointneighbors": pn_commit, "cpus": cpus, "size": options.size,
@@ -380,8 +402,8 @@ def main():
     try:
         print(f"Starting {len(labels) * len(cases)} workers, output in {out}", flush=True)
         for case in cases:
-            for name, commit, source, refinement in labels:
-                session.workers.append(Worker(name, case, source, commit, refinement,
+            for name, commit, source, settings in labels:
+                session.workers.append(Worker(name, case, source, commit, settings,
                                               pn_commit, out, options))
         for worker in session.workers:
             worker.wait()
