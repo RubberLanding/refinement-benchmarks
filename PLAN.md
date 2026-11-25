@@ -480,7 +480,7 @@ Vortex street, small, ratio 2, tree, `shifting=fast`, 8 threads, to t = 8
 particles after the startup, a peak of 15,731 at t = 2.9, then 14,600 to 15,250 (mean about
 14,950) from t = 3.5 to 8. Judged by the particle count, the state is developed from t of 3.5 to 4
 (3,440 steps to t = 4, 10 minutes of stepping on a loaded machine). The periodicity of the shedding
-wasn't checked. The early state has 42% fewer particles than that.
+wasn't checked. The developed state has 42% more particles than the state after the startup.
 
 ### Candidate: fluid neighbors of density, beta and average pressure in one loop
 
