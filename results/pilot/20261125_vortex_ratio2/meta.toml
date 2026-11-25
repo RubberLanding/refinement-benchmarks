@@ -1,0 +1,25 @@
+date = "2026-11-25T13:13:30.869"
+case = "vortex_street"
+size = "small"
+max_spacing = "0.014285714285714285"
+nhs = "tree_variable"
+refinement = "on"
+shifting = "fast"
+update_strategy = "SerialUpdate"
+backend = "PolyesterBackend"
+refinement_interval = "10"
+max_level = "1"
+max_points_per_cell = "100"
+n_initial = "9748"
+options = "tspan=(0.0, 8.0) spacing_ratio=2"
+steps = until t=8.0
+runs = 1
+warmup = false
+trixiparticles = "refinement/benchmark 5819670"
+pointneighbors = "ef/tree-parallel 4842a89"
+benchmarks = "82ad27d"
+julia = "1.13.4"
+threads = 8
+hostname = "pcm016"
+cpu = "AMD Ryzen Threadripper 3990X 64-Core Processor"
+loadavg = "77.8 42.7 32.0"
