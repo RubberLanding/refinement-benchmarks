@@ -533,6 +533,34 @@ Vortex street, small, ratio 2, 20 steps, 8 threads, quiet machine. Session
   took the RHS from 8.6 to 6.0 ms with the tree and from 7.6 to 5.2 ms with the grid with the `@inline`.
   Developed state, load rising to 36: 19.5 to 14.6 ms (tree) and 17.1 to 13.3 ms (grid).
 
+### Ratio 4 and 8, with pruning (2026-11-25)
+
+Interleaved sessions `20261125_search_ratio4` and `_ratio8` (92fef57, PointNeighbors 4842a89, size small, early
+state: 100 steps after the startup, 8 threads), plus `profile.jl` for each search. Tree and pruned tree do the same work (same
+steps, RHS evaluations and particle counts); the grid takes slightly different steps, so compare with it by the
+wall time per simulated time. Compared with the grid:
+
+| | ratio 4, 8 blocks (1 clean) | ratio 8, 5 blocks (all clean) |
+|---|---|---|
+| step time grid / tree / pruned [ms] (median) | 214 / 196 / 153 | 666 / 486 / 385 |
+| wall time per simulated time: tree / pruned | -12% / -30% | -30% / -44% |
+| refinement call: tree / pruned | -16% / -35% | -36% / -49% |
+
+In the only clean block of ratio 4 the step time is 202 / 180 / 138 ms. A/A noise 0.8% and 1.1%. Ratio 2 with
+pruning is not measured; without pruning the grid was about 6% faster per step there.
+
+Fluid-fluid neighbors per particle within the largest radius: 81 (ratio 4) and 308 (ratio 8), of which 27 and 28
+are in support. Empty search (grid / tree / pruned): ratio 8 10.0 / 8.1 / 3.9 ms, ratio 4 3.0 / 4.0 / 2.1 ms
+(the tree profile at ratio 4 was disturbed). Fluid particles in root-size tree cells: 96% and 85%.
+
+**Fluid-cylinder pair:** it does not use the radii (`uses_variable_search_radius` needs both systems variable,
+the cylinder has a constant smoothing length), so every fluid particle searches it with the largest radius,
+whichever search is used. Ratio 8: 109 cylinder particles per fluid particle, 0.3 in support; the pair is
+5.5 ms of 13.7 ms of the interaction with pruning (density and average pressure may have the same problem, not
+split). Reasons: the cylinder is a full disc (2464 particles at ratio 8), and the search radius is that of the
+coarse fluid. Ideas, not implemented: a cylinder of only a few layers (example), a per-particle query radius for
+walls with a small constant smoothing length (code; not checked whether the pairs need the larger support).
+
 ### While the experiments run
 
 For every fix in `src/`, an interleaved before/after run of only that fix (about 15 minutes).
