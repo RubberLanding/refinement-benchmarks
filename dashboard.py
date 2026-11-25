@@ -54,6 +54,7 @@ def rhs_segments(times):
         "shifting": get(UPDATE + "update shifting"),
         "avgp": (get(UPDATE + "compute average pressure") + get(UPDATE + "compute beta") +
                  get(UPDATE + "compute average pressure and beta")),
+        "density": get(UPDATE + "compute density"),
         "nhs": get(UPDATE + "update nhs"),
     }
     segs["other"] = max(get("kick!") - sum(segs.values()), 0.0)

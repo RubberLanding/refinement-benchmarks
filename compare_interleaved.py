@@ -39,6 +39,7 @@ RHS_SECTIONS = (
     ("avg. pressure", "kick! / update systems and nhs / compute average pressure"),
     ("beta", "kick! / update systems and nhs / compute beta"),
     ("avg. pressure + beta", "kick! / update systems and nhs / compute average pressure and beta"),
+    ("density", "kick! / update systems and nhs / compute density"),
     ("update nhs", "kick! / update systems and nhs / update nhs"),
 )
 

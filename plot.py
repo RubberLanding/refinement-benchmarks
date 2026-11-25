@@ -25,6 +25,7 @@ SECTIONS = (
     ("update shifting", (UPDATE + "update shifting",), "#66CCEE"),
     ("avg. pressure + beta", (UPDATE + "compute average pressure", UPDATE + "compute beta",
                               UPDATE + "compute average pressure and beta"), "#228833"),
+    ("density", (UPDATE + "compute density",), "#EE8866"),
     ("update nhs", (UPDATE + "update nhs",), "#CCBB44"),
     ("rest of RHS", None, "#BBBBBB"),
     ("refinement", ("refinement",), "#EE6677"),
