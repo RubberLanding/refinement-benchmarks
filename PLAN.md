@@ -5,10 +5,12 @@ Originally created from `refinement/integration` (db093f603); that branch is ret
 (2026-11-22) and `refinement/main` is the trunk of the refinement work.
 Results go to `benchmarks/results/`.
 
-Goal: find where refinement spends its time and fix the cheap bottlenecks.
+Goal: find where refinement spends its time, directly (refinement call) and indirectly (more
+expensive RHS), and fix what is easy (see "Phase 4"). Uniform runs are only a reference;
+comparing wall times with them is a possible experiment, not part of benchmarking.
 The neighborhood search is the `TreeNeighborhoodSearch` of PointNeighbors.jl
-`ef/tree-parallel` (1e65a4a), dev'd in `run/` as `../../PointNeighbors.jl`,
-with one search radius per particle.
+`ef/tree-parallel` (originally 1e65a4a, 4842a89 since 2026-11-23), dev'd in `run/` as
+`../../PointNeighbors.jl`, with one search radius per particle.
 
 ## Decisions
 
@@ -24,8 +26,33 @@ with one search radius per particle.
 - The variable search radii stay on this branch; no PR yet.
 - Shifting is investigated in `SHIFTING.md` (since 2026-11-17). The first timings show
   it as ~90% of the refinement time with ~98 of at most 100 iterations per call.
-- Measurements on CPU first, then GPU. Scripts and code are prepared for the GPU from
-  the start.
+- Measurements on the CPU only (2026-11-24). The GPU is out of scope, see "GPU preparation".
+- Thesis scope (2026-11-24): the thesis implements refinement in TrixiParticles. It doesn't
+  have to be optimized; showing a faster run than the uniform fine one at the same error
+  would be nice, but isn't required. The benchmarks show the cost and where the time goes.
+  The tree NHS (splitting rule and query, item 7) is named as future work.
+- Fixes and features that `refinement/experiments` needs for correctness usually also go to
+  `refinement/benchmark` (2026-11-25), so that both measure the same method.
+- Item 5 (65d0799, average pressure over the pairs in support) stays on `refinement/benchmark`
+  and doesn't go into the experiments for now (2026-11-25). Until then, the benchmarked
+  pressure term differs from the one of the experiments.
+- No work in the pressure loop until the momentum drift is settled (2026-11-25).
+- Shifting: the experiments use the same setting as the benchmarks, θ = 1 with 20 iterations
+  (`shifting=fast`, 2026-11-25). Not changed in the experiments yet, see "Phase 4".
+- Broad guideline for "easy" optimizations (2026-11-25): estimated gain of at least about 5% of
+  the step or 20% of the startup, at most about a day of work, in TrixiParticles or a setting,
+  results unchanged up to rounding or re-checked. Estimate the gain first (share of the
+  section times plausible reduction). Stop when no easy item reaches about 5%.
+- Order for accuracy against speed (2026-11-25): (1) a bug or instability is fixed at any cost;
+  (2) does it matter for what is reported, over the longest run needed; (3) does it vanish with
+  resolution (only a floor needs the fix); (4) is the fix cheaper than finer spacing for the
+  same error (cost scales with Δx⁻³ in 2D); (5) if still unclear, an option that is off by
+  default, with its price and the limitation in the thesis.
+- `refinement/cell-capacity` isn't merged for now. Cases that overflow get a larger
+  `max_points_per_cell`: 200 for the vortex street at ratio 4, see
+  `HANDOFF_CELL_CAPACITY.md`.
+- Timings that decide something or are reported are interleaved (`ab_interleaved.py`, two
+  sessions plus `--aa`). Separate sessions are not comparable on pcm016.
 - The GPU compatibility (81e7dd9) is not ready for upstream. It stays on its own branch
   `refinement/gpu-compat` (based on 6a1ed36) and is neither on `refinement/main` nor on
   `refinement/benchmark` (2026-11-22). Phase 1 does not depend on it.
@@ -46,8 +73,10 @@ Current state:
   fix, no shifting into OB zones (6a1ed36), the cell capacity (8dd9fab), the type
   stability of the shifting loops (540c784).
 - `refinement/benchmark`: + the timers (6863f05) + the variable search radii with the
-  tree NHS (5b73bd7, Phase 1), pushed. On top, not pushed (Phase 3, 2026-11-23):
-  6b5500a, f9db5fa, 7acd1aa, 65d0799, 21c205b, c4b66ab (see Phase 3).
+  tree NHS (5b73bd7, Phase 1), pushed. On top, not to be pushed (decided 2026-11-25):
+  6b5500a, f9db5fa, 7acd1aa, 65d0799, 21c205b, c4b66ab (Phase 3, 2026-11-23), and from
+  `refinement/experiments` (2026-11-25): 251bba0 (`SummationDensity` in the pipe and
+  Taylor-Green examples, 960af49 there) and 5819670 (`pst_equilibrium`, b689757 there).
 - Worktree `../benchmark-measure` (detached) with its own `run/`, for measurements of
   a given commit while `src/` is edited (`MEASURE=../benchmark-measure benchmarks/ab.sh`).
   `runtest/` in this worktree is the environment for the tests.
@@ -382,15 +411,113 @@ Status R4 (2026-11-23): vortex street added (`case=vortex_street`, `ratio=`). At
 size small: 0.27 of the uniform fine particles, step 80.1 ms vs. 80.7 ms uniform at
 `min_spacing`, break-even. Ratio 4 blocked by the wall capacity bug.
 
-### After R1–R4
+### Interleaved measurements and accuracy (2026-11-23)
 
-Medium and large sizes (`run_matrix.sh`), then 1 thread, then the GPU. Before/after
-numbers for each applied optimization go to `results/summary.md`.
+Size small, 8 threads, `ContinuityDensity`, PointNeighbors 7aeb2f0, base 5b73bd7, final
+c4b66ab, uniform runs with the final code. `results/interleaved/` and `results/accuracy/`.
+`20261123_refined_vs_uniform` was disturbed by other jobs and repeated as
+`20261123_refined_vs_uniform_2`, which is the one to cite.
+
+| | step, uniform fine | step, refined final | wall time per simulated time vs. uniform fine |
+|---|---|---|---|
+| Taylor-Green | 54.4 ms | 132.3 ms | 1.23 |
+| pipe flow | 16.2 ms | 71.0 ms | 7.0 (first 100 steps) |
+
+- Taylor-Green's 1.23 depends on the refined `dtmax`, which comes from the coarse h. Uniform
+  fine with twice its `dtmax` has the same error, which makes the refined run about 2.4
+  times slower.
+- Base to final: the step time drops by 33% (Taylor-Green) and 35% (pipe).
+- An RHS costs 3.4 (Taylor-Green) and 4.3 times (pipe) as much per particle as a uniform one.
+- The profiles suggest that the tree query is 58% (Taylor-Green) and 41% (pipe) of the RHS
+  (estimates from single runs).
+- Refined Taylor-Green had 3.4% L2 velocity error at t = 1 (uniform coarse 1.0%, fine 0.4%),
+  and the refined pipe blew up at t = 1.63–1.71. `SummationDensity` fixes the blow-up but
+  not the Taylor-Green error.
+- The Taylor-Green error has several causes, investigated on `refinement/debug-tgv`:
+  `ViscosityAdami` with unequal masses, the PST term of the momentum equation without
+  `pst_equilibrium`, and the viscosity `epsilon = 0.01`. Grading is still open.
+
+These timings use `ContinuityDensity` and the older setup, so they don't describe the
+thesis setup. They must not be cited as a speedup of a working refined run.
+
+## Phase 4: Where refinement spends its time (rewritten 2026-11-25)
+
+Replaces the plan of 2026-11-24. Two stages, since the experiments still change `src/`.
+
+### Stage 1: now
+
+Code: `refinement/benchmark`, PointNeighbors 4842a89. One rough time budget. The exact
+numbers get stale when `src/` changes, the structure (which loops, search cost, shifting
+iterations) mostly doesn't.
+
+1. Prepare the scripts (no timings, independent of the open investigations):
+   - `setups.jl`: capacity 200 for the vortex street at ratio 4 (700 at ratio 8), and a
+     shifting option with `pst_equilibrium=true`.
+   - `ab_interleaved.py`, `ab_worker.jl`: pass `ratio` to the vortex street, choose the NHS
+     per label, default `--pn` 4842a89.
+   - `run_full.jl`, `profile.jl`: ratio 1 (refinement on, nothing to refine), and a developed
+     state (simulate, then copy; `restart_with` isn't supported with refinement).
+   - A script for grid and tree on the same particle state, based on
+     `check_variable_radii.jl`: build, query with an empty loop body, full RHS.
+   - The size of the search structures once per run.
+2. Pilot: particle count over time in the vortex street, to find when it levels off.
+3. Time budget: vortex street, size small, ratio 2, early state (after 20 steps), 8 threads,
+   `SerialUpdate()`, `shifting=fast`, 100 steps, 3 runs. All sections in ms and percent, the
+   startup separately. Report per step, per simulated time, and the startup.
+4. Grid and tree on the same state.
+5. Tree settings on that state (`pruning`, `capacity`, `max_level`), with identical pairs
+   required. Optimizing the tree itself is out of scope.
+6. `profile.jl` on the three largest sections. Rank candidates by the guideline. The pressure
+   loop isn't touched.
+
+### While the experiments run
+
+For every fix in `src/`, an interleaved before/after run of only that fix (about 15 minutes).
+
+### Stage 2: after the code freeze
+
+When E1 and E2 are done, E3 passes its gate and no `src/` change is open:
+
+1. Freeze one commit with the thesis setup. It also needs the viscosity settings
+   (`ViscosityMorris`, `epsilon=1e-6`) and the splitting pattern, if the settled setup uses
+   them, and a decision on 65d0799.
+2. Time budget: vortex street, ratios 2 and 4, early and developed state.
+3. Ladder on frozen states, time per particle and RHS, A to C at the finest spacing:
+   A uniform with the grid, B uniform with the tree (A to B: the tree), C refinement on at
+   ratio 1 with grid and tree (the refinement code), D ratios 2 and 4 with grid and tree
+   (the grading).
+4. Grid against tree, profiles, and the final candidates, each accepted by an interleaved
+   comparison and an accuracy check if results change beyond rounding.
+5. Scaling (1, 8, 32 threads; small and medium), interval and `ParallelUpdate()` checks if
+   time remains.
+6. Numbers for the thesis and hand-off notes in `results/summary.md`. Pipe flow and
+   Taylor-Green only as checks that the findings aren't specific to one case.
+
+Dropped: the medium and large Taylor-Green and pipe runs, the GPU.
+
+Things to watch:
+- 251bba0 changes the density calculator of the pipe and Taylor-Green cases, so timings
+  across it compare a different method, not the code. Override the calculator
+  (`density_calculator`, `fluid_density_calculator` in the pipe) to compare the code.
+- `profile.jl sections=shift,profile_shift` needs the `compute_shift!` signature of 5819670,
+  so use the scripts of 680d0e3 for older commits.
+- `profile.jl` and `check_variable_radii.jl` take `pst_equilibrium` from the refinement.
+
+Open:
+- The experiments branch doesn't have the shifting setting yet: E1 is to be rewritten anyway,
+  and E2 is in the Poiseuille investigation (its fixed runs use the default θ), so E3 is the
+  first that can change.
+- Whether 327b648 (interpolation with the smoothing length of each particle) and d67a555
+  (`ParticleRefinementCallback` in the vortex street example) from `refinement/experiments`
+  also go to this branch. The second replaces the manual callback of the example, which the
+  benchmark overrides already.
+- Whether the 1-thread runs and `run_isolated.jl` are still wanted.
+- The startup and shifting notes in `SHIFTING.md` are not revisited.
 
 ## GPU preparation
 
-Needs `refinement/gpu-compat`, which is not on the benchmark branch. Before the GPU
-measurements, rebase it onto `refinement/main` and decide whether the benchmark branch
+Out of scope since 2026-11-24, kept for later. Needs `refinement/gpu-compat`, which is not
+on the benchmark branch. Before the GPU measurements, rebase it onto `refinement/main` and decide whether the benchmark branch
 takes it.
 
 - Scripts take the backend as a parameter (`PolyesterBackend()` now, `CUDABackend()` later)
