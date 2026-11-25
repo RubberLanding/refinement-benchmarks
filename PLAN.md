@@ -563,6 +563,37 @@ is that of the coarse fluid. Idea, not implemented: a query radius per particle 
 smoothing length (not checked whether the pairs need the larger support). Changing the cylinder itself (hollow)
 is dropped (user, 2026-11-25).
 
+### Time budget (2026-11-25/26)
+
+`time_budget.jl`, results and summary in `results/budget/20261125_vortex` (`budget.md`). Vortex street, small,
+92fef57, PointNeighbors 4842a89, 8 threads on quiet cores (other load at most 0.06 cores), `shifting=fast`,
+100 steps from the startup (early) and from t = 4 (developed), 3 runs each (within 1 to 2% except one grid run, +9%).
+Percent of the step time:
+
+| | r2 tree pruned early / developed | r2 grid early / developed | r4 tree pruned early / developed |
+|---|---|---|---|
+| step [ms] | 71 / 124 | 72 / 148 | 140 / 235 |
+| fluid particles | 10,600 / 15,000 | 10,600 / 15,000 | 12,500 / 22,000 |
+| RHS | 73.5 / 75.9 | 72.8 / 74.9 | 72.4 / 75.3 |
+| of it interaction fluid-fluid | 21.7 / 25.1 | 27.1 / 30.3 | 19.5 / 24.2 |
+| of it density | 16.5 / 16.6 | 13.7 / 15.3 | 18.3 / 18.2 |
+| of it avg. pressure + beta | 16.5 / 17.8 | 18.1 / 20.4 | 17.6 / 18.5 |
+| refinement call | 12.4 / 11.4 | 13.1 / 12.7 | 13.0 / 12.2 |
+| of it shifting | 8.6 / 7.9 | 9.6 / 9.4 | 9.2 / 8.4 |
+| update callback | 12.0 / 10.6 | 12.2 / 11.3 | 12.4 / 11.1 |
+| of it update systems and nhs | 7.2 / 6.5 | 6.6 / 6.4 | 7.2 / 6.6 |
+| of it PST | 3.5 / 3.3 | 4.3 / 4.4 | 3.9 / 3.4 |
+| time integration and rest | 2.0 / 1.8 | 1.7 / 1.0 | 2.2 / 1.2 |
+
+- The shares hardly change between the states, ratios and searches. The startup is 0.9 s (ratio 2) and 3.7 s
+  (ratio 4), 80% shifting.
+- Developed, ratio 2: pruned tree 124 ms, grid 148 ms per step (121 and 143 s per simulated time). Separate
+  processes, not interleaved; early both 71 to 72 ms. The grid spends more in the fluid loops, the tree more in
+  the other pairs (7.4 vs 3.3 ms) and in the NHS update (5.8 vs 3.7 ms).
+- Ratio 4 reaches about 21,000 fluid particles at t = 2 and stays between 20,000 and 22,600 until t = 4
+  (6,033 steps, 21 min). Ratio 2 as in the pilot.
+- Not measured: uniform reference, balancing, other sizes and thread counts.
+
 ### While the experiments run
 
 For every fix in `src/`, an interleaved before/after run of only that fix (about 15 minutes).
