@@ -144,10 +144,8 @@ function setup(case; size=:tiny, nhs=:tree_variable, refinement=:on,
     if isnothing(max_points_per_cell)
         max_points_per_cell = cell_capacity(case, refinement, get(kwargs, :spacing_ratio, 2))
     end
-    # Also returned, to get the template NHS of another kind for the same systems
-    nhs_of(kind) = template_nhs(kind, min_corner, max_corner, max_level, update_strategy;
-                                periodic_box, max_points_per_cell)
-    neighborhood_search = nhs_of(nhs)
+    neighborhood_search = template_nhs(nhs, min_corner, max_corner, max_level,
+                                       update_strategy; periodic_box, max_points_per_cell)
 
     semi = Semidiscretization(systems...; neighborhood_search, parallelization_backend)
     ode = semidiscretize(semi, tspan)
@@ -159,7 +157,7 @@ function setup(case; size=:tiny, nhs=:tree_variable, refinement=:on,
             n_initial=length(TP.each_active_particle(fluid_system)),
             options=join(("$key=$value" for (key, value) in pairs(kwargs)), " "))
 
-    return (; ode, result.callbacks, result.alg, result.solve_kwargs, meta, nhs_of)
+    return (; ode, result.callbacks, result.alg, result.solve_kwargs, meta)
 end
 
 shifting_technique_of(shifting) = shifting === :default ? nothing :

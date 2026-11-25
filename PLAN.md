@@ -485,10 +485,10 @@ When E1 and E2 are done, E3 passes its gate and no `src/` change is open:
    (`ViscosityMorris`, `epsilon=1e-6`) and the splitting pattern, if the settled setup uses
    them, and a decision on 65d0799.
 2. Time budget: vortex street, ratios 2 and 4, early and developed state.
-3. Ladder on frozen states, time per particle and RHS, A to C at the finest spacing:
-   A uniform with the grid, B uniform with the tree (A to B: the tree), C refinement on at
-   ratio 1 with grid and tree (the refinement code), D ratios 2 and 4 with grid and tree
-   (the grading).
+3. Ladder on frozen states, time per particle and RHS, A and C at the finest spacing:
+   A uniform with the grid, C refinement on at ratio 1 with grid and tree (the refinement
+   code), D ratios 2 and 4 with grid and tree (the grading). B (uniform with the tree) was
+   dropped, since it only compares the searches (2026-11-25).
 4. Fastest setup (as in stage 1), profiles, and the final candidates, each accepted by an interleaved
    comparison and an accuracy check if results change beyond rounding.
 5. Scaling (1, 8, 32 threads; small and medium), interval and `ParallelUpdate()` checks if
@@ -512,7 +512,6 @@ Open:
 - Whether d67a555 (`ParticleRefinementCallback` in the vortex street example) from
   `refinement/experiments` also goes to this branch. It replaces the manual callback of the
   example, which the benchmark overrides already.
-- Whether run B of the ladder (uniform with the tree) is still wanted.
 - Whether the 1-thread runs and `run_isolated.jl` are still wanted.
 - The startup and shifting notes in `SHIFTING.md` are not revisited.
 
