@@ -513,6 +513,26 @@ beta; interaction), and the first two could share one search.
   noisy run), so at most about 11% of the step; a guess is 7 to 10%. Uniform runs could gain too.
 - Must keep the average pressure bitwise or up to rounding, and the pairs that it counts.
 
+### Cost per particle of the refined RHS (2026-11-25)
+
+Vortex street, small, ratio 2, 20 steps, 8 threads, quiet machine. Session
+`results/interleaved/20261125_cost_per_particle` (with scratch scripts; old hashes).
+- RHS per fluid particle: uniform fine 0.25 us, refined with the tree 0.81 us. Of the excess of
+  0.56 us, about 43% is thread imbalance (Polyester gives each thread an equal contiguous share of
+  the particles), 31% the code for variable smoothing lengths, 18% the grading (twice the search
+  work for the same neighbors), 5% the problem size, 3% the call overhead (single runs).
+- Developed state (t = 4, 47% fine particles): imbalance 1.5 instead of 2.8 times the mean.
+- `skip_unsupported_pairs` called the interaction without inlining. Fixed in 4ed798a. Interleaved
+  before/after (`20261125_inline`, only 1 of 8 blocks clean, load 42 to 74): grid step time
+  -23% (RHS -27%), tree -3%. These sizes are uncertain, the direction is not.
+  Grid and tree with the fix: the grid was faster in every block (median -6% step, -9% RHS).
+- Rounding: 4ed798a isn't bitwise neutral in whole runs. The first difference is one value in its last
+  digit (tree: step 35, grid: step 2). It flips some merge decisions later (10,744 and 10,754
+  particles after 100 steps with the grid).
+- Balancing is not implemented. Dealing blocks of particles to the threads (early state, single run)
+  took the RHS from 8.6 to 6.0 ms with the tree and from 7.6 to 5.2 ms with the grid with the `@inline`.
+  Developed state, load rising to 36: 19.5 to 14.6 ms (tree) and 17.1 to 13.3 ms (grid).
+
 ### While the experiments run
 
 For every fix in `src/`, an interleaved before/after run of only that fix (about 15 minutes).
