@@ -84,7 +84,7 @@ hashes; this file uses the new ones.
 | c4b66ab | 655fd1b |
 | 251bba0 | ecee413 |
 | 5819670 | b8a4e7f |
-| 9b02352 | 4ed798a |
+| 9b02352 | 92fef57 |
 
 Current state:
 - `refinement/main`: the PR stack (00–11), the vorticity criterion, the Eq. 37 free-slip
@@ -522,11 +522,11 @@ Vortex street, small, ratio 2, 20 steps, 8 threads, quiet machine. Session
   the particles), 31% the code for variable smoothing lengths, 18% the grading (twice the search
   work for the same neighbors), 5% the problem size, 3% the call overhead (single runs).
 - Developed state (t = 4, 47% fine particles): imbalance 1.5 instead of 2.8 times the mean.
-- `skip_unsupported_pairs` called the interaction without inlining. Fixed in 4ed798a. Interleaved
+- `skip_unsupported_pairs` called the interaction without inlining. Fixed in 92fef57. Interleaved
   before/after (`20261125_inline`, only 1 of 8 blocks clean, load 42 to 74): grid step time
   -23% (RHS -27%), tree -3%. These sizes are uncertain, the direction is not.
   Grid and tree with the fix: the grid was faster in every block (median -6% step, -9% RHS).
-- Rounding: 4ed798a isn't bitwise neutral in whole runs. The first difference is one value in its last
+- Rounding: 92fef57 isn't bitwise neutral in whole runs. The first difference is one value in its last
   digit (tree: step 35, grid: step 2). It flips some merge decisions later (10,744 and 10,754
   particles after 100 steps with the grid).
 - Balancing is not implemented. Dealing blocks of particles to the threads (early state, single run)
