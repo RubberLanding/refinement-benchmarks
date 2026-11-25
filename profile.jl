@@ -431,6 +431,7 @@ function section_shift(r, out, integrator, n_iterations, n_profile)
         theta = shifting.theta
         max_shift_factor = shifting.max_shift_factor
         tolerance = shifting.tolerance
+        pst_equilibrium = Val(shifting.pst_equilibrium)
         iterations = n_iterations > 0 ? n_iterations : shifting.max_iterations
         report(r, "$(system_name(system)): theta = $theta, max_shift_factor = " *
                   "$max_shift_factor, tolerance = $tolerance, $iterations iterations " *
@@ -449,7 +450,8 @@ function section_shift(r, out, integrator, n_iterations, n_profile)
                            "max", "median", "p99", "above", "max total", "compute",
                            "apply"))
         for iteration in 1:iterations
-            t_compute = 1e3 * @elapsed TP.compute_shift!(system, u, u_ode, semi)
+            t_compute = 1e3 * @elapsed TP.compute_shift!(system, pst_equilibrium, v, u,
+                                                         v_ode, u_ode, semi)
             t_apply = 1e3 * @elapsed begin
                 max_relative = TP.apply_shift!(system, u, semi, theta, max_shift_factor)
             end
@@ -493,18 +495,20 @@ end
 function section_profile_shift(r, out, integrator_, n_calls)
     report(r, "\n==== Profile of $n_calls calls of compute_shift!")
     semi = integrator_.p.semi
-    _, u_ode = integrator_.u.x
+    v_ode, u_ode = integrator_.u.x
     systems = filter(system -> TP.get_refinement(system) isa TP.ParticleRefinement,
                      fluid_systems(semi))
     isempty(systems) && return report(r, "No system with refinement")
     system = first(systems)
+    v = TP.wrap_v(v_ode, system, semi)
     u = TP.wrap_u(u_ode, system, semi)
+    pst_equilibrium = Val(TP.get_refinement(system).shifting_technique.pst_equilibrium)
 
-    TP.compute_shift!(system, u, u_ode, semi)
+    TP.compute_shift!(system, pst_equilibrium, v, u, v_ode, u_ode, semi)
     Profile.clear()
     Profile.init(n=10^8, delay=0.0005)
     @profile for _ in 1:n_calls
-        TP.compute_shift!(system, u, u_ode, semi)
+        TP.compute_shift!(system, pst_equilibrium, v, u, v_ode, u_ode, semi)
     end
     write_profile(r, out, "shift", 30)
 end

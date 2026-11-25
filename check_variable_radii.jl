@@ -198,8 +198,10 @@ function evaluate(p, v_ode, u_ode)
 
         shift = nothing
         if !isnothing(TP.get_refinement(system))
+            v = TP.wrap_v(v_ode, system, semi)
             u = TP.wrap_u(u_ode, system, semi)
-            TP.compute_shift!(system, u, u_ode, semi)
+            pst_equilibrium = Val(TP.get_refinement(system).shifting_technique.pst_equilibrium)
+            TP.compute_shift!(system, pst_equilibrium, v, u, v_ode, u_ode, semi)
             # The shift is stored flat (see `add_svector_flat!`)
             shift = reshape(system.cache.shift, ndims(system), :)[:, active]
         end
@@ -259,9 +261,9 @@ function check_case(case)
 end
 
 if abspath(PROGRAM_FILE) == @__FILE__
-    cases = ("Taylor-Green vortex" => () -> taylor_green(),
+    cases = ("Taylor-Green vortex, continuity density" => () -> taylor_green(density_calculator=ContinuityDensity()),
              "Taylor-Green vortex, summation density" => () -> taylor_green(density_calculator=SummationDensity()),
-             "Pipe flow" => () -> pipe_flow(),
+             "Pipe flow, continuity density" => () -> pipe_flow(fluid_density_calculator=ContinuityDensity()),
              "Pipe flow, summation density" => () -> pipe_flow(fluid_density_calculator=SummationDensity()))
 
     summary = map(cases) do (name, case_function)
