@@ -1,0 +1,606 @@
+run,block,path,ncalls,time_ns,allocated_bytes
+1,1,refinement,10,985856100,18414016
+1,1,refinement / criteria,10,9151554,9706080
+1,1,refinement / update shifting,10,32290973,135200
+1,1,refinement / update systems after,10,36684762,185024
+1,1,refinement / update systems after / compute boundary pressure,10,3846357,16320
+1,1,refinement / update systems after / update nhs,10,4984922,18720
+1,1,refinement / update systems after / compute average pressure and beta,10,27374142,146080
+1,1,refinement / update systems after / update density diffusion,10,220,0
+1,1,refinement / update systems after / inverse state equation,10,84611,2880
+1,1,refinement / update systems before,10,36906307,185024
+1,1,refinement / update systems before / compute boundary pressure,10,3562988,16320
+1,1,refinement / update systems before / update nhs,10,5199008,18720
+1,1,refinement / update systems before / compute average pressure and beta,10,27721012,146080
+1,1,refinement / update systems before / update density diffusion,10,280,0
+1,1,refinement / update systems before / inverse state equation,10,83652,2880
+1,1,refinement / update nhs,10,5193739,18720
+1,1,refinement / target spacing,10,13139383,22240
+1,1,refinement / split,10,9635936,1276672
+1,1,refinement / split / candidates,10,3564308,22720
+1,1,refinement / split / update nhs,10,5146856,18720
+1,1,refinement / split / apply splitting,10,779989,1142864
+1,1,refinement / split / resize systems,10,102692,90720
+1,1,refinement / merge after splitting,10,47372843,2607824
+1,1,refinement / merge after splitting / count pairs,30,390488,0
+1,1,refinement / merge after splitting / update self nhs,30,13236145,2502096
+1,1,refinement / merge after splitting / update nhs,10,4980673,18720
+1,1,refinement / merge after splitting / merge partners,30,28310225,71040
+1,1,refinement / merge after splitting / apply merging,30,399291,14880
+1,1,refinement / shift,10,747329467,3408480
+1,1,refinement / shift / compute shift,200,579770827,2691200
+1,1,refinement / shift / update nhs,10,5288692,18720
+1,1,refinement / shift / apply shift,200,91246685,503424
+1,1,refinement / shift / apply shift / reject shift into zones,200,1133797,179200
+1,1,refinement / shift / apply shift / apply,200,3600084,99200
+1,1,refinement / shift / apply shift / update self nhs,200,82179417,124800
+1,1,refinement / shift / apply shift / max shift,200,1323992,0
+1,1,refinement / shift / apply shift / limit,200,2077605,99200
+1,1,refinement / shift / update search radii,10,4177055,6240
+1,1,refinement / shift / correct properties,10,28822767,140160
+1,1,refinement / shift / smoothing lengths before,10,19417125,23680
+1,1,refinement / shift / smoothing lengths after,10,18138986,23680
+1,1,refinement / merge before splitting,10,48020991,866096
+1,1,refinement / merge before splitting / count pairs,10,217156,0
+1,1,refinement / merge before splitting / update self nhs,10,4604754,817712
+1,1,refinement / merge before splitting / update nhs,10,5019093,18720
+1,1,refinement / merge before splitting / merge partners,10,37918971,23680
+1,1,refinement / merge before splitting / apply merging,10,165574,4960
+1,1,drift!,627,8614991,993168
+1,1,refinement startup,1,1053440503,21311920
+1,1,refinement startup / criteria,12,10108591,11277312
+1,1,refinement startup / update shifting,1,3284490,13520
+1,1,refinement startup / update systems after,1,3728112,19424
+1,1,refinement startup / update systems after / compute boundary pressure,1,377450,1632
+1,1,refinement startup / update systems after / update nhs,1,487812,1872
+1,1,refinement startup / update systems after / compute average pressure and beta,1,2797838,14608
+1,1,refinement startup / update systems after / update density diffusion,1,130,0
+1,1,refinement startup / update systems after / inverse state equation,1,8130,288
+1,1,refinement startup / update systems before,1,940164,19424
+1,1,refinement startup / update systems before / compute boundary pressure,1,142213,1632
+1,1,refinement startup / update systems before / update nhs,1,252986,1872
+1,1,refinement startup / update systems before / compute average pressure and beta,1,504302,14608
+1,1,refinement startup / update systems before / update density diffusion,1,20,0
+1,1,refinement startup / update systems before / inverse state equation,1,10431,288
+1,1,refinement startup / update nhs,12,5712901,22464
+1,1,refinement startup / target spacing,12,15180611,26688
+1,1,refinement startup / split,12,11004872,1621880
+1,1,refinement startup / split / candidates,12,3981989,27264
+1,1,refinement startup / split / update nhs,12,6205504,22464
+1,1,refinement startup / split / apply splitting,12,757048,1461480
+1,1,refinement startup / split / resize systems,12,39990,108864
+1,1,refinement startup / merge after splitting,12,49180829,3235232
+1,1,refinement startup / merge after splitting / count pairs,36,500054,0
+1,1,refinement startup / merge after splitting / update self nhs,36,16001395,3108384
+1,1,refinement startup / merge after splitting / update nhs,12,5920785,22464
+1,1,refinement startup / merge after splitting / merge partners,36,26185081,85248
+1,1,refinement startup / merge after splitting / apply merging,36,520351,17856
+1,1,refinement startup / shift,12,903153925,4089696
+1,1,refinement startup / shift / compute shift,240,700630491,3229440
+1,1,refinement startup / shift / update nhs,12,6260973,22464
+1,1,refinement startup / shift / apply shift,240,110411123,603904
+1,1,refinement startup / shift / apply shift / reject shift into zones,240,1389527,215040
+1,1,refinement startup / shift / apply shift / apply,240,4392495,119040
+1,1,refinement startup / shift / apply shift / update self nhs,240,99560982,149760
+1,1,refinement startup / shift / apply shift / max shift,240,1622428,0
+1,1,refinement startup / shift / apply shift / limit,240,2534455,119040
+1,1,refinement startup / shift / update search radii,12,5002372,7488
+1,1,refinement startup / shift / correct properties,12,34324075,168192
+1,1,refinement startup / shift / smoothing lengths before,12,23911308,28416
+1,1,refinement startup / shift / smoothing lengths after,12,22182705,28416
+1,1,refinement startup / merge before splitting,12,51082416,983208
+1,1,refinement startup / merge before splitting / count pairs,12,244328,0
+1,1,refinement startup / merge before splitting / update self nhs,11,5032943,927656
+1,1,refinement startup / merge before splitting / update nhs,11,5468635,20592
+1,1,refinement startup / merge before splitting / merge partners,12,40154427,28416
+1,1,refinement startup / merge before splitting / apply merging,11,144022,5456
+1,1,update callback,101,855048258,35112768
+1,1,update callback / update shifting,101,333014499,1365520
+1,1,update callback / apply particle shifting,101,2380,0
+1,1,update callback / update systems and nhs,101,371333880,1947280
+1,1,update callback / update open boundary,101,150491153,31799120
+1,1,update callback / update open boundary / check domain,101,70804157,31506000
+1,1,update callback / update open boundary / update boundary quantities,101,79581814,292720
+1,1,update callback / update open boundary / update boundary quantities / extrapolate and correct values,101,77535838,182608
+1,1,kick!,627,5179992983,21933728
+1,1,kick! / system interaction,627,2840216562,10375264
+1,1,kick! / system interaction / boundary3-boundary3,627,14790,0
+1,1,kick! / system interaction / boundary3-fluid1,627,14731,0
+1,1,kick! / system interaction / fluid1-open_boundary2,627,120708499,4494336
+1,1,kick! / system interaction / open_boundary2-fluid1,627,14831,0
+1,1,kick! / system interaction / fluid1-fluid1,627,2298913255,3420912
+1,1,kick! / system interaction / open_boundary2-open_boundary2,627,14610,0
+1,1,kick! / system interaction / fluid1-boundary3,627,414662946,932976
+1,1,kick! / system interaction / open_boundary2-boundary3,627,15151,0
+1,1,kick! / system interaction / boundary3-open_boundary2,627,14571,0
+1,1,kick! / update systems and nhs,627,2335480018,11537824
+1,1,kick! / update systems and nhs / compute boundary pressure,627,230622928,1023264
+1,1,kick! / update systems and nhs / update nhs,627,328231914,1173744
+1,1,kick! / update systems and nhs / compute average pressure and beta,627,1740034605,9159216
+1,1,kick! / update systems and nhs / update density diffusion,627,14770,0
+1,1,kick! / update systems and nhs / inverse state equation,627,5416529,180576
+1,1,kick! / reset ∂v/∂t,627,3826676,20064
+2,2,refinement,10,985248224,18414016
+2,2,refinement / criteria,10,9122152,9706080
+2,2,refinement / update shifting,10,32264546,135200
+2,2,refinement / update systems after,10,36721232,185024
+2,2,refinement / update systems after / compute boundary pressure,10,3823681,16320
+2,2,refinement / update systems after / update nhs,10,4976393,18720
+2,2,refinement / update systems after / compute average pressure and beta,10,27404576,146080
+2,2,refinement / update systems after / update density diffusion,10,260,0
+2,2,refinement / update systems after / inverse state equation,10,85824,2880
+2,2,refinement / update systems before,10,36992749,185024
+2,2,refinement / update systems before / compute boundary pressure,10,3573008,16320
+2,2,refinement / update systems before / update nhs,10,5226656,18720
+2,2,refinement / update systems before / compute average pressure and beta,10,27730936,146080
+2,2,refinement / update systems before / update density diffusion,10,250,0
+2,2,refinement / update systems before / inverse state equation,10,94221,2880
+2,2,refinement / update nhs,10,5239885,18720
+2,2,refinement / target spacing,10,13080739,22240
+2,2,refinement / split,10,9542722,1276672
+2,2,refinement / split / candidates,10,3566398,22720
+2,2,refinement / split / update nhs,10,5157392,18720
+2,2,refinement / split / apply splitting,10,698429,1142864
+2,2,refinement / split / resize systems,10,84252,90720
+2,2,refinement / merge after splitting,10,47246731,2607824
+2,2,refinement / merge after splitting / count pairs,30,398480,0
+2,2,refinement / merge after splitting / update self nhs,30,13238778,2502096
+2,2,refinement / merge after splitting / update nhs,10,4963219,18720
+2,2,refinement / merge after splitting / merge partners,30,28186591,71040
+2,2,refinement / merge after splitting / apply merging,30,400682,14880
+2,2,refinement / shift,10,747103964,3408480
+2,2,refinement / shift / compute shift,200,579345247,2691200
+2,2,refinement / shift / update nhs,10,5224467,18720
+2,2,refinement / shift / apply shift,200,91631065,503424
+2,2,refinement / shift / apply shift / reject shift into zones,200,1150225,179200
+2,2,refinement / shift / apply shift / apply,200,3720530,99200
+2,2,refinement / shift / apply shift / update self nhs,200,82296910,124800
+2,2,refinement / shift / apply shift / max shift,200,1361224,0
+2,2,refinement / shift / apply shift / limit,200,2130180,99200
+2,2,refinement / shift / update search radii,10,4141971,6240
+2,2,refinement / shift / correct properties,10,28792191,140160
+2,2,refinement / shift / smoothing lengths before,10,19361082,23680
+2,2,refinement / shift / smoothing lengths after,10,18116850,23680
+2,2,refinement / merge before splitting,10,47797571,866096
+2,2,refinement / merge before splitting / count pairs,10,205464,0
+2,2,refinement / merge before splitting / update self nhs,10,4479709,817712
+2,2,refinement / merge before splitting / update nhs,10,4998590,18720
+2,2,refinement / merge before splitting / merge partners,10,37894814,23680
+2,2,refinement / merge before splitting / apply merging,10,137274,4960
+2,2,drift!,627,8719491,993168
+2,2,refinement startup,1,1054321337,21311920
+2,2,refinement startup / criteria,12,10152158,11277312
+2,2,refinement startup / update shifting,1,3299100,13520
+2,2,refinement startup / update systems after,1,3711390,19424
+2,2,refinement startup / update systems after / compute boundary pressure,1,381449,1632
+2,2,refinement startup / update systems after / update nhs,1,488731,1872
+2,2,refinement startup / update systems after / compute average pressure and beta,1,2774727,14608
+2,2,refinement startup / update systems after / update density diffusion,1,20,0
+2,2,refinement startup / update systems after / inverse state equation,1,8400,288
+2,2,refinement startup / update systems before,1,932132,19424
+2,2,refinement startup / update systems before / compute boundary pressure,1,146883,1632
+2,2,refinement startup / update systems before / update nhs,1,248636,1872
+2,2,refinement startup / update systems before / compute average pressure and beta,1,503892,14608
+2,2,refinement startup / update systems before / update density diffusion,1,30,0
+2,2,refinement startup / update systems before / inverse state equation,1,8411,288
+2,2,refinement startup / update nhs,12,5716119,22464
+2,2,refinement startup / target spacing,12,15246309,26688
+2,2,refinement startup / split,12,10874206,1621880
+2,2,refinement startup / split / candidates,12,3951918,27264
+2,2,refinement startup / split / update nhs,12,6175258,22464
+2,2,refinement startup / split / apply splitting,12,689268,1461480
+2,2,refinement startup / split / resize systems,12,37991,108864
+2,2,refinement startup / merge after splitting,12,48793229,3235232
+2,2,refinement startup / merge after splitting / count pairs,36,480734,0
+2,2,refinement startup / merge after splitting / update self nhs,36,15853667,3108384
+2,2,refinement startup / merge after splitting / update nhs,12,5890633,22464
+2,2,refinement startup / merge after splitting / merge partners,36,26024905,85248
+2,2,refinement startup / merge after splitting / apply merging,36,489258,17856
+2,2,refinement startup / shift,12,904812587,4089696
+2,2,refinement startup / shift / compute shift,240,702209766,3229440
+2,2,refinement startup / shift / update nhs,12,6203521,22464
+2,2,refinement startup / shift / apply shift,240,110407458,603904
+2,2,refinement startup / shift / apply shift / reject shift into zones,240,1371150,215040
+2,2,refinement startup / shift / apply shift / apply,240,4431858,119040
+2,2,refinement startup / shift / apply shift / update self nhs,240,99471386,149760
+2,2,refinement startup / shift / apply shift / max shift,240,1637919,0
+2,2,refinement startup / shift / apply shift / limit,240,2558099,119040
+2,2,refinement startup / shift / update search radii,12,5071105,7488
+2,2,refinement startup / shift / correct properties,12,34373538,168192
+2,2,refinement startup / shift / smoothing lengths before,12,23976113,28416
+2,2,refinement startup / shift / smoothing lengths after,12,22132857,28416
+2,2,refinement startup / merge before splitting,12,50728144,983208
+2,2,refinement startup / merge before splitting / count pairs,12,200853,0
+2,2,refinement startup / merge before splitting / update self nhs,11,4876539,927656
+2,2,refinement startup / merge before splitting / update nhs,11,5426372,20592
+2,2,refinement startup / merge before splitting / merge partners,12,40064077,28416
+2,2,refinement startup / merge before splitting / apply merging,11,128722,5456
+2,2,update callback,101,852887511,35112768
+2,2,update callback / update shifting,101,331871513,1365520
+2,2,update callback / apply particle shifting,101,2260,0
+2,2,update callback / update systems and nhs,101,371209560,1947280
+2,2,update callback / update open boundary,101,149600915,31799120
+2,2,update callback / update open boundary / check domain,101,70194411,31506000
+2,2,update callback / update open boundary / update boundary quantities,101,79303111,292720
+2,2,update callback / update open boundary / update boundary quantities / extrapolate and correct values,101,77305486,182608
+2,2,kick!,627,5177856415,21933728
+2,2,kick! / system interaction,627,2837946379,10375264
+2,2,kick! / system interaction / boundary3-boundary3,627,14600,0
+2,2,kick! / system interaction / boundary3-fluid1,627,14581,0
+2,2,kick! / system interaction / fluid1-open_boundary2,627,120850377,4494336
+2,2,kick! / system interaction / open_boundary2-fluid1,627,14750,0
+2,2,kick! / system interaction / fluid1-fluid1,627,2297369435,3420912
+2,2,kick! / system interaction / open_boundary2-open_boundary2,627,14700,0
+2,2,kick! / system interaction / fluid1-boundary3,627,413770779,932976
+2,2,kick! / system interaction / open_boundary2-boundary3,627,14800,0
+2,2,kick! / system interaction / boundary3-open_boundary2,627,14900,0
+2,2,kick! / update systems and nhs,627,2335576132,11537824
+2,2,kick! / update systems and nhs / compute boundary pressure,627,230927282,1023264
+2,2,kick! / update systems and nhs / update nhs,627,327679190,1173744
+2,2,kick! / update systems and nhs / compute average pressure and beta,627,1739647620,9159216
+2,2,kick! / update systems and nhs / update density diffusion,627,14591,0
+2,2,kick! / update systems and nhs / inverse state equation,627,5537165,180576
+2,2,kick! / reset ∂v/∂t,627,3859365,20064
+3,3,refinement,10,982139593,18414016
+3,3,refinement / criteria,10,9244515,9706080
+3,3,refinement / update shifting,10,32235349,135200
+3,3,refinement / update systems after,10,36714467,185024
+3,3,refinement / update systems after / compute boundary pressure,10,3846671,16320
+3,3,refinement / update systems after / update nhs,10,4984592,18720
+3,3,refinement / update systems after / compute average pressure and beta,10,27393401,146080
+3,3,refinement / update systems after / update density diffusion,10,240,0
+3,3,refinement / update systems after / inverse state equation,10,84852,2880
+3,3,refinement / update systems before,10,36861973,185024
+3,3,refinement / update systems before / compute boundary pressure,10,3553354,16320
+3,3,refinement / update systems before / update nhs,10,5164447,18720
+3,3,refinement / update systems before / compute average pressure and beta,10,27697768,146080
+3,3,refinement / update systems before / update density diffusion,10,240,0
+3,3,refinement / update systems before / inverse state equation,10,83122,2880
+3,3,refinement / update nhs,10,5258346,18720
+3,3,refinement / target spacing,10,13049255,22240
+3,3,refinement / split,10,9323133,1276672
+3,3,refinement / split / candidates,10,3504234,22720
+3,3,refinement / split / update nhs,10,5117153,18720
+3,3,refinement / split / apply splitting,10,585244,1142864
+3,3,refinement / split / resize systems,10,82242,90720
+3,3,refinement / merge after splitting,10,47423187,2607824
+3,3,refinement / merge after splitting / count pairs,30,438130,0
+3,3,refinement / merge after splitting / update self nhs,30,13270763,2502096
+3,3,refinement / merge after splitting / update nhs,10,4977330,18720
+3,3,refinement / merge after splitting / merge partners,30,28284836,71040
+3,3,refinement / merge after splitting / apply merging,30,394917,14880
+3,3,refinement / shift,10,744297177,3408480
+3,3,refinement / shift / compute shift,200,577622622,2691200
+3,3,refinement / shift / update nhs,10,5257936,18720
+3,3,refinement / shift / apply shift,200,90752142,503424
+3,3,refinement / shift / apply shift / reject shift into zones,200,1128253,179200
+3,3,refinement / shift / apply shift / apply,200,3648746,99200
+3,3,refinement / shift / apply shift / update self nhs,200,81631736,124800
+3,3,refinement / shift / apply shift / max shift,200,1331493,0
+3,3,refinement / shift / apply shift / limit,200,2084102,99200
+3,3,refinement / shift / update search radii,10,4142100,6240
+3,3,refinement / shift / correct properties,10,28652722,140160
+3,3,refinement / shift / smoothing lengths before,10,19342907,23680
+3,3,refinement / shift / smoothing lengths after,10,18068287,23680
+3,3,refinement / merge before splitting,10,47601229,866096
+3,3,refinement / merge before splitting / count pairs,10,229947,0
+3,3,refinement / merge before splitting / update self nhs,10,4411807,817712
+3,3,refinement / merge before splitting / update nhs,10,4969850,18720
+3,3,refinement / merge before splitting / merge partners,10,37762771,23680
+3,3,refinement / merge before splitting / apply merging,10,145654,4960
+3,3,drift!,627,12687105,993168
+3,3,refinement startup,1,1051442297,21311920
+3,3,refinement startup / criteria,12,10193277,11277312
+3,3,refinement startup / update shifting,1,3326400,13520
+3,3,refinement startup / update systems after,1,3691499,19424
+3,3,refinement startup / update systems after / compute boundary pressure,1,387790,1632
+3,3,refinement startup / update systems after / update nhs,1,489872,1872
+3,3,refinement startup / update systems after / compute average pressure and beta,1,2754646,14608
+3,3,refinement startup / update systems after / update density diffusion,1,30,0
+3,3,refinement startup / update systems after / inverse state equation,1,8020,288
+3,3,refinement startup / update systems before,1,939492,19424
+3,3,refinement startup / update systems before / compute boundary pressure,1,144433,1632
+3,3,refinement startup / update systems before / update nhs,1,247416,1872
+3,3,refinement startup / update systems before / compute average pressure and beta,1,508522,14608
+3,3,refinement startup / update systems before / update density diffusion,1,30,0
+3,3,refinement startup / update systems before / inverse state equation,1,8820,288
+3,3,refinement startup / update nhs,12,5688747,22464
+3,3,refinement startup / target spacing,12,15303231,26688
+3,3,refinement startup / split,12,11131048,1621880
+3,3,refinement startup / split / candidates,12,4009747,27264
+3,3,refinement startup / split / update nhs,12,6207369,22464
+3,3,refinement startup / split / apply splitting,12,847471,1461480
+3,3,refinement startup / split / resize systems,12,45531,108864
+3,3,refinement startup / merge after splitting,12,49025804,3235232
+3,3,refinement startup / merge after splitting / count pairs,36,499125,0
+3,3,refinement startup / merge after splitting / update self nhs,36,15986249,3108384
+3,3,refinement startup / merge after splitting / update nhs,12,5924542,22464
+3,3,refinement startup / merge after splitting / merge partners,36,26061982,85248
+3,3,refinement startup / merge after splitting / apply merging,36,506502,17856
+3,3,refinement startup / shift,12,901157277,4089696
+3,3,refinement startup / shift / compute shift,240,699580597,3229440
+3,3,refinement startup / shift / update nhs,12,6170061,22464
+3,3,refinement startup / shift / apply shift,240,109472575,603904
+3,3,refinement startup / shift / apply shift / reject shift into zones,240,1353370,215040
+3,3,refinement startup / shift / apply shift / apply,240,4345949,119040
+3,3,refinement startup / shift / apply shift / update self nhs,240,98751249,149760
+3,3,refinement startup / shift / apply shift / max shift,240,1610618,0
+3,3,refinement startup / shift / apply shift / limit,240,2491663,119040
+3,3,refinement startup / shift / update search radii,12,5044330,7488
+3,3,refinement startup / shift / correct properties,12,34423851,168192
+3,3,refinement startup / shift / smoothing lengths before,12,23886799,28416
+3,3,refinement startup / shift / smoothing lengths after,12,22120243,28416
+3,3,refinement startup / merge before splitting,12,50924310,983208
+3,3,refinement startup / merge before splitting / count pairs,12,215785,0
+3,3,refinement startup / merge before splitting / update self nhs,11,4974521,927656
+3,3,refinement startup / merge before splitting / update nhs,11,5455592,20592
+3,3,refinement startup / merge before splitting / merge partners,12,40098937,28416
+3,3,refinement startup / merge before splitting / apply merging,11,143863,5456
+3,3,update callback,101,853928079,35112768
+3,3,update callback / update shifting,101,332179381,1365520
+3,3,update callback / apply particle shifting,101,2280,0
+3,3,update callback / update systems and nhs,101,371407990,1947280
+3,3,update callback / update open boundary,101,150131975,31799120
+3,3,update callback / update open boundary / check domain,101,70805376,31506000
+3,3,update callback / update open boundary / update boundary quantities,101,79222398,292720
+3,3,update callback / update open boundary / update boundary quantities / extrapolate and correct values,101,77211851,182608
+3,3,kick!,627,5179694920,21933728
+3,3,kick! / system interaction,627,2841870730,10375264
+3,3,kick! / system interaction / boundary3-boundary3,627,14751,0
+3,3,kick! / system interaction / boundary3-fluid1,627,14652,0
+3,3,kick! / system interaction / fluid1-open_boundary2,627,121662743,4494336
+3,3,kick! / system interaction / open_boundary2-fluid1,627,14820,0
+3,3,kick! / system interaction / fluid1-fluid1,627,2298214454,3420912
+3,3,kick! / system interaction / open_boundary2-open_boundary2,627,14570,0
+3,3,kick! / system interaction / fluid1-boundary3,627,415952258,932976
+3,3,kick! / system interaction / open_boundary2-boundary3,627,14810,0
+3,3,kick! / system interaction / boundary3-open_boundary2,627,14630,0
+3,3,kick! / update systems and nhs,627,2333468139,11537824
+3,3,kick! / update systems and nhs / compute boundary pressure,627,230965346,1023264
+3,3,kick! / update systems and nhs / update nhs,627,326242565,1173744
+3,3,kick! / update systems and nhs / compute average pressure and beta,627,1739159489,9159216
+3,3,kick! / update systems and nhs / update density diffusion,627,14701,0
+3,3,kick! / update systems and nhs / inverse state equation,627,5522998,180576
+3,3,kick! / reset ∂v/∂t,627,3890767,20064
+4,4,refinement,10,982896607,18414016
+4,4,refinement / criteria,10,9113541,9706080
+4,4,refinement / update shifting,10,32204795,135200
+4,4,refinement / update systems after,10,36813324,185024
+4,4,refinement / update systems after / compute boundary pressure,10,3889425,16320
+4,4,refinement / update systems after / update nhs,10,5000150,18720
+4,4,refinement / update systems after / compute average pressure and beta,10,27399668,146080
+4,4,refinement / update systems after / update density diffusion,10,220,0
+4,4,refinement / update systems after / inverse state equation,10,89121,2880
+4,4,refinement / update systems before,10,36834903,185024
+4,4,refinement / update systems before / compute boundary pressure,10,3553698,16320
+4,4,refinement / update systems before / update nhs,10,5154112,18720
+4,4,refinement / update systems before / compute average pressure and beta,10,27696826,146080
+4,4,refinement / update systems before / update density diffusion,10,230,0
+4,4,refinement / update systems before / inverse state equation,10,78321,2880
+4,4,refinement / update nhs,10,5199096,18720
+4,4,refinement / target spacing,10,13125604,22240
+4,4,refinement / split,10,9426517,1276672
+4,4,refinement / split / candidates,10,3553037,22720
+4,4,refinement / split / update nhs,10,5121305,18720
+4,4,refinement / split / apply splitting,10,643764,1142864
+4,4,refinement / split / resize systems,10,73931,90720
+4,4,refinement / merge after splitting,10,47518451,2607824
+4,4,refinement / merge after splitting / count pairs,30,422910,0
+4,4,refinement / merge after splitting / update self nhs,30,13380663,2502096
+4,4,refinement / merge after splitting / update nhs,10,4959479,18720
+4,4,refinement / merge after splitting / merge partners,30,28266847,71040
+4,4,refinement / merge after splitting / apply merging,30,439180,14880
+4,4,refinement / shift,10,744770497,3408480
+4,4,refinement / shift / compute shift,200,578021939,2691200
+4,4,refinement / shift / update nhs,10,5238995,18720
+4,4,refinement / shift / apply shift,200,90785415,503424
+4,4,refinement / shift / apply shift / reject shift into zones,200,1119349,179200
+4,4,refinement / shift / apply shift / apply,200,3604176,99200
+4,4,refinement / shift / apply shift / update self nhs,200,81707643,124800
+4,4,refinement / shift / apply shift / max shift,200,1349490,0
+4,4,refinement / shift / apply shift / limit,200,2079975,99200
+4,4,refinement / shift / update search radii,10,4144329,6240
+4,4,refinement / shift / correct properties,10,28641097,140160
+4,4,refinement / shift / smoothing lengths before,10,19362994,23680
+4,4,refinement / shift / smoothing lengths after,10,18098094,23680
+4,4,refinement / merge before splitting,10,47778836,866096
+4,4,refinement / merge before splitting / count pairs,10,188678,0
+4,4,refinement / merge before splitting / update self nhs,10,4491558,817712
+4,4,refinement / merge before splitting / update nhs,10,4982791,18720
+4,4,refinement / merge before splitting / merge partners,10,37878847,23680
+4,4,refinement / merge before splitting / apply merging,10,149761,4960
+4,4,drift!,627,11753327,993168
+4,4,refinement startup,1,1055559797,21311920
+4,4,refinement startup / criteria,12,10183216,11277312
+4,4,refinement startup / update shifting,1,3317540,13520
+4,4,refinement startup / update systems after,1,3842462,19424
+4,4,refinement startup / update systems after / compute boundary pressure,1,400719,1632
+4,4,refinement startup / update systems after / update nhs,1,495082,1872
+4,4,refinement startup / update systems after / compute average pressure and beta,1,2841138,14608
+4,4,refinement startup / update systems after / update density diffusion,1,30,0
+4,4,refinement startup / update systems after / inverse state equation,1,10000,288
+4,4,refinement startup / update systems before,1,938983,19424
+4,4,refinement startup / update systems before / compute boundary pressure,1,144443,1632
+4,4,refinement startup / update systems before / update nhs,1,249266,1872
+4,4,refinement startup / update systems before / compute average pressure and beta,1,509723,14608
+4,4,refinement startup / update systems before / update density diffusion,1,20,0
+4,4,refinement startup / update systems before / inverse state equation,1,8240,288
+4,4,refinement startup / update nhs,12,5688607,22464
+4,4,refinement startup / target spacing,12,15155473,26688
+4,4,refinement startup / split,12,11014757,1621880
+4,4,refinement startup / split / candidates,12,3970625,27264
+4,4,refinement startup / split / update nhs,12,6169221,22464
+4,4,refinement startup / split / apply splitting,12,801409,1461480
+4,4,refinement startup / split / resize systems,12,50782,108864
+4,4,refinement startup / merge after splitting,12,49245060,3235232
+4,4,refinement startup / merge after splitting / count pairs,36,534231,0
+4,4,refinement startup / merge after splitting / update self nhs,36,16079849,3108384
+4,4,refinement startup / merge after splitting / update nhs,12,5914921,22464
+4,4,refinement startup / merge after splitting / merge partners,36,26125934,85248
+4,4,refinement startup / merge after splitting / apply merging,36,538944,17856
+4,4,refinement startup / shift,12,905047462,4089696
+4,4,refinement startup / shift / compute shift,240,702737557,3229440
+4,4,refinement startup / shift / update nhs,12,6169496,22464
+4,4,refinement startup / shift / apply shift,240,109801822,603904
+4,4,refinement startup / shift / apply shift / reject shift into zones,240,1370665,215040
+4,4,refinement startup / shift / apply shift / apply,240,4310833,119040
+4,4,refinement startup / shift / apply shift / update self nhs,240,99063473,149760
+4,4,refinement startup / shift / apply shift / max shift,240,1625650,0
+4,4,refinement startup / shift / apply shift / limit,240,2493072,119040
+4,4,refinement startup / shift / update search radii,12,5092275,7488
+4,4,refinement startup / shift / correct properties,12,34532118,168192
+4,4,refinement startup / shift / smoothing lengths before,12,23979884,28416
+4,4,refinement startup / shift / smoothing lengths after,12,22253885,28416
+4,4,refinement startup / merge before splitting,12,51060577,983208
+4,4,refinement startup / merge before splitting / count pairs,12,224691,0
+4,4,refinement startup / merge before splitting / update self nhs,11,4999348,927656
+4,4,refinement startup / merge before splitting / update nhs,11,5423862,20592
+4,4,refinement startup / merge before splitting / merge partners,12,40237988,28416
+4,4,refinement startup / merge before splitting / apply merging,11,136945,5456
+4,4,update callback,101,852374342,35112768
+4,4,update callback / update shifting,101,331492421,1365520
+4,4,update callback / apply particle shifting,101,2331,0
+4,4,update callback / update systems and nhs,101,370815288,1947280
+4,4,update callback / update open boundary,101,149863903,31799120
+4,4,update callback / update open boundary / check domain,101,70480957,31506000
+4,4,update callback / update open boundary / update boundary quantities,101,79282354,292720
+4,4,update callback / update open boundary / update boundary quantities / extrapolate and correct values,101,77276786,182608
+4,4,kick!,627,5181291220,21933728
+4,4,kick! / system interaction,627,2843713085,10375264
+4,4,kick! / system interaction / boundary3-boundary3,627,14701,0
+4,4,kick! / system interaction / boundary3-fluid1,627,14800,0
+4,4,kick! / system interaction / fluid1-open_boundary2,627,122278531,4494336
+4,4,kick! / system interaction / open_boundary2-fluid1,627,14750,0
+4,4,kick! / system interaction / fluid1-fluid1,627,2299683099,3420912
+4,4,kick! / system interaction / open_boundary2-open_boundary2,627,14700,0
+4,4,kick! / system interaction / fluid1-boundary3,627,415830619,932976
+4,4,kick! / system interaction / open_boundary2-boundary3,627,14910,0
+4,4,kick! / system interaction / boundary3-open_boundary2,627,14630,0
+4,4,kick! / update systems and nhs,627,2333226938,11537824
+4,4,kick! / update systems and nhs / compute boundary pressure,627,231118198,1023264
+4,4,kick! / update systems and nhs / update nhs,627,326115467,1173744
+4,4,kick! / update systems and nhs / compute average pressure and beta,627,1739059122,9159216
+4,4,kick! / update systems and nhs / update density diffusion,627,14521,0
+4,4,kick! / update systems and nhs / inverse state equation,627,5492964,180576
+4,4,kick! / reset ∂v/∂t,627,3880828,20064
+5,5,refinement,10,980111131,18414016
+5,5,refinement / criteria,10,9041675,9706080
+5,5,refinement / update shifting,10,32179467,135200
+5,5,refinement / update systems after,10,36636655,185024
+5,5,refinement / update systems after / compute boundary pressure,10,3839575,16320
+5,5,refinement / update systems after / update nhs,10,4980648,18720
+5,5,refinement / update systems after / compute average pressure and beta,10,27341452,146080
+5,5,refinement / update systems after / update density diffusion,10,230,0
+5,5,refinement / update systems after / inverse state equation,10,82220,2880
+5,5,refinement / update systems before,10,36890921,185024
+5,5,refinement / update systems before / compute boundary pressure,10,3551644,16320
+5,5,refinement / update systems before / update nhs,10,5176505,18720
+5,5,refinement / update systems before / compute average pressure and beta,10,27733953,146080
+5,5,refinement / update systems before / update density diffusion,10,240,0
+5,5,refinement / update systems before / inverse state equation,10,85123,2880
+5,5,refinement / update nhs,10,5164002,18720
+5,5,refinement / target spacing,10,13041043,22240
+5,5,refinement / split,10,9448885,1276672
+5,5,refinement / split / candidates,10,3541844,22720
+5,5,refinement / split / update nhs,10,5116342,18720
+5,5,refinement / split / apply splitting,10,661715,1142864
+5,5,refinement / split / resize systems,10,87802,90720
+5,5,refinement / merge after splitting,10,47140993,2607824
+5,5,refinement / merge after splitting / count pairs,30,415798,0
+5,5,refinement / merge after splitting / update self nhs,30,13079363,2502096
+5,5,refinement / merge after splitting / update nhs,10,4970657,18720
+5,5,refinement / merge after splitting / merge partners,30,28232203,71040
+5,5,refinement / merge after splitting / apply merging,30,388921,14880
+5,5,refinement / shift,10,742738800,3408480
+5,5,refinement / shift / compute shift,200,576319611,2691200
+5,5,refinement / shift / update nhs,10,5182522,18720
+5,5,refinement / shift / apply shift,200,90582972,503424
+5,5,refinement / shift / apply shift / reject shift into zones,200,1134234,179200
+5,5,refinement / shift / apply shift / apply,200,3612106,99200
+5,5,refinement / shift / apply shift / update self nhs,200,81495674,124800
+5,5,refinement / shift / apply shift / max shift,200,1331464,0
+5,5,refinement / shift / apply shift / limit,200,2076600,99200
+5,5,refinement / shift / update search radii,10,4118759,6240
+5,5,refinement / shift / correct properties,10,28676823,140160
+5,5,refinement / shift / smoothing lengths before,10,19343870,23680
+5,5,refinement / shift / smoothing lengths after,10,18078962,23680
+5,5,refinement / merge before splitting,10,47722968,866096
+5,5,refinement / merge before splitting / count pairs,10,209155,0
+5,5,refinement / merge before splitting / update self nhs,10,4500598,817712
+5,5,refinement / merge before splitting / update nhs,10,4985910,18720
+5,5,refinement / merge before splitting / merge partners,10,37793950,23680
+5,5,refinement / merge before splitting / apply merging,10,152414,4960
+5,5,drift!,627,8713065,993168
+5,5,refinement startup,1,1049576763,21311920
+5,5,refinement startup / criteria,12,10100850,11277312
+5,5,refinement startup / update shifting,1,3341390,13520
+5,5,refinement startup / update systems after,1,3775150,19424
+5,5,refinement startup / update systems after / compute boundary pressure,1,383819,1632
+5,5,refinement startup / update systems after / update nhs,1,491762,1872
+5,5,refinement startup / update systems after / compute average pressure and beta,1,2795757,14608
+5,5,refinement startup / update systems after / update density diffusion,1,20,0
+5,5,refinement startup / update systems after / inverse state equation,1,13141,288
+5,5,refinement startup / update systems before,1,961743,19424
+5,5,refinement startup / update systems before / compute boundary pressure,1,148204,1632
+5,5,refinement startup / update systems before / update nhs,1,254776,1872
+5,5,refinement startup / update systems before / compute average pressure and beta,1,515043,14608
+5,5,refinement startup / update systems before / update density diffusion,1,20,0
+5,5,refinement startup / update systems before / inverse state equation,1,10550,288
+5,5,refinement startup / update nhs,12,5677396,22464
+5,5,refinement startup / target spacing,12,15149642,26688
+5,5,refinement startup / split,12,11000273,1621880
+5,5,refinement startup / split / candidates,12,3944014,27264
+5,5,refinement startup / split / update nhs,12,6178109,22464
+5,5,refinement startup / split / apply splitting,12,815848,1461480
+5,5,refinement startup / split / resize systems,12,41992,108864
+5,5,refinement startup / merge after splitting,12,48827244,3235232
+5,5,refinement startup / merge after splitting / count pairs,36,512714,0
+5,5,refinement startup / merge after splitting / update self nhs,36,15924809,3108384
+5,5,refinement startup / merge after splitting / update nhs,12,5893131,22464
+5,5,refinement startup / merge after splitting / merge partners,36,25950717,85248
+5,5,refinement startup / merge after splitting / apply merging,36,496931,17856
+5,5,refinement startup / shift,12,899854962,4089696
+5,5,refinement startup / shift / compute shift,240,698333975,3229440
+5,5,refinement startup / shift / update nhs,12,6166968,22464
+5,5,refinement startup / shift / apply shift,240,109705727,603904
+5,5,refinement startup / shift / apply shift / reject shift into zones,240,1355846,215040
+5,5,refinement startup / shift / apply shift / apply,240,4392447,119040
+5,5,refinement startup / shift / apply shift / update self nhs,240,98883325,149760
+5,5,refinement startup / shift / apply shift / max shift,240,1638935,0
+5,5,refinement startup / shift / apply shift / limit,240,2517024,119040
+5,5,refinement startup / shift / update search radii,12,5022481,7488
+5,5,refinement startup / shift / correct properties,12,34205716,168192
+5,5,refinement startup / shift / smoothing lengths before,12,23888838,28416
+5,5,refinement startup / shift / smoothing lengths after,12,22076525,28416
+5,5,refinement startup / merge before splitting,12,50812771,983208
+5,5,refinement startup / merge before splitting / count pairs,12,225587,0
+5,5,refinement startup / merge before splitting / update self nhs,11,4988649,927656
+5,5,refinement startup / merge before splitting / update nhs,11,5429151,20592
+5,5,refinement startup / merge before splitting / merge partners,12,39984061,28416
+5,5,refinement startup / merge before splitting / apply merging,11,149483,5456
+5,5,update callback,101,852073114,35112768
+5,5,update callback / update shifting,101,332093299,1365520
+5,5,update callback / apply particle shifting,101,2390,0
+5,5,update callback / update systems and nhs,101,370521576,1947280
+5,5,update callback / update open boundary,101,149251723,31799120
+5,5,update callback / update open boundary / check domain,101,69973258,31506000
+5,5,update callback / update open boundary / update boundary quantities,101,79180013,292720
+5,5,update callback / update open boundary / update boundary quantities / extrapolate and correct values,101,77192786,182608
+5,5,kick!,627,5165597064,21933728
+5,5,kick! / system interaction,627,2829854122,10375264
+5,5,kick! / system interaction / boundary3-boundary3,627,14730,0
+5,5,kick! / system interaction / boundary3-fluid1,627,14691,0
+5,5,kick! / system interaction / fluid1-open_boundary2,627,120699743,4494336
+5,5,kick! / system interaction / open_boundary2-fluid1,627,14930,0
+5,5,kick! / system interaction / fluid1-fluid1,627,2290428266,3420912
+5,5,kick! / system interaction / open_boundary2-open_boundary2,627,14651,0
+5,5,kick! / system interaction / fluid1-boundary3,627,412817965,932976
+5,5,kick! / system interaction / open_boundary2-boundary3,627,15050,0
+5,5,kick! / system interaction / boundary3-open_boundary2,627,14491,0
+5,5,kick! / update systems and nhs,627,2331382105,11537824
+5,5,kick! / update systems and nhs / compute boundary pressure,627,230464737,1023264
+5,5,kick! / update systems and nhs / update nhs,627,325918185,1173744
+5,5,kick! / update systems and nhs / compute average pressure and beta,627,1738318325,9159216
+5,5,kick! / update systems and nhs / update density diffusion,627,14771,0
+5,5,kick! / update systems and nhs / inverse state equation,627,5507612,180576
+5,5,kick! / reset ∂v/∂t,627,3893382,20064

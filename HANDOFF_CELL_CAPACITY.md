@@ -1,7 +1,10 @@
 # Handoff: cell capacity of neighborhood searches that store fine walls
 
-Status 2026-11-23: a fix exists on `refinement/cell-capacity`, not merged. Capacities measured,
-see "Measured capacities". The sections above it are from before the fix.
+Status 2026-11-24: a fix exists on `refinement/cell-capacity`, not merged. For now, the
+benchmarks and experiments run without it, so the failing cases need a larger
+`max_points_per_cell`. The values to use are in "Capacities to use without the fix"; they
+replace the recommendations of 2026-11-23 (310 and 1210 for the cylinder).
+The sections above "Measured capacities" are from before the fix.
 
 ## Goal
 
@@ -73,7 +76,10 @@ neither branch, and merging it into `refinement/benchmark` conflicts in
 
 ### Scripts that fail
 
-| Script | Case | Stored system | Fullest | Now | Recommended |
+"Rule" is the capacity that `refinement/cell-capacity` sets, rounded up. Without the fix, use
+the values in "Capacities to use without the fix" instead.
+
+| Script | Case | Stored system | Fullest | Now | Rule |
 |---|---|---|---|---|---|
 | `run_full.jl`, `profile.jl` | vortex street `small`, ratio 4, `grid` and `tree_variable` | cylinder | 152 | 100 | 310 |
 | `run_full.jl`, `profile.jl` | vortex street `small`, ratio 8, all three searches | cylinder | 607 | 100 (`tree_uniform`: 400) | 1210 |
@@ -86,7 +92,46 @@ The error was seen with unmodified code for `run_full.jl` ratio 4 (grid and
 `setups.jl`) and E1 (time span shortened, fails in the startup). The other rows follow from
 the fullest cell. `profile.jl` uses the same setups as `run_full.jl`.
 
-### Recommended rule
+### Capacities to use without the fix
+
+Updated 2026-11-24, measured with c4b66ab and PointNeighbors 4842a89 (`leaves.jl` and `e1.jl`,
+not in the repository), 21 steps after the startup. Not set in any script yet.
+
+| Run | What overflows | Fullest | `max_points_per_cell` |
+|---|---|---|---|
+| Vortex street and E3, ratio 4 | cylinder | 152 | **200** |
+| Vortex street and E3, ratio 8 | cylinder | 607 | **700** |
+| E1, ratio 8 | refined fluid | 3754 | **5000** |
+
+- **Cylinder.** It is static and its spacing doesn't change, so the count is geometry: at
+  ratio 4 a cell is about 12.3 `min_spacing` wide, and 12.3² ≈ 151. The factor of 2 of the
+  rule isn't needed. The fullest cell holds 152 in both the grid and the tree (ratio 8: 605
+  and 604 here, 607 on 2026-11-23). The tree doesn't help, since the cylinder is stored
+  with the uniform radius `R` and its leaves are all at the root level.
+- **E1.** Keep 5000. The peak varies between runs (3571 to 3754, uniform count 711). It is a
+  short peak of the startup, not a steady state: the third split overshoots the target
+  spacing 0.00625 to about 0.0027, then merging brings the fullest cell down to about 970.
+  7 * 711 = 4978 is the limit of one complete split.
+- **Memory** isn't a problem: the E1 grid has about 64 cells.
+- Pass the value in the template cell list of only these cases. A larger automatic
+  capacity of the fluid search is kept.
+- A wake that refines later isn't covered, see "Not covered".
+
+The tree doesn't keep the number of particles per leaf constant. A cell is only split if
+every particle in its 3x3 block has a radius that fits the children, so one coarse particle
+keeps the whole block at the root size. `max_points_per_cell` only sizes the storage.
+
+| Case | Peak, grid | Peak, tree | Fullest after 21 steps, grid / tree | Fluid particles in root leaves |
+|---|---|---|---|---|
+| E1 ratio 8 | 3571 | 3233 | 979 / 227 | 28% |
+| Vortex street ratio 4 | 375 | 375 | 152 / 146 | 98% |
+| Vortex street ratio 8 | 1259 | 1262 | 443 / 406 | 83% |
+
+Choosing the NHS per neighbor system (tree for the fluid, grid for the walls) isn't supported:
+the handlers copy one template to all searches. It wouldn't reduce the count in the
+cylinder cells either.
+
+### Rule of the fix
 
 - Cylinder, walls, structures: `ceil(2 * (cell size / particle spacing)^2)`, with the spacing
   of the system. At ratio 4 this is 303, at ratio 8 it is 1210. The fullest cell was
@@ -97,8 +142,8 @@ the fullest cell. `profile.jl` uses the same setups as `run_full.jl`.
   `REFINEMENT_POINTS_PER_CELL_FACTOR` gives 2845.
 
 This is the rule of `refinement/cell-capacity`. With it, no script has to change. Without it,
-pass `max_points_per_cell` in the template cell list (`FullGridCellList`, `TreeCellList`) of
-only the failing cases, so that the other measurements stay comparable. In `setups.jl` that
+pass the values above as `max_points_per_cell` in the template cell list (`FullGridCellList`,
+`TreeCellList`) of only the failing cases, so that the other measurements stay comparable. In `setups.jl` that
 is `template_nhs`; the template of `tree_uniform` has 400 already,
 which is enough at ratio 4 (not run unmodified) but not at ratio 8.
 The experiments use the `nhs` of the examples, which can be overridden. A template value
@@ -133,12 +178,11 @@ ratio 2 finish without an error, and so did `test_forces.jl`. `uniform_*` runs: 
 - E3 `full` at D20 and D80 (ratio 2). Expected to fit, since the fullest cell depends mainly
   on the ratio, but not measured. Uniform `gate` and `full` runs of E3 were not measured.
 - Sizes `medium` and `large`. Size `tiny` ran without an error (Taylor-Green, pipe flow).
-- `accuracy.jl` and `run_accuracy.sh` were added later. They use Taylor-Green and the pipe
-  flow at ratio 2, like the rows above, but were not run.
-- `ab_worker.jl` uses `setups.jl` with Taylor-Green and the pipe flow, not run either.
-- The E1-E3 scripts stop after their first run for another reason, see
-  `experiments/HANDOFF_SEMI_NOT_DEFINED.md` in the experiments worktree. The measurement
-  worked around it in a scratch copy.
+- `accuracy.jl` and `ab_worker.jl` (Taylor-Green and pipe flow at ratio 2, like the rows
+  above) weren't part of these measurements. Their runs of 2026-11-23 use PointNeighbors
+  7aeb2f0, where the grid doesn't report an overflow.
+- The E1-E3 scripts stopped after their first run for another reason (world age, fixed in
+  287dbcf on `refinement/experiments`). The measurement worked around it in a scratch copy.
 - Old results of the failing cases on a grid with PointNeighbors 7aeb2f0 may be wrong:
   the ratio 4 vortex street ran through there without an error.
 
@@ -152,8 +196,8 @@ exists only there. `refinement/main` has no tree method, so the tree test belong
 - `/mnt/ssd/home/nschum25/TrixiParticles.jl` is the checkout of `refinement/main` and may be
   used by others. Create a new worktree and branch from `refinement/main`.
 - `../benchmark-measure` is for measurements. Don't edit it.
-- Six commits on `refinement/benchmark` (6b5500a to c4b66ab) are unpushed and the user
-  hasn't decided whether to push them. Don't push, and ask the user before rebasing.
+- Six commits on `refinement/benchmark` (6b5500a to c4b66ab) are unpushed (2026-11-24) and
+  the user hasn't decided whether to push them. Don't push, and ask the user before rebasing.
 - `git stash` is shared between all worktrees. Use WIP commits instead.
 
 ## Traps
@@ -163,9 +207,9 @@ exists only there. `refinement/main` has no tree method, so the tree test belong
   so under `@inbounds` an overflow writes into the next cell without an error. A grid run
   that doesn't stop proves nothing with these versions. Fixed in the registered 0.6.8
   (762efa1, #194), the first registered version that always checks, and in the local branch
-  `local/tree-parallel-overflow-fix` (3bef14f), which the local checkout, `run/` and
-  `runtest/` use now. `benchmarks/.ab_src` still has its own copy of 7aeb2f0, which is also
-  the default `--pn` of `ab_interleaved.py`. Check which version is loaded with
+  `local/tree-parallel-overflow-fix` (3bef14f). The local checkout, which `run/` and `runtest/`
+  use, is now on the rebased `ef/tree-parallel` (4842a89), with the same code as 3bef14f.
+  `benchmarks/.ab_src` still has its own copy of 7aeb2f0, which is also the default `--pn` of `ab_interleaved.py`. Check which version is loaded with
   `pathof(PointNeighbors)`. `Pkg.test` runs with `--check-bounds=yes`, which hides the bug.
 - **Reproducibility.** Use `SerialUpdate()`. With `ParallelUpdate()` and several threads,
   identical runs differ in their particle counts.

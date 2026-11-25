@@ -1,0 +1,9 @@
+block,path,ncalls,time_ns,allocated_bytes,per_call_ms
+0,kick!,100,1578480247,1924576,15.784802469999999
+0,kick! / system interaction,100,755122611,625824,7.55122611
+0,kick! / system interaction / fluid1-fluid1,100,753921188,600000,7.53921188
+0,kick! / update systems and nhs,100,821632885,1294976,8.21632885
+0,kick! / update systems and nhs / update shifting,100,410181433,600000,4.10181433
+0,kick! / update systems and nhs / update nhs,100,61166456,67200,0.6116645599999999
+0,kick! / update systems and nhs / compute average pressure and beta,100,342864719,627200,3.42864719
+0,kick! / reset ∂v/∂t,100,1409658,3200,0.014096580000000001

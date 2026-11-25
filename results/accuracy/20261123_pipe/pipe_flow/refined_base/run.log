@@ -1,0 +1,3 @@
+[ Info: You just called `trixi_include`. Julia may now compile the code, please be patient.
+[ Info: You just called `trixi_include`. Julia may now compile the code, please be patient.
+done: pipe_flow on t = 0.0941: cell list is full. Use a larger `max_points_per_cell`., 119 steps, 108.0 s

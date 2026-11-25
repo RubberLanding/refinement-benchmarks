@@ -1,0 +1,56 @@
+run,block,path,ncalls,time_ns,allocated_bytes
+1,1,drift!,903,2031960,173376
+1,1,update callback,101,88808838,155360
+1,1,update callback / update systems and nhs,101,88786858,155136
+1,1,kick!,903,1328749202,1691792
+1,1,kick! / system interaction,903,544388797,751520
+1,1,kick! / system interaction / fluid1-fluid1,903,543091882,520128
+1,1,kick! / update systems and nhs,903,782393289,910800
+1,1,kick! / update systems and nhs / update shifting,903,399138192,520128
+1,1,kick! / update systems and nhs / update nhs,903,123480005,28896
+1,1,kick! / update systems and nhs / compute average pressure,903,249241468,361200
+1,1,kick! / reset ∂v/∂t,903,1486955,28896
+2,2,drift!,903,2180239,173376
+2,2,update callback,101,88905268,155360
+2,2,update callback / update systems and nhs,101,88882427,155136
+2,2,kick!,903,1326481108,1691792
+2,2,kick! / system interaction,903,544824248,751520
+2,2,kick! / system interaction / fluid1-fluid1,903,543520911,520128
+2,2,kick! / update systems and nhs,903,779752006,910800
+2,2,kick! / update systems and nhs / update shifting,903,399636020,520128
+2,2,kick! / update systems and nhs / update nhs,903,122140118,28896
+2,2,kick! / update systems and nhs / compute average pressure,903,247907544,361200
+2,2,kick! / reset ∂v/∂t,903,1416311,28896
+3,3,drift!,903,2306748,173376
+3,3,update callback,101,88861014,155360
+3,3,update callback / update systems and nhs,101,88838633,155136
+3,3,kick!,903,1326119425,1691792
+3,3,kick! / system interaction,903,544455599,751520
+3,3,kick! / system interaction / fluid1-fluid1,903,543123978,520128
+3,3,kick! / update systems and nhs,903,779759617,910800
+3,3,kick! / update systems and nhs / update shifting,903,399242342,520128
+3,3,kick! / update systems and nhs / update nhs,903,122636507,28896
+3,3,kick! / update systems and nhs / compute average pressure,903,247833288,361200
+3,3,kick! / reset ∂v/∂t,903,1423046,28896
+4,4,drift!,903,2217509,173376
+4,4,update callback,101,88846142,155360
+4,4,update callback / update systems and nhs,101,88824521,155136
+4,4,kick!,903,1326472236,1691792
+4,4,kick! / system interaction,903,544568099,751520
+4,4,kick! / system interaction / fluid1-fluid1,903,543254591,520128
+4,4,kick! / update systems and nhs,903,779969948,910800
+4,4,kick! / update systems and nhs / update shifting,903,400044607,520128
+4,4,kick! / update systems and nhs / update nhs,903,122341078,28896
+4,4,kick! / update systems and nhs / compute average pressure,903,247512209,361200
+4,4,kick! / reset ∂v/∂t,903,1442474,28896
+5,5,drift!,903,2211290,173376
+5,5,update callback,101,88609176,155360
+5,5,update callback / update systems and nhs,101,88585704,155136
+5,5,kick!,903,1323557546,1691792
+5,5,kick! / system interaction,903,543763280,751520
+5,5,kick! / system interaction / fluid1-fluid1,903,542457426,520128
+5,5,kick! / update systems and nhs,903,777888047,910800
+5,5,kick! / update systems and nhs / update shifting,903,398410532,520128
+5,5,kick! / update systems and nhs / update nhs,903,122171173,28896
+5,5,kick! / update systems and nhs / compute average pressure,903,247221576,361200
+5,5,kick! / reset ∂v/∂t,903,1413868,28896

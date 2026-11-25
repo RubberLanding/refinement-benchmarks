@@ -1,0 +1,2 @@
+run,block,time_init,time_steps,steps,rejected,rhs_evaluations,t_end,n_initial,n_startup,n_end,n_total_end
+0,0,4.538133198,20.476070498,100,0,912,0.035192479120508345,4096,10746,10789,10789

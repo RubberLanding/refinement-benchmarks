@@ -1,0 +1,2 @@
+case,size,refinement,shifting,dtmax_factor,dtmax,max_spacing,t_end,steps,accepted,rejected,rhs,startup_wall,wall,n_initial,n_min,n_max,n_final,commit,pn,failed
+pipe_flow,small,on,fast,1.0,0.01,0.011764705882352941,1.6743271840947724,1516,1516,160,9901,80.45384001731873,222.1495349407196,2890,8245,10568,8245,c4b66ab,7aeb2f0,t = 1.6743: particle coordinates are NaN or outside the domain bounds of the cell list

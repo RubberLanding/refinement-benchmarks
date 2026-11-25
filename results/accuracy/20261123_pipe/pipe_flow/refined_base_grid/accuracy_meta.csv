@@ -1,0 +1,4 @@
+case,size,refinement,shifting,dtmax_factor,dtmax,max_spacing,t_end,steps,accepted,rejected,rhs,startup_wall,wall,n_initial,n_min,n_max,n_final,commit,pn,failed
+pipe_flow,small,on,fast,1.0,0.01,0.011764705882352941,1.6795514346294724,1638,1638,214,10902,48.02001094818115,268.5203330516815,2890,8169,10584,8200,5b73bd7,7aeb2f0,t = 1.6796: TaskFailedException
+
+    nested task error: BoundsError: attempt to access 38×19

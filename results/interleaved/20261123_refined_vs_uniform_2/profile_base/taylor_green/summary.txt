@@ -1,0 +1,177 @@
+==== taylor_green, small, tree_variable, refinement=on, 8 threads, load 20.4 24.7 33.0
+State after the startup and 20 steps (t = 0.006783): active particles EntropicallyDampedSPHSystem 10739
+
+==== Distribution of the particle spacings
+EntropicallyDampedSPHSystem: 10739 particles, 41% at min_spacing (level < 0.1), 56% graded, 3% at max_spacing (level > 0.9)
+  target spacing: 28% at level < 0.1, 9% at level > 0.9, 54% below the merge level 0.46 (two particles at min_spacing can only merge above it)
+  uniform at min_spacing: 16384 particles (refined / uniform = 0.66), uniform at max_spacing: 4096
+  mean level along x1 (-0.00675 to 1.01, 20 strips):         0.78 0.68 0.59 0.50 0.39 0.28 0.20 0.14 0.14 0.14 0.13 0.14 0.13 0.20 0.27 0.37 0.49 0.57 0.67 0.75
+  mean target level along x1 (-0.00675 to 1.01, 20 strips):  0.93 0.85 0.76 0.67 0.56 0.44 0.33 0.21 0.20 0.20 0.20 0.20 0.21 0.33 0.44 0.56 0.67 0.76 0.85 0.93
+  mean level along x2 (-0.00585 to 1.01, 20 strips):         0.76 0.69 0.60 0.49 0.39 0.27 0.20 0.13 0.14 0.13 0.13 0.13 0.14 0.21 0.27 0.36 0.48 0.57 0.69 0.76
+  mean target level along x2 (-0.00585 to 1.01, 20 strips):  0.93 0.85 0.76 0.67 0.56 0.45 0.33 0.21 0.21 0.20 0.20 0.21 0.20 0.33 0.45 0.56 0.67 0.77 0.86 0.93
+
+==== Neighbors per particle and query times
+system                       neighbor                        uniform   variable in support     useful query R [ms] query r [ms]
+  tree leaves of EntropicallyDampedSPHSystem: level 0 (cell size 0.048): 78% of the points, level 1 (cell size 0.024): 22% of the points
+EntropicallyDampedSPHSystem  EntropicallyDampedSPHSystem       105.4       29.6       29.6       100%       2.996       2.417
+Neighbors per particle: `uniform` with the search radius R of the NHS, `variable` with the per-particle radii (NaN: not used for this pair), `in support` of the larger h. `useful`: in support / returned by the query that the interaction uses. Query times with an empty loop body (minimum of 100).
+
+==== Timers of 100 RHS evaluations (kick!)
+kick!                                                                          18.953 ms/RHS    100.0%
+kick! / system interaction                                                      7.043 ms/RHS     37.2%
+kick! / system interaction / fluid1-fluid1                                      7.042 ms/RHS     37.2%
+kick! / update systems and nhs                                                 11.902 ms/RHS     62.8%
+kick! / update systems and nhs / update shifting                                5.189 ms/RHS     27.4%
+kick! / update systems and nhs / update nhs                                     0.563 ms/RHS      3.0%
+kick! / update systems and nhs / compute average pressure                       3.493 ms/RHS     18.4%
+kick! / update systems and nhs / compute beta                                   2.617 ms/RHS     13.8%
+wall time per RHS evaluation: 18.953 ms
+
+==== Profile of 300 RHS evaluations
+Frames with the most own time (Count = inclusive, Overh = own samples, all threads; spinning worker threads show up as overhead in Polyester/ThreadingUtilities):
+ Count  Overhead File                                                                  Line Function
+  1766      1766 @Base/int.jl                                                           87 +
+   693       693 @Base/task.jl                                                        1297 wait()
+   523       523 @Base/float.jl                                                        494 *
+   441       441 @Base/float.jl                                                        492 +
+  1018       286 @TrixiParticles/src/general/neighborhood_search.jl                   1081 #skip_unsupported_pairs##0
+   317       199 @PointNeighbors/src/nhs_tree.jl                                       615 mapreduce_points
+   162       162 @Base/float.jl                                                        493 -
+   156       156 @Base/float.jl                                                        466 round
+   142       141 @Base/float.jl                                                        623 <=
+   133       133 @Base/float.jl                                                        495 /
+   127       109 @PointNeighbors/src/neighborhood_search.jl                            519 compute_periodic_distance
+    98        98 @Base/essentials.jl                                                   975 getindex
+    98        98 @Base/promotion.jl                                                    641 ==
+    83        83 @Base/Base_compiler.jl                                                301 ==
+    72        72 @ThreadingUtilities/src/threadtasks.jl                                  ? wait
+    72        72 @Base/fastmath.jl                                                     170 div_fast
+    70        70 @PointNeighbors/src/neighborhood_search.jl                            525 compute_periodic_distance
+    63        63 @Base/int.jl                                                          564 <
+    61        61 @Base/float.jl                                                        622 <
+    58        58 @ThreadingUtilities/src/atomics.jl                                      5 _atomic_load
+    61        58 @Base/essentials.jl                                                   385 checkbounds
+    48        48 @Base/float.jl                                                        497 muladd
+   106        46 @Base/essentials.jl                                                   389 checkbounds
+   339        44 @Base/special/pow.jl                                                   29 ^
+    40        40 @Base/array.jl                                                       1025 _setindex!
+    39        39 @Base/int.jl                                                           88 *
+    36        36 @Base/math.jl                                                         857 max
+    30        30 @Base/pointer.jl                                                      178 unsafe_store!
+    29        29 @Base/int.jl                                                           86 -
+    25        25 @TrixiParticles/src/general/smoothing_kernels.jl                       23 kernel_grad
+Frames of TrixiParticles and PointNeighbors with the most inclusive samples:
+  3449         0 @PointNeighbors/src/util.jl                                           135 macro expansion
+  3446         0 @PointNeighbors/src/util.jl                                           120 #16
+  3437         0 @PointNeighbors/src/neighborhood_search.jl                            220 macro expansion
+  3437         0 @PointNeighbors/src/neighborhood_search.jl                            306 foreach_neighbor
+  3436         0 @PointNeighbors/src/neighborhood_search.jl                            319 #foreach_neighbor#22
+  3436         0 @PointNeighbors/src/neighborhood_search.jl                            346 foreach_neighbor
+  3366         0 @PointNeighbors/src/nhs_tree.jl                                       360 mapreduce_neighbor_inner
+  3322         0 @PointNeighbors/src/nhs_tree.jl                                       587 mapreduce_leaf
+  3015         0 @PointNeighbors/src/nhs_tree.jl                                       448 mapreduce_block_cell
+  1845         0 @PointNeighbors/src/nhs_tree.jl                                       622 mapreduce_points
+  1018       286 @TrixiParticles/src/general/neighborhood_search.jl                   1081 #skip_unsupported_pairs##0
+   694         0 @TrixiParticles/benchmarks/profile.jl                                 519 profile_main(args::Vector{String})
+   694         0 @TrixiParticles/benchmarks/profile.jl                                 574 profile_case(config::@NamedTuple{case::Symbol, size::Symbol, nhs::Symbol, refinement::Symbol, shifting::Symbol, options::@NamedTuple{}, update_strategy::SerialUpd…
+   694         0 @TrixiParticles/benchmarks/profile.jl                                 375 section_profile_rhs(r::Report, out::String, integrator::OrdinaryDiffEqCore.ODEIntegrator{RDPK3SpFSAL49{typeof(OrdinaryDiffEqCore.trivial_limiter!), typeof(Ordinar…
+   694         0 @TrixiParticles/benchmarks/profile.jl                                 376 macro expansion
+   694         0 @TrixiParticles/src/general/ode_rhs.jl                                 84 kick!(dv_ode::TrixiParticles.ThreadedBroadcastArray{Float64, 1, Vector{Float64}, PolyesterBackend}, v_ode::TrixiParticles.ThreadedBroadcastArray{Float64, 1, Vecto…
+   688         0 @PointNeighbors/src/util.jl                                           119 macro expansion
+   632         0 @TrixiParticles/src/general/neighborhood_search.jl                      7 foreach_point_neighbor
+   632         0 @TrixiParticles/src/general/neighborhood_search.jl                     14 #foreach_point_neighbor#399
+   632         0 @PointNeighbors/src/neighborhood_search.jl                            200 foreach_point_neighbor
+   632         0 @PointNeighbors/src/neighborhood_search.jl                            212 foreach_point_neighbor(f::TrixiParticles.var"#skip_unsupported_pairs##0#skip_unsupported_pairs##1"{TrixiParticles.var"#interact!##2#interact!##3"{TrixiParticles.T…
+   625         0 @PointNeighbors/src/nhs_tree.jl                                       611 mapreduce_points
+   527         0 @PointNeighbors/src/util.jl                                           134 parallel_foreach(f::PointNeighbors.var"#16#17"{TrixiParticles.var"#search_radius_function##0#search_radius_function##1"{TreeNeighborhoodSearch{2, false, Float64, …
+   436         0 @TrixiParticles/src/general/ode_rhs.jl                                 90 macro expansion
+   433         0 @TrixiParticles/src/schemes/fluid/fluid.jl                            134 pair_kernel_grads
+   426         0 @TrixiParticles/src/general/smoothing_kernels.jl                       26 kernel_grad
+   426         0 @TrixiParticles/src/general/smoothing_kernels.jl                       36 kernel_grad_unsafe
+   401         0 @TrixiParticles/src/general/ode_rhs.jl                                136 update_systems_and_nhs(v_ode::TrixiParticles.ThreadedBroadcastArray{Float64, 1, Vector{Float64}, PolyesterBackend}, u_ode::TrixiParticles.ThreadedBroadcastArray{F…
+   401         0 @TrixiParticles/src/general/semidiscretization.jl                     246 foreach_system_wrapped
+   401         0 @TrixiParticles/src/general/semidiscretization.jl                     258 foreach_system_wrapped
+Full profiles in benchmarks/results/interleaved/20261123_refined_vs_uniform_2/profile_base/taylor_green/profile_rhs_flat.txt and profile_rhs_tree.txt
+
+==== Shifting of one refinement call
+Active particles before / after merging and splitting: EntropicallyDampedSPHSystem 10739 -> 10738
+EntropicallyDampedSPHSystem: theta = 1.0, max_shift_factor = 0.05, tolerance = 0.002, 20 iterations (without stopping at the tolerance)
+ iter        max     median        p99    above  max total    compute      apply
+    1   7.58e-02   7.03e-04   3.24e-02     2243      0.050      3.434      0.638
+    2   5.13e-02   5.12e-04   1.64e-02     1206      0.100      3.333      0.622
+    3   3.23e-02   4.80e-04   1.07e-02     1018      0.130      3.327      0.634
+    4   2.32e-02   4.68e-04   8.50e-03      906      0.153      3.312      0.629
+    5   1.92e-02   4.59e-04   6.99e-03      836      0.170      3.321      0.608
+   10   1.83e-02   4.33e-04   4.19e-03      558      0.224      3.307      0.604
+   20   1.19e-02   3.98e-04   2.70e-03      260      0.288      3.296      0.604
+Residuals are `|δr_Eq15| / h` before limiting, `max total` is the largest accumulated shift / h. `above`: particles above the tolerance.
+The tolerance is not reached in 20 iterations.
+One iteration: 3.915 ms (median) = 0.21 RHS evaluations (18.943 ms on this state)
+
+==== Profile of 300 calls of compute_shift!
+Frames with the most own time (Count = inclusive, Overh = own samples, all threads; spinning worker threads show up as overhead in Polyester/ThreadingUtilities):
+ Count  Overhead File                                                       Line Function
+   193       193 @Base/int.jl                                                87 +
+   118       118 @Base/float.jl                                             494 *
+    99        99 @Base/task.jl                                             1297 wait()
+    57        57 @Base/float.jl                                             492 +
+    80        52 @PointNeighbors/src/nhs_tree.jl                            615 mapreduce_points
+    40        40 @Base/float.jl                                             493 -
+    33        33 @Base/float.jl                                             495 /
+    29        29 @Base/promotion.jl                                         641 ==
+    28        28 @Base/float.jl                                             623 <=
+    24        24 @Base/float.jl                                             622 <
+    21        21 @Base/essentials.jl                                        385 checkbounds
+    39        18 @TrixiParticles/src/general/abstract_system.jl             222 smoothing_length
+    18        18 @Base/float.jl                                             490 -
+    15        15 @Base/int.jl                                                 ? *
+    16        11 @PointNeighbors/src/neighborhood_search.jl                 519 compute_periodic_distance
+    10        10 @Base/libuv.jl                                             133 process_events
+    10        10 @Base/float.jl                                             466 round
+    30         9 @Base/essentials.jl                                        389 checkbounds
+    38         5 @PointNeighbors/src/nhs_tree.jl                            616 mapreduce_points
+    10         0 @PointNeighbors/src/nhs_tree.jl                            609 mapreduce_points
+    10         0 @Base/task.jl                                             1280 wait()
+    10         0 @Base/task.jl                                             1099 yield()
+    10         0 @ThreadingUtilities/src/threadtasks.jl                      86 checktask(tid::UInt32)
+    10         0 @ThreadingUtilities/src/threadtasks.jl                     109 wait
+    14         0 @Base/promotion.jl                                         434 *
+    10         0 @Base/float.jl                                             675 <
+    15         0 @PointNeighbors/src/nhs_tree.jl                            490 mapreduce_non_leaf
+    20         0 @Base/int.jl                                              1063 *
+    37         0 @TrixiParticles/src/general/smoothing_kernels.jl           372 kernel_unsafe
+    10         0 @TrixiParticles/src/general/smoothing_kernels.jl           382 kernel_deriv_div_r_unsafe
+Frames of TrixiParticles and PointNeighbors with the most inclusive samples:
+   572         0 @PointNeighbors/src/util.jl                                135 macro expansion
+   572         0 @PointNeighbors/src/util.jl                                120 #16
+   572         0 @PointNeighbors/src/neighborhood_search.jl                 220 macro expansion
+   572         0 @PointNeighbors/src/neighborhood_search.jl                 306 foreach_neighbor
+   572         0 @PointNeighbors/src/neighborhood_search.jl                 319 #foreach_neighbor#22
+   572         0 @PointNeighbors/src/neighborhood_search.jl                 346 foreach_neighbor
+   558         0 @PointNeighbors/src/nhs_tree.jl                            360 mapreduce_neighbor_inner
+   547         0 @PointNeighbors/src/nhs_tree.jl                            587 mapreduce_leaf
+   514         0 @PointNeighbors/src/nhs_tree.jl                            448 mapreduce_block_cell
+   266         0 @PointNeighbors/src/nhs_tree.jl                            622 mapreduce_points
+   100         0 @TrixiParticles/benchmarks/profile.jl                      519 profile_main(args::Vector{String})
+   100         0 @TrixiParticles/benchmarks/profile.jl                      583 profile_case(config::@NamedTuple{case::Symbol, size::Symbol, nhs::Symbol, refinement::Symbol, shifting::Symbol, options::@NamedTuple{}, update_strategy::SerialUpdate, advanc…
+   100         0 @TrixiParticles/benchmarks/profile.jl                      506 section_profile_shift(r::Report, out::String, integrator_::OrdinaryDiffEqCore.ODEIntegrator{RDPK3SpFSAL49{typeof(OrdinaryDiffEqCore.trivial_limiter!), typeof(OrdinaryDiffEqC…
+   100         0 @TrixiParticles/benchmarks/profile.jl                      507 macro expansion
+    99         0 @TrixiParticles/src/refinement/shifting.jl                 128 compute_shift!(system::EntropicallyDampedSPHSystem{2, Float64, InitialCondition{Float64, Matrix{Float64}, Matrix{Float64}, Vector{Float64}, Nothing}, Vector{Float64}, Contin…
+    99         0 @TrixiParticles/src/general/semidiscretization.jl          238 foreach_system
+    99         0 @TrixiParticles/src/util.jl                                 14 foreach_noalloc
+    99         0 @TrixiParticles/src/refinement/shifting.jl                 137 #compute_shift!##0
+    99         0 @TrixiParticles/src/general/neighborhood_search.jl           7 foreach_point_neighbor
+    99         0 @TrixiParticles/src/general/neighborhood_search.jl          14 #foreach_point_neighbor#399
+    99         0 @PointNeighbors/src/neighborhood_search.jl                 200 foreach_point_neighbor
+    99         0 @PointNeighbors/src/neighborhood_search.jl                 212 foreach_point_neighbor(f::TrixiParticles.var"#compute_shift!##2#compute_shift!##3"{EntropicallyDampedSPHSystem{2, Float64, InitialCondition{Float64, Matrix{Float64}, Matrix{…
+    99         0 @PointNeighbors/src/util.jl                                119 macro expansion
+    99         0 @PointNeighbors/src/util.jl                                134 parallel_foreach(f::PointNeighbors.var"#16#17"{TrixiParticles.var"#search_radius_function##0#search_radius_function##1"{TreeNeighborhoodSearch{2, false, Float64, MaximumRadi…
+    89         0 @PointNeighbors/src/nhs_tree.jl                            611 mapreduce_points
+    87         0 @TrixiParticles/src/refinement/shifting.jl                 149 #compute_shift!##2
+    80        52 @PointNeighbors/src/nhs_tree.jl                            615 mapreduce_points
+    64         0 @TrixiParticles/src/refinement/shifting.jl                 146 #compute_shift!##2
+    59         0 @TrixiParticles/src/general/smoothing_kernels.jl            26 kernel_grad
+    59         0 @TrixiParticles/src/general/smoothing_kernels.jl            36 kernel_grad_unsafe
+Full profiles in benchmarks/results/interleaved/20261123_refined_vs_uniform_2/profile_base/taylor_green/profile_shift_flat.txt and profile_shift_tree.txt
+
+Results in benchmarks/results/interleaved/20261123_refined_vs_uniform_2/profile_base/taylor_green

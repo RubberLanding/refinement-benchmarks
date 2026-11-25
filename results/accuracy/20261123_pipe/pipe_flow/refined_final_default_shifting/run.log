@@ -1,0 +1,2 @@
+[ Info: You just called `trixi_include`. Julia may now compile the code, please be patient.
+done: pipe_flow on t = 1.626: particle coordinates are NaN or outside the domain bounds of the cell list, 1569 steps, 276.4 s

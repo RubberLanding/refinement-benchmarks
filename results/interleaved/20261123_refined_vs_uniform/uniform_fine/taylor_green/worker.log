@@ -1,0 +1,20 @@
+@@ ready pid=845129
+@@ step 103.90 ms, 100 steps, 903 RHS, 16384 particles at the end
+@@ RHS median 8.521 ms, minimum 6.974 ms, 16384 particles
+@@ step 56.48 ms, 100 steps, 903 RHS, 16384 particles at the end
+@@ RHS median 5.761 ms, minimum 5.601 ms, 16384 particles
+@@ step 71.67 ms, 100 steps, 903 RHS, 16384 particles at the end
+@@ RHS median 7.333 ms, minimum 5.627 ms, 16384 particles
+@@ step 56.39 ms, 100 steps, 903 RHS, 16384 particles at the end
+@@ RHS median 5.888 ms, minimum 5.621 ms, 16384 particles
+@@ step 56.13 ms, 100 steps, 903 RHS, 16384 particles at the end
+@@ RHS median 5.885 ms, minimum 5.574 ms, 16384 particles
+@@ step 61.72 ms, 100 steps, 903 RHS, 16384 particles at the end
+@@ RHS median 7.506 ms, minimum 6.647 ms, 16384 particles
+@@ step 74.24 ms, 100 steps, 903 RHS, 16384 particles at the end
+@@ RHS median 7.493 ms, minimum 6.680 ms, 16384 particles
+@@ step 72.74 ms, 100 steps, 903 RHS, 16384 particles at the end
+@@ RHS median 7.496 ms, minimum 6.664 ms, 16384 particles
+@@ step 69.87 ms, 100 steps, 903 RHS, 16384 particles at the end
+@@ RHS median 7.302 ms, minimum 7.137 ms, 16384 particles
+[ Info: You just called `trixi_include`. Julia may now compile the code, please be patient.

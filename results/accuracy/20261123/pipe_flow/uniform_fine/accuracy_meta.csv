@@ -1,0 +1,2 @@
+case,size,refinement,shifting,dtmax_factor,dtmax,max_spacing,t_end,steps,accepted,rejected,rhs,startup_wall,wall,n_initial,n_min,n_max,n_final,commit,pn,failed
+pipe_flow,small,min,fast,1.0,0.01,0.011764705882352941,2.0,1418,1418,69,8855,27.666533946990967,81.47885298728943,11560,11356,11688,11411,c4b66ab,7aeb2f0,

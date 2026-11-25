@@ -1,0 +1,59 @@
+{
+ "date": "2026-11-23T15:42:16",
+ "cases": [
+  "taylor_green",
+  "pipe_flow"
+ ],
+ "labels": [
+  {
+   "name": "uniform_fine",
+   "commit": "c4b66ab",
+   "refinement": "min"
+  },
+  {
+   "name": "refined_base",
+   "commit": "5b73bd7",
+   "refinement": "on"
+  },
+  {
+   "name": "refined_final",
+   "commit": "c4b66ab",
+   "refinement": "on"
+  },
+  {
+   "name": "uniform_coarse",
+   "commit": "c4b66ab",
+   "refinement": "max"
+  },
+  {
+   "name": "uniform_fine_again",
+   "commit": "c4b66ab",
+   "refinement": "min"
+  }
+ ],
+ "reference": "uniform_fine",
+ "aa": "uniform_fine_again",
+ "pointneighbors": "7aeb2f0",
+ "cpus": [
+  16,
+  17,
+  18,
+  19,
+  20,
+  21,
+  22,
+  23
+ ],
+ "size": "small",
+ "threads": 8,
+ "blocks": 5,
+ "mode": "full",
+ "steps": 100,
+ "rhs_calls": 100,
+ "extra": {
+  "taylor_green": 0,
+  "pipe_flow": 0
+ },
+ "startup_s": 145.0,
+ "total_s": 698.4
+}

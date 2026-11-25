@@ -1,0 +1,46 @@
+{
+ "date": "2026-11-23T14:23:09",
+ "cases": [
+  "taylor_green",
+  "pipe_flow"
+ ],
+ "labels": [
+  {
+   "name": "base",
+   "commit": "5b73bd7"
+  },
+  {
+   "name": "final",
+   "commit": "c4b66ab"
+  },
+  {
+   "name": "base_again",
+   "commit": "5b73bd7"
+  }
+ ],
+ "reference": "base",
+ "aa": "base_again",
+ "pointneighbors": "7aeb2f0",
+ "cpus": [
+  56,
+  57,
+  58,
+  59,
+  60,
+  61,
+  62,
+  63
+ ],
+ "size": "small",
+ "threads": 8,
+ "blocks": 5,
+ "mode": "full",
+ "steps": 100,
+ "rhs_calls": 100,
+ "extra": {
+  "taylor_green": 0,
+  "pipe_flow": 0
+ },
+ "startup_s": 444.3,
+ "total_s": 1132.4
+}

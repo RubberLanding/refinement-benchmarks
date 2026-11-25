@@ -1,0 +1,2 @@
+case,size,refinement,shifting,dtmax_factor,dtmax,max_spacing,t_end,steps,accepted,rejected,rhs,startup_wall,wall,n_initial,n_min,n_max,n_final,commit,pn,failed
+taylor_green,small,min,fast,1.0,0.0001775568181818182,0.015625,1.0001738569489718,5633,5633,0,50700,8.744979858398438,513.0375280380249,16384,16384,16384,16384,c4b66ab,7aeb2f0,

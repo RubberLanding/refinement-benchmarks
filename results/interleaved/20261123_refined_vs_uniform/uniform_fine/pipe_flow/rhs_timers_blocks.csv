@@ -1,0 +1,153 @@
+block,path,ncalls,time_ns,allocated_bytes,per_call_ms
+1,kick!,100,224138420,923952,2.2413842
+1,kick! / system interaction,100,120637920,486976,1.2063792
+1,kick! / system interaction / boundary3-boundary3,100,2410,0,2.41e-5
+1,kick! / system interaction / boundary3-fluid1,100,2440,0,2.44e-5
+1,kick! / system interaction / fluid1-open_boundary2,100,8042207,116800,0.08042207
+1,kick! / system interaction / open_boundary2-fluid1,100,2390,0,2.39e-5
+1,kick! / system interaction / fluid1-fluid1,100,96181593,62400,0.9618159300000001
+1,kick! / system interaction / open_boundary2-open_boundary2,100,2410,0,2.41e-5
+1,kick! / system interaction / fluid1-boundary3,100,15572959,62400,0.15572959
+1,kick! / system interaction / open_boundary2-boundary3,100,6900,0,6.9e-5
+1,kick! / system interaction / boundary3-open_boundary2,100,2400,0,2.3999999999999997e-5
+1,kick! / update systems and nhs,100,102376007,433200,1.02376007
+1,kick! / update systems and nhs / compute boundary pressure,100,2685874,73600,0.026858740000000002
+1,kick! / update systems and nhs / update nhs,100,51434563,6400,0.51434563
+1,kick! / update systems and nhs / update density diffusion,100,2350,0,2.3500000000000002e-5
+1,kick! / update systems and nhs / deactivate out of bounds particle,200,919392,145600,0.00919392
+1,kick! / update systems and nhs / compute average pressure,100,42820979,177600,0.42820979000000003
+1,kick! / update systems and nhs / inverse state equation,100,996063,28800,0.00996063
+1,kick! / reset ∂v/∂t,100,1053959,3200,0.010539590000000001
+2,kick!,100,218489313,923952,2.1848931300000003
+2,kick! / system interaction,100,121464654,486976,1.21464654
+2,kick! / system interaction / boundary3-boundary3,100,2600,0,2.6e-5
+2,kick! / system interaction / boundary3-fluid1,100,2470,0,2.47e-5
+2,kick! / system interaction / fluid1-open_boundary2,100,7369693,116800,0.07369693
+2,kick! / system interaction / open_boundary2-fluid1,100,2510,0,2.51e-5
+2,kick! / system interaction / fluid1-fluid1,100,97723405,62400,0.97723405
+2,kick! / system interaction / open_boundary2-open_boundary2,100,2470,0,2.47e-5
+2,kick! / system interaction / fluid1-boundary3,100,15517751,62400,0.15517751000000002
+2,kick! / system interaction / open_boundary2-boundary3,100,2440,0,2.44e-5
+2,kick! / system interaction / boundary3-open_boundary2,100,2520,0,2.5200000000000003e-5
+2,kick! / update systems and nhs,100,96102893,433200,0.9610289299999999
+2,kick! / update systems and nhs / compute boundary pressure,100,3120760,73600,0.031207600000000002
+2,kick! / update systems and nhs / update nhs,100,47608539,6400,0.47608539
+2,kick! / update systems and nhs / update density diffusion,100,2520,0,2.5200000000000003e-5
+2,kick! / update systems and nhs / deactivate out of bounds particle,200,906408,145600,0.00906408
+2,kick! / update systems and nhs / compute average pressure,100,39931556,177600,0.39931556
+2,kick! / update systems and nhs / inverse state equation,100,909177,28800,0.00909177
+2,kick! / reset ∂v/∂t,100,846025,3200,0.00846025
+3,kick!,100,218075694,923952,2.18075694
+3,kick! / system interaction,100,121153308,486976,1.21153308
+3,kick! / system interaction / boundary3-boundary3,100,2460,0,2.4599999999999998e-5
+3,kick! / system interaction / boundary3-fluid1,100,2530,0,2.5300000000000002e-5
+3,kick! / system interaction / fluid1-open_boundary2,100,7501081,116800,0.07501081
+3,kick! / system interaction / open_boundary2-fluid1,100,2470,0,2.47e-5
+3,kick! / system interaction / fluid1-fluid1,100,97255259,62400,0.9725525899999999
+3,kick! / system interaction / open_boundary2-open_boundary2,100,2530,0,2.5300000000000002e-5
+3,kick! / system interaction / fluid1-boundary3,100,15550557,62400,0.15550556999999998
+3,kick! / system interaction / open_boundary2-boundary3,100,2450,0,2.45e-5
+3,kick! / system interaction / boundary3-open_boundary2,100,2390,0,2.39e-5
+3,kick! / update systems and nhs,100,95993202,433200,0.95993202
+3,kick! / update systems and nhs / compute boundary pressure,100,3127208,73600,0.03127208
+3,kick! / update systems and nhs / update nhs,100,47480070,6400,0.47480069999999996
+3,kick! / update systems and nhs / update density diffusion,100,2480,0,2.48e-5
+3,kick! / update systems and nhs / deactivate out of bounds particle,200,923380,145600,0.0092338
+3,kick! / update systems and nhs / compute average pressure,100,39845407,177600,0.39845407
+3,kick! / update systems and nhs / inverse state equation,100,933984,28800,0.00933984
+3,kick! / reset ∂v/∂t,100,849533,3200,0.00849533
+4,kick!,100,213509453,923952,2.13509453
+4,kick! / system interaction,100,120600904,486976,1.20600904
+4,kick! / system interaction / boundary3-boundary3,100,2390,0,2.39e-5
+4,kick! / system interaction / boundary3-fluid1,100,2440,0,2.44e-5
+4,kick! / system interaction / fluid1-open_boundary2,100,7342775,116800,0.07342775
+4,kick! / system interaction / open_boundary2-fluid1,100,2460,0,2.4599999999999998e-5
+4,kick! / system interaction / fluid1-fluid1,100,96967634,62400,0.96967634
+4,kick! / system interaction / open_boundary2-open_boundary2,100,2392,0,2.392e-5
+4,kick! / system interaction / fluid1-boundary3,100,15449770,62400,0.1544977
+4,kick! / system interaction / open_boundary2-boundary3,100,2510,0,2.51e-5
+4,kick! / system interaction / boundary3-open_boundary2,100,2400,0,2.3999999999999997e-5
+4,kick! / update systems and nhs,100,92259111,433200,0.92259111
+4,kick! / update systems and nhs / compute boundary pressure,100,3127152,73600,0.031271520000000004
+4,kick! / update systems and nhs / update nhs,100,43979722,6400,0.43979722000000004
+4,kick! / update systems and nhs / update density diffusion,100,2430,0,2.4299999999999998e-5
+4,kick! / update systems and nhs / deactivate out of bounds particle,200,907212,145600,0.00907212
+4,kick! / update systems and nhs / compute average pressure,100,39807843,177600,0.39807843
+4,kick! / update systems and nhs / inverse state equation,100,734385,28800,0.00734385
+4,kick! / reset ∂v/∂t,100,579855,3200,0.00579855
+5,kick!,100,278666120,923952,2.7866611999999997
+5,kick! / system interaction,100,172679578,486976,1.72679578
+5,kick! / system interaction / boundary3-boundary3,100,2390,0,2.39e-5
+5,kick! / system interaction / boundary3-fluid1,100,2370,0,2.37e-5
+5,kick! / system interaction / fluid1-open_boundary2,100,8731479,116800,0.08731479
+5,kick! / system interaction / open_boundary2-fluid1,100,2360,0,2.36e-5
+5,kick! / system interaction / fluid1-fluid1,100,144048529,62400,1.44048529
+5,kick! / system interaction / open_boundary2-open_boundary2,100,2450,0,2.45e-5
+5,kick! / system interaction / fluid1-boundary3,100,19071226,62400,0.19071226
+5,kick! / system interaction / open_boundary2-boundary3,100,2610,0,2.6099999999999997e-5
+5,kick! / system interaction / boundary3-open_boundary2,100,2390,0,2.39e-5
+5,kick! / update systems and nhs,100,105220097,433200,1.05220097
+5,kick! / update systems and nhs / compute boundary pressure,100,3167388,73600,0.03167388
+5,kick! / update systems and nhs / update nhs,100,43579457,6400,0.43579457
+5,kick! / update systems and nhs / update density diffusion,100,2360,0,2.36e-5
+5,kick! / update systems and nhs / deactivate out of bounds particle,200,1204491,145600,0.012044909999999999
+5,kick! / update systems and nhs / compute average pressure,100,52721977,177600,0.52721977
+5,kick! / update systems and nhs / inverse state equation,100,750293,28800,0.00750293
+5,kick! / reset ∂v/∂t,100,695913,3200,0.00695913
+6,kick!,100,203400263,923952,2.03400263
+6,kick! / system interaction,100,115761075,486976,1.1576107500000001
+6,kick! / system interaction / boundary3-boundary3,100,2460,0,2.4599999999999998e-5
+6,kick! / system interaction / boundary3-fluid1,100,2300,0,2.3e-5
+6,kick! / system interaction / fluid1-open_boundary2,100,6970146,116800,0.06970145999999999
+6,kick! / system interaction / open_boundary2-fluid1,100,2360,0,2.36e-5
+6,kick! / system interaction / fluid1-fluid1,100,93224471,62400,0.93224471
+6,kick! / system interaction / open_boundary2-open_boundary2,100,2430,0,2.4299999999999998e-5
+6,kick! / system interaction / fluid1-boundary3,100,14769876,62400,0.14769876
+6,kick! / system interaction / open_boundary2-boundary3,100,2240,0,2.24e-5
+6,kick! / system interaction / boundary3-open_boundary2,100,2421,0,2.421e-5
+6,kick! / update systems and nhs,100,87032714,433200,0.87032714
+6,kick! / update systems and nhs / compute boundary pressure,100,3010072,73600,0.03010072
+6,kick! / update systems and nhs / update nhs,100,41028239,6400,0.41028239
+6,kick! / update systems and nhs / update density diffusion,100,2290,0,2.29e-5
+6,kick! / update systems and nhs / deactivate out of bounds particle,200,850064,145600,0.00850064
+6,kick! / update systems and nhs / compute average pressure,100,38086542,177600,0.38086542
+6,kick! / update systems and nhs / inverse state equation,100,721086,28800,0.00721086
+6,kick! / reset ∂v/∂t,100,537662,3200,0.0053766199999999995
+7,kick!,100,203830941,923952,2.03830941
+7,kick! / system interaction,100,116060917,486976,1.16060917
+7,kick! / system interaction / boundary3-boundary3,100,2330,0,2.33e-5
+7,kick! / system interaction / boundary3-fluid1,100,2340,0,2.34e-5
+7,kick! / system interaction / fluid1-open_boundary2,100,7048137,116800,0.07048137
+7,kick! / system interaction / open_boundary2-fluid1,100,2380,0,2.3800000000000003e-5
+7,kick! / system interaction / fluid1-fluid1,100,93507142,62400,0.93507142
+7,kick! / system interaction / open_boundary2-open_boundary2,100,2320,0,2.32e-5
+7,kick! / system interaction / fluid1-boundary3,100,14728363,62400,0.14728363
+7,kick! / system interaction / open_boundary2-boundary3,100,2330,0,2.33e-5
+7,kick! / system interaction / boundary3-open_boundary2,100,2430,0,2.4299999999999998e-5
+7,kick! / update systems and nhs,100,87138993,433200,0.87138993
+7,kick! / update systems and nhs / compute boundary pressure,100,3319707,73600,0.03319707
+7,kick! / update systems and nhs / update nhs,100,39809977,6400,0.39809977
+7,kick! / update systems and nhs / update density diffusion,100,2320,0,2.32e-5
+7,kick! / update systems and nhs / deactivate out of bounds particle,200,868475,145600,0.00868475
+7,kick! / update systems and nhs / compute average pressure,100,39426215,177600,0.39426215
+7,kick! / update systems and nhs / inverse state equation,100,729280,28800,0.0072928
+7,kick! / reset ∂v/∂t,100,564219,3200,0.00564219
+8,kick!,100,205113028,923952,2.05113028
+8,kick! / system interaction,100,115491635,486976,1.15491635
+8,kick! / system interaction / boundary3-boundary3,100,2400,0,2.3999999999999997e-5
+8,kick! / system interaction / boundary3-fluid1,100,2420,0,2.42e-5
+8,kick! / system interaction / fluid1-open_boundary2,100,7011615,116800,0.07011615
+8,kick! / system interaction / open_boundary2-fluid1,100,2350,0,2.3500000000000002e-5
+8,kick! / system interaction / fluid1-fluid1,100,93110291,62400,0.93110291
+8,kick! / system interaction / open_boundary2-open_boundary2,100,2400,0,2.3999999999999997e-5
+8,kick! / system interaction / fluid1-boundary3,100,14563721,62400,0.14563721
+8,kick! / system interaction / open_boundary2-boundary3,100,2350,0,2.3500000000000002e-5
+8,kick! / system interaction / boundary3-open_boundary2,100,2340,0,2.34e-5
+8,kick! / update systems and nhs,100,88978247,433200,0.88978247
+8,kick! / update systems and nhs / compute boundary pressure,100,2964455,73600,0.029644550000000002
+8,kick! / update systems and nhs / update nhs,100,43520745,6400,0.43520745
+8,kick! / update systems and nhs / update density diffusion,100,2360,0,2.36e-5
+8,kick! / update systems and nhs / deactivate out of bounds particle,200,862284,145600,0.00862284
+8,kick! / update systems and nhs / compute average pressure,100,37988884,177600,0.37988884
+8,kick! / update systems and nhs / inverse state equation,100,627717,28800,0.0062771699999999995
+8,kick! / reset ∂v/∂t,100,575143,3200,0.005751429999999999

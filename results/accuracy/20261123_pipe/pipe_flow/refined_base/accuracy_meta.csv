@@ -1,0 +1,2 @@
+case,size,refinement,shifting,dtmax_factor,dtmax,max_spacing,t_end,steps,accepted,rejected,rhs,startup_wall,wall,n_initial,n_min,n_max,n_final,commit,pn,failed
+pipe_flow,small,on,fast,1.0,0.01,0.011764705882352941,0.09412972328522927,119,120,3,737,82.54470205307007,107.95811891555786,2890,9574,10567,10053,5b73bd7,7aeb2f0,t = 0.0941: cell list is full. Use a larger `max_points_per_cell`.

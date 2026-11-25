@@ -1,0 +1,326 @@
+Overhead ╎ [+additional indent] Count File:Line  Function
+=========================================================
+    ╎694   @Base/client.jl:577  _start()
+    ╎ 694   @Base/client.jl:344  exec_options(opts::Base.JLOptions)
+    ╎  694   @Base/Base.jl:309  include(mod::Module, _path::String)
+    ╎   694   @Base/loading.jl:3151  _include(mapexpr::Function, mod::Module, _path::String)
+    ╎    694   @Base/loading.jl:3091  include_string(mapexpr::typeof(identity), mod::Module, code::String, filename::String)
+    ╎     694   @Base/boot.jl:489  eval(m::Module, e::Any)
+    ╎    ╎ 694   @TrixiParticles/benchmarks/profile.jl:519  profile_main(args::Vector{String})
+    ╎    ╎  694   @TrixiParticles/benchmarks/profile.jl:574  profile_case(config::@NamedTuple{case::Symbol, size::Symbol, nhs::Symbol, refinement::Symbol, shifting::Symbol, options::@NamedTuple{}, update_strategy::SerialUpdate, advance::Int64, rhs_c…
+    ╎    ╎   694   @TrixiParticles/benchmarks/profile.jl:375  section_profile_rhs(r::Report, out::String, integrator::OrdinaryDiffEqCore.ODEIntegrator{RDPK3SpFSAL49{typeof(OrdinaryDiffEqCore.trivial_limiter!), typeof(OrdinaryDiffEqCore.trivial_limit…
+    ╎    ╎    694   @Profile/src/Profile.jl:60  macro expansion
+    ╎    ╎     694   @TrixiParticles/benchmarks/profile.jl:376  macro expansion
+    ╎    ╎    ╎ 694   @TrixiParticles/src/general/ode_rhs.jl:84  kick!(dv_ode::TrixiParticles.ThreadedBroadcastArray{Float64, 1, Vector{Float64}, PolyesterBackend}, v_ode::TrixiParticles.ThreadedBroadcastArray{Float64, 1, Vector{Float64}, PolyesterB…
+    ╎    ╎    ╎  694   @TrixiBase/src/trixi_timeit.jl:68  macro expansion
+    ╎    ╎    ╎   436   @TrixiParticles/src/general/ode_rhs.jl:90  macro expansion
+    ╎    ╎    ╎    436   @TrixiBase/src/trixi_timeit.jl:68  macro expansion
+    ╎    ╎    ╎     401   @TrixiParticles/src/general/ode_rhs.jl:136  update_systems_and_nhs(v_ode::TrixiParticles.ThreadedBroadcastArray{Float64, 1, Vector{Float64}, PolyesterBackend}, u_ode::TrixiParticles.ThreadedBroadcastArray{Float64, 1, Vector…
+    ╎    ╎    ╎    ╎ 401   @TrixiParticles/src/general/semidiscretization.jl:246  foreach_system_wrapped
+    ╎    ╎    ╎    ╎  401   @TrixiParticles/src/general/semidiscretization.jl:258  foreach_system_wrapped
+    ╎    ╎    ╎    ╎   401   @TrixiParticles/src/general/ode_rhs.jl:137  #update_systems_and_nhs##8
+    ╎    ╎    ╎    ╎    401   @TrixiParticles/src/schemes/fluid/entropically_damped_sph/system.jl:374  update_final!
+    ╎    ╎    ╎    ╎     106   @TrixiParticles/src/schemes/fluid/entropically_damped_sph/system.jl:381  #update_final!#187
+    ╎    ╎    ╎    ╎    ╎ 105   @TrixiParticles/src/schemes/fluid/entropically_damped_sph/system.jl:463  update_average_pressure!(system::EntropicallyDampedSPHSystem{2, Float64, InitialCondition{Float64, Matrix{Float64}, Matrix{Float64}, Vector{Floa…
+    ╎    ╎    ╎    ╎    ╎  105   @TrixiBase/src/trixi_timeit.jl:68  macro expansion
+    ╎    ╎    ╎    ╎    ╎   105   @TrixiParticles/src/schemes/fluid/entropically_damped_sph/system.jl:464  macro expansion
+    ╎    ╎    ╎    ╎    ╎    105   @TrixiParticles/src/general/semidiscretization.jl:246  foreach_system_wrapped
+    ╎    ╎    ╎    ╎    ╎     105   @TrixiParticles/src/general/semidiscretization.jl:258  foreach_system_wrapped
+    ╎    ╎    ╎    ╎    ╎    ╎ 105   @TrixiParticles/src/schemes/fluid/entropically_damped_sph/system.jl:476  #update_average_pressure!##0
+    ╎    ╎    ╎    ╎    ╎    ╎  105   @TrixiParticles/src/general/neighborhood_search.jl:7  foreach_point_neighbor
+    ╎    ╎    ╎    ╎    ╎    ╎   105   @TrixiParticles/src/general/neighborhood_search.jl:14  #foreach_point_neighbor#399
+    ╎    ╎    ╎    ╎    ╎    ╎    105   @PointNeighbors/src/neighborhood_search.jl:200  foreach_point_neighbor
+    ╎    ╎    ╎    ╎    ╎    ╎     105   @PointNeighbors/src/neighborhood_search.jl:212  foreach_point_neighbor(f::TrixiParticles.var"#update_average_pressure!##2#update_average_pressure!##3"{EntropicallyDampedSPHSystem{2, Float64, InitialCondition{…
+    ╎    ╎    ╎    ╎    ╎    ╎    ╎ 105   @PointNeighbors/src/util.jl:119  macro expansion
+    ╎    ╎    ╎    ╎    ╎    ╎    ╎  105   @PointNeighbors/src/util.jl:134  parallel_foreach
+    ╎    ╎    ╎    ╎    ╎    ╎    ╎   105   @Polyester/src/closure.jl:456  macro expansion
+    ╎    ╎    ╎    ╎    ╎    ╎    ╎    105   @Polyester/src/batch.jl:335  batch
+    ╎    ╎    ╎    ╎    ╎    ╎    ╎     105   @Polyester/src/batch.jl:168  _batch_no_reserve
+    ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎ 41    @Polyester/src/batch.jl:246  macro expansion
+    ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎  41    @Polyester/src/closure.jl:309  #parallel_foreach##0
+    ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎   41    @PointNeighbors/src/util.jl:135  macro expansion
+    ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎    41    @PointNeighbors/src/util.jl:120  #16
+    ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎     41    @PointNeighbors/src/neighborhood_search.jl:220  macro expansion
+    ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎ 41    @PointNeighbors/src/neighborhood_search.jl:306  foreach_neighbor
+    ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎  41    @PointNeighbors/src/neighborhood_search.jl:319  #foreach_neighbor#22
+    ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎   41    @PointNeighbors/src/neighborhood_search.jl:346  foreach_neighbor
+    ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎    41    @PointNeighbors/src/nhs_tree.jl:360  mapreduce_neighbor_inner
+    ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎     38    @PointNeighbors/src/nhs_tree.jl:448  mapreduce_block_cell
+    ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎ 38    @PointNeighbors/src/nhs_tree.jl:587  mapreduce_leaf
+    ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎ 64    @Polyester/src/batch.jl:257  macro expansion
+    ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎  64    @ThreadingUtilities/src/threadtasks.jl:102  wait
+  24╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎   24    @ThreadingUtilities/src/threadtasks.jl:0  wait
+   1╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎   30    @ThreadingUtilities/src/threadtasks.jl:108  wait
+    ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎    29    @Base/operators.jl:425  >
+  29╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎     29    @Base/int.jl:564  <
+    ╎    ╎    ╎    ╎     108   @TrixiParticles/src/schemes/fluid/entropically_damped_sph/system.jl:382  #update_final!#187
+    ╎    ╎    ╎    ╎    ╎ 107   @TrixiParticles/src/schemes/fluid/entropically_damped_sph/system.jl:395  update_beta!(system::EntropicallyDampedSPHSystem{2, Float64, InitialCondition{Float64, Matrix{Float64}, Matrix{Float64}, Vector{Float64}, Nothin…
+    ╎    ╎    ╎    ╎    ╎  107   @TrixiBase/src/trixi_timeit.jl:68  macro expansion
+    ╎    ╎    ╎    ╎    ╎   99    @TrixiParticles/src/schemes/fluid/entropically_damped_sph/system.jl:396  macro expansion
+    ╎    ╎    ╎    ╎    ╎    99    @TrixiParticles/src/general/semidiscretization.jl:246  foreach_system_wrapped
+    ╎    ╎    ╎    ╎    ╎     99    @TrixiParticles/src/general/semidiscretization.jl:258  foreach_system_wrapped
+    ╎    ╎    ╎    ╎    ╎    ╎ 99    @TrixiParticles/src/schemes/fluid/entropically_damped_sph/system.jl:411  #update_beta!##0
+    ╎    ╎    ╎    ╎    ╎    ╎  99    @TrixiParticles/src/general/neighborhood_search.jl:7  foreach_point_neighbor
+    ╎    ╎    ╎    ╎    ╎    ╎   99    @TrixiParticles/src/general/neighborhood_search.jl:14  #foreach_point_neighbor#399
+    ╎    ╎    ╎    ╎    ╎    ╎    99    @PointNeighbors/src/neighborhood_search.jl:200  foreach_point_neighbor
+    ╎    ╎    ╎    ╎    ╎    ╎     99    @PointNeighbors/src/neighborhood_search.jl:212  foreach_point_neighbor(f::TrixiParticles.var"#update_beta!##2#update_beta!##3"{EntropicallyDampedSPHSystem{2, Float64, InitialCondition{Float64, Matrix{Float64}…
+    ╎    ╎    ╎    ╎    ╎    ╎    ╎ 99    @PointNeighbors/src/util.jl:119  macro expansion
+    ╎    ╎    ╎    ╎    ╎    ╎    ╎  99    @PointNeighbors/src/util.jl:134  parallel_foreach(f::PointNeighbors.var"#16#17"{TrixiParticles.var"#search_radius_function##0#search_radius_function##1"{TreeNeighborhoodSearch{2, false, Float64, MaximumRadi…
+    ╎    ╎    ╎    ╎    ╎    ╎    ╎   99    @Polyester/src/closure.jl:456  macro expansion
+    ╎    ╎    ╎    ╎    ╎    ╎    ╎    99    @Polyester/src/batch.jl:335  batch
+    ╎    ╎    ╎    ╎    ╎    ╎    ╎     99    @Polyester/src/batch.jl:168  _batch_no_reserve
+    ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎ 69    @Polyester/src/batch.jl:246  macro expansion
+    ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎  69    @Polyester/src/closure.jl:309  #parallel_foreach##0
+    ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎   69    @PointNeighbors/src/util.jl:135  macro expansion
+    ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎    69    @PointNeighbors/src/util.jl:120  #16
+    ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎     68    @PointNeighbors/src/neighborhood_search.jl:220  macro expansion
+    ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎ 68    @PointNeighbors/src/neighborhood_search.jl:306  foreach_neighbor
+    ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎  68    @PointNeighbors/src/neighborhood_search.jl:319  #foreach_neighbor#22
+    ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎   68    @PointNeighbors/src/neighborhood_search.jl:346  foreach_neighbor
+    ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎    67    @PointNeighbors/src/nhs_tree.jl:360  mapreduce_neighbor_inner
+    ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎     66    @PointNeighbors/src/nhs_tree.jl:448  mapreduce_block_cell
+    ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎ 66    @PointNeighbors/src/nhs_tree.jl:587  mapreduce_leaf
+    ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎  22    @PointNeighbors/src/nhs_tree.jl:622  mapreduce_points
+    ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎   20    @TrixiParticles/src/schemes/fluid/entropically_damped_sph/system.jl:417  #update_beta!##2
+    ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎ 30    @Polyester/src/batch.jl:257  macro expansion
+    ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎  30    @ThreadingUtilities/src/threadtasks.jl:102  wait
+    ╎    ╎    ╎    ╎     187   @TrixiParticles/src/schemes/fluid/entropically_damped_sph/system.jl:383  #update_final!#187
+    ╎    ╎    ╎    ╎    ╎ 187   @TrixiParticles/src/schemes/fluid/shifting_techniques.jl:495  update_shifting!(system::EntropicallyDampedSPHSystem{2, Float64, InitialCondition{Float64, Matrix{Float64}, Matrix{Float64}, Vector{Float64}, Nothing}, Vec…
+    ╎    ╎    ╎    ╎    ╎  187   @TrixiBase/src/trixi_timeit.jl:68  macro expansion
+    ╎    ╎    ╎    ╎    ╎   187   @TrixiParticles/src/schemes/fluid/shifting_techniques.jl:496  macro expansion
+    ╎    ╎    ╎    ╎    ╎    187   @TrixiParticles/src/schemes/fluid/shifting_techniques.jl:538  update_shifting_inner!
+    ╎    ╎    ╎    ╎    ╎     184   @TrixiParticles/src/schemes/fluid/shifting_techniques.jl:623  update_shifting_inner!(::Val{true}, system::EntropicallyDampedSPHSystem{2, Float64, InitialCondition{Float64, Matrix{Float64}, Matrix{Float64}, Vector{…
+    ╎    ╎    ╎    ╎    ╎    ╎ 184   @TrixiParticles/src/general/semidiscretization.jl:246  foreach_system_wrapped
+    ╎    ╎    ╎    ╎    ╎    ╎  184   @TrixiParticles/src/general/semidiscretization.jl:258  foreach_system_wrapped
+    ╎    ╎    ╎    ╎    ╎    ╎   184   @TrixiParticles/src/schemes/fluid/shifting_techniques.jl:636  #update_shifting_inner!##4
+    ╎    ╎    ╎    ╎    ╎    ╎    184   @TrixiParticles/src/general/neighborhood_search.jl:7  foreach_point_neighbor
+    ╎    ╎    ╎    ╎    ╎    ╎     184   @TrixiParticles/src/general/neighborhood_search.jl:14  #foreach_point_neighbor#399
+    ╎    ╎    ╎    ╎    ╎    ╎    ╎ 184   @PointNeighbors/src/neighborhood_search.jl:200  foreach_point_neighbor
+    ╎    ╎    ╎    ╎    ╎    ╎    ╎  184   @PointNeighbors/src/neighborhood_search.jl:212  foreach_point_neighbor(f::TrixiParticles.var"#update_shifting_inner!##6#update_shifting_inner!##7"{EntropicallyDampedSPHSystem{2, Float64, InitialCondition{Fl…
+    ╎    ╎    ╎    ╎    ╎    ╎    ╎   184   @PointNeighbors/src/util.jl:119  macro expansion
+    ╎    ╎    ╎    ╎    ╎    ╎    ╎    184   @PointNeighbors/src/util.jl:134  parallel_foreach(f::PointNeighbors.var"#16#17"{TrixiParticles.var"#search_radius_function##0#search_radius_function##1"{TreeNeighborhoodSearch{2, false, Float64, MaximumRa…
+    ╎    ╎    ╎    ╎    ╎    ╎    ╎     184   @Polyester/src/closure.jl:456  macro expansion
+    ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎ 184   @Polyester/src/batch.jl:335  batch
+    ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎  184   @Polyester/src/batch.jl:168  _batch_no_reserve
+    ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎   174   @Polyester/src/batch.jl:246  macro expansion
+    ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎    174   @Polyester/src/closure.jl:309  #parallel_foreach##0
+    ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎     174   @PointNeighbors/src/util.jl:135  macro expansion
+    ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎ 174   @PointNeighbors/src/util.jl:120  #16
+    ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎  174   @PointNeighbors/src/neighborhood_search.jl:220  macro expansion
+    ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎   174   @PointNeighbors/src/neighborhood_search.jl:306  foreach_neighbor
+    ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎    174   @PointNeighbors/src/neighborhood_search.jl:319  #foreach_neighbor#22
+    ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎     174   @PointNeighbors/src/neighborhood_search.jl:346  foreach_neighbor
+    ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎ 172   @PointNeighbors/src/nhs_tree.jl:360  mapreduce_neighbor_inner
+    ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎  166   @PointNeighbors/src/nhs_tree.jl:448  mapreduce_block_cell
+    ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎   166   @PointNeighbors/src/nhs_tree.jl:587  mapreduce_leaf
+    ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎    110   @PointNeighbors/src/nhs_tree.jl:622  mapreduce_points
+    ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎     80    @TrixiParticles/src/schemes/fluid/shifting_techniques.jl:645  #update_shifting_inner!##6
+    ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎ 80    @TrixiParticles/src/general/abstract_system.jl:256  particle_spacing
+    ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎  80    @TrixiParticles/src/schemes/fluid/fluid.jl:96  particle_spacing
+  32╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎   77    @Base/special/pow.jl:29  ^
+    ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎    22    @Base/special/pow.jl:98  pow_body(x::Float64, y::Float64)
+    ╎    ╎    ╎   245   @TrixiParticles/src/general/ode_rhs.jl:93  macro expansion
+    ╎    ╎    ╎    245   @TrixiBase/src/trixi_timeit.jl:68  macro expansion
+    ╎    ╎    ╎     245   @TrixiParticles/src/general/ode_rhs.jl:266  system_interaction!(dv_ode::TrixiParticles.ThreadedBroadcastArray{Float64, 1, Vector{Float64}, PolyesterBackend}, v_ode::TrixiParticles.ThreadedBroadcastArray{Float64, 1, Vector{F…
+    ╎    ╎    ╎    ╎ 245   @TrixiParticles/src/general/semidiscretization.jl:238  foreach_system
+    ╎    ╎    ╎    ╎  245   @TrixiParticles/src/util.jl:14  foreach_noalloc
+    ╎    ╎    ╎    ╎   245   @TrixiParticles/src/general/ode_rhs.jl:267  #system_interaction!##0
+    ╎    ╎    ╎    ╎    245   @TrixiParticles/src/general/semidiscretization.jl:238  foreach_system
+    ╎    ╎    ╎    ╎     245   @TrixiParticles/src/util.jl:14  foreach_noalloc
+    ╎    ╎    ╎    ╎    ╎ 244   @TrixiParticles/src/general/ode_rhs.jl:280  #system_interaction!##2
+    ╎    ╎    ╎    ╎    ╎  244   @TrixiParticles/src/general/ode_rhs.jl:300  interact!
+    ╎    ╎    ╎    ╎    ╎   244   @TrixiParticles/src/general/ode_rhs.jl:308  #interact!#624
+    ╎    ╎    ╎    ╎    ╎    244   @TrixiBase/src/trixi_timeit.jl:68  macro expansion
+    ╎    ╎    ╎    ╎    ╎     244   @TrixiParticles/src/general/ode_rhs.jl:309  macro expansion
+    ╎    ╎    ╎    ╎    ╎    ╎ 244   @TrixiParticles/src/general/ode_rhs.jl:316  apply_system_interaction!
+    ╎    ╎    ╎    ╎    ╎    ╎  244   @TrixiParticles/src/general/ode_rhs.jl:319  #apply_system_interaction!#625
+    ╎    ╎    ╎    ╎    ╎    ╎   244   @TrixiParticles/src/general/ode_rhs.jl:335  apply_interaction!
+    ╎    ╎    ╎    ╎    ╎    ╎    244   @TrixiParticles/src/general/ode_rhs.jl:339  #apply_interaction!#627
+    ╎    ╎    ╎    ╎    ╎    ╎     244   @TrixiParticles/src/schemes/fluid/entropically_damped_sph/rhs.jl:14  interact!(dv::TrixiParticles.ThreadedBroadcastArray{Float64, 2, StrideArraysCore.PtrArray{Float64, 2, (1, 2), Tuple{Static.StaticInt{4}, In…
+    ╎    ╎    ╎    ╎    ╎    ╎    ╎ 244   @TrixiParticles/src/general/neighborhood_search.jl:1138  foreach_symmetric_point_neighbor
+    ╎    ╎    ╎    ╎    ╎    ╎    ╎  244   @TrixiParticles/src/general/neighborhood_search.jl:1141  #foreach_symmetric_point_neighbor#423
+    ╎    ╎    ╎    ╎    ╎    ╎    ╎   244   @TrixiParticles/src/general/neighborhood_search.jl:7  foreach_point_neighbor
+    ╎    ╎    ╎    ╎    ╎    ╎    ╎    244   @TrixiParticles/src/general/neighborhood_search.jl:14  #foreach_point_neighbor#399
+    ╎    ╎    ╎    ╎    ╎    ╎    ╎     244   @PointNeighbors/src/neighborhood_search.jl:200  foreach_point_neighbor
+    ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎ 244   @PointNeighbors/src/neighborhood_search.jl:212  foreach_point_neighbor(f::TrixiParticles.var"#skip_unsupported_pairs##0#skip_unsupported_pairs##1"{TrixiParticles.var"#interact!##2#interact!##3"{TrixiPar…
+    ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎  244   @PointNeighbors/src/util.jl:119  macro expansion
+    ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎   244   @PointNeighbors/src/util.jl:134  parallel_foreach(f::PointNeighbors.var"#16#17"{TrixiParticles.var"#search_radius_function##0#search_radius_function##1"{TreeNeighborhoodSearch{2, false, Float64, Maxim…
+    ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎    244   @Polyester/src/closure.jl:456  macro expansion
+    ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎     244   @Polyester/src/batch.jl:335  batch
+    ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎ 244   @Polyester/src/batch.jl:168  _batch_no_reserve
+   1╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎  211   @Polyester/src/batch.jl:246  macro expansion
+    ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎   210   @Polyester/src/closure.jl:309  #parallel_foreach##0
+    ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎    210   @PointNeighbors/src/util.jl:135  macro expansion
+    ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎     210   @PointNeighbors/src/util.jl:120  #16
+    ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎ 210   @PointNeighbors/src/neighborhood_search.jl:220  macro expansion
+    ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎  210   @PointNeighbors/src/neighborhood_search.jl:306  foreach_neighbor
+    ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎   210   @PointNeighbors/src/neighborhood_search.jl:319  #foreach_neighbor#22
+    ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎    210   @PointNeighbors/src/neighborhood_search.jl:346  foreach_neighbor
+    ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎     209   @PointNeighbors/src/nhs_tree.jl:360  mapreduce_neighbor_inner
+    ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎ 208   @PointNeighbors/src/nhs_tree.jl:448  mapreduce_block_cell
+    ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎  208   @PointNeighbors/src/nhs_tree.jl:587  mapreduce_leaf
+    ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎   150   @PointNeighbors/src/nhs_tree.jl:622  mapreduce_points
+  44╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎    138   @TrixiParticles/src/general/neighborhood_search.jl:1081  #skip_unsupported_pairs##0
+    ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎     28    @TrixiParticles/src/schemes/fluid/entropically_damped_sph/rhs.jl:55  (::TrixiParticles.var"#interact!##2#interact!##3"{TrixiParticles.ThreadedBroadcastArray{Float64, 2, StrideArraysCo…
+    ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎ 28    @TrixiParticles/src/schemes/fluid/shifting_techniques.jl:373  add_dv_shifting
+    ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎  28    @TrixiParticles/src/schemes/fluid/shifting_techniques.jl:386  add_dv_shifting
+    ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎  33    @Polyester/src/batch.jl:257  macro expansion
+    ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎   33    @ThreadingUtilities/src/threadtasks.jl:102  wait
+  24╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎    ╎    24    @ThreadingUtilities/src/threadtasks.jl:0  wait
+    ╎693   @Base/task.jl:1196  wait_forever()
+ 693╎ 693   @Base/task.jl:1297  wait()
+    ╎141   @ThreadingUtilities/src/threadtasks.jl:28  (::ThreadingUtilities.ThreadTask)()
+  83╎ 83    @Base/Base_compiler.jl:301  ==
+    ╎ 58    @ThreadingUtilities/src/atomics.jl:103  _atomic_state
+  58╎  58    @ThreadingUtilities/src/atomics.jl:5  _atomic_load
+    ╎2964  @ThreadingUtilities/src/threadtasks.jl:29  (::ThreadingUtilities.ThreadTask)()
+    ╎ 2964  @ThreadingUtilities/src/threadtasks.jl:11  _call
+    ╎  2962  @Polyester/src/batch.jl:11  (::Polyester.BatchClosure{PointNeighbors.var"#parallel_foreach##0#parallel_foreach##1", ManualMemory.Reference{Tuple{Static.StaticInt{1}, Static.StaticInt{1}, Polyester.NoLoop, StrideArraysCore.PtrArray{Int64…
+    ╎   2955  @Polyester/src/closure.jl:309  #parallel_foreach##0
+    ╎    2955  @PointNeighbors/src/util.jl:135  macro expansion
+    ╎     2952  @PointNeighbors/src/util.jl:120  #16
+    ╎    ╎ 2944  @PointNeighbors/src/neighborhood_search.jl:220  macro expansion
+    ╎    ╎  2944  @PointNeighbors/src/neighborhood_search.jl:306  foreach_neighbor
+    ╎    ╎   2943  @PointNeighbors/src/neighborhood_search.jl:319  #foreach_neighbor#22
+    ╎    ╎    2943  @PointNeighbors/src/neighborhood_search.jl:346  foreach_neighbor
+    ╎    ╎     2877  @PointNeighbors/src/nhs_tree.jl:360  mapreduce_neighbor_inner
+    ╎    ╎    ╎ 2537  @PointNeighbors/src/nhs_tree.jl:448  mapreduce_block_cell
+    ╎    ╎    ╎  2534  @PointNeighbors/src/nhs_tree.jl:587  mapreduce_leaf
+    ╎    ╎    ╎   463   @PointNeighbors/src/nhs_tree.jl:611  mapreduce_points
+  80╎    ╎    ╎    93    @PointNeighbors/src/neighborhood_search.jl:519  compute_periodic_distance
+    ╎    ╎    ╎    203   @PointNeighbors/src/neighborhood_search.jl:521  compute_periodic_distance
+    ╎    ╎    ╎     180   @Base/broadcast.jl:899  materialize
+    ╎    ╎    ╎    ╎ 180   @StaticArrays/src/broadcast.jl:60  copy
+    ╎    ╎    ╎    ╎  180   @StaticArrays/src/broadcast.jl:119  _broadcast
+    ╎    ╎    ╎    ╎   180   @StaticArrays/src/broadcast.jl:123  __broadcast
+    ╎    ╎    ╎    ╎    180   @StaticArrays/src/broadcast.jl:135  macro expansion
+    ╎    ╎    ╎    ╎     180   @Base/broadcast.jl:359  #flatten##0
+    ╎    ╎    ╎    ╎    ╎ 177   @Base/broadcast.jl:407  prepare_args
+    ╎    ╎    ╎    ╎    ╎  177   @Base/broadcast.jl:408  prepare_args
+    ╎    ╎    ╎    ╎    ╎   177   @Base/broadcast.jl:403  #_make_makeargs1##0
+    ╎    ╎    ╎    ╎    ╎    66    @Base/broadcast.jl:408  prepare_args
+    ╎    ╎    ╎    ╎    ╎     66    @Base/broadcast.jl:403  #_make_makeargs1##0
+  66╎    ╎    ╎    ╎    ╎    ╎ 66    @Base/float.jl:495  /
+    ╎    ╎    ╎    ╎    ╎    111   @Base/floatfuncs.jl:52  round
+ 111╎    ╎    ╎    ╎    ╎     111   @Base/float.jl:466  round
+    ╎    ╎    ╎    107   @PointNeighbors/src/neighborhood_search.jl:522  compute_periodic_distance
+    ╎    ╎    ╎     107   @StaticArrays/src/linalg.jl:260  dot
+    ╎    ╎    ╎    ╎ 107   @StaticArrays/src/linalg.jl:273  _vecdot
+    ╎    ╎    ╎    ╎  107   @Base/simdloop.jl:77  macro expansion
+    ╎    ╎    ╎    ╎   107   @StaticArrays/src/linalg.jl:274  macro expansion
+ 102╎    ╎    ╎    ╎    102   @Base/float.jl:492  +
+  60╎    ╎    ╎    60    @PointNeighbors/src/neighborhood_search.jl:525  compute_periodic_distance
+ 124╎    ╎    ╎   203   @PointNeighbors/src/nhs_tree.jl:615  mapreduce_points
+  78╎    ╎    ╎    79    @Base/float.jl:623  <=
+  14╎    ╎    ╎   123   @PointNeighbors/src/nhs_tree.jl:616  mapreduce_points
+   7╎    ╎    ╎    24    @PointNeighbors/src/nhs_tree.jl:423  #skip_neighbor_function##2
+    ╎    ╎    ╎    84    @PointNeighbors/src/nhs_tree.jl:425  #skip_neighbor_function##2
+    ╎    ╎    ╎     33    @Base/abstractarray.jl:1366  getindex
+    ╎    ╎    ╎    ╎ 31    @Base/essentials.jl:974  getindex
+  14╎    ╎    ╎    ╎  31    @Base/essentials.jl:389  checkbounds
+    ╎    ╎    ╎     37    @Base/intfuncs.jl:467  literal_pow
+  37╎    ╎    ╎    ╎ 37    @Base/float.jl:494  *
+    ╎    ╎    ╎   1490  @PointNeighbors/src/nhs_tree.jl:622  mapreduce_points
+ 237╎    ╎    ╎    847   @TrixiParticles/src/general/neighborhood_search.jl:1081  #skip_unsupported_pairs##0
+    ╎    ╎    ╎     107   @TrixiParticles/src/schemes/fluid/entropically_damped_sph/rhs.jl:25  (::TrixiParticles.var"#interact!##2#interact!##3"{TrixiParticles.ThreadedBroadcastArray{Float64, 2, StrideArraysCore.PtrArray{Float64, 2, (1, 2), Tuple{St…
+    ╎    ╎    ╎    ╎ 107   @TrixiParticles/src/schemes/fluid/fluid.jl:102  symmetric_kernel_grad
+    ╎    ╎    ╎    ╎  107   @TrixiParticles/src/schemes/fluid/fluid.jl:119  symmetric_kernel_grad
+    ╎    ╎    ╎    ╎   104   @TrixiParticles/src/schemes/fluid/fluid.jl:134  pair_kernel_grads
+    ╎    ╎    ╎    ╎    97    @TrixiParticles/src/general/smoothing_kernels.jl:26  kernel_grad
+    ╎    ╎    ╎    ╎     97    @TrixiParticles/src/general/smoothing_kernels.jl:36  kernel_grad_unsafe
+    ╎    ╎    ╎    ╎    ╎ 39    @StaticArrays/src/linalg.jl:21  *
+    ╎    ╎    ╎    ╎    ╎  39    @StaticArrays/src/mapreduce.jl:33  map
+    ╎    ╎    ╎    ╎    ╎   39    @StaticArrays/src/mapreduce.jl:42  _map
+    ╎    ╎    ╎    ╎    ╎    39    @StaticArrays/src/mapreduce.jl:77  macro expansion
+    ╎    ╎    ╎    ╎    ╎     39    @StaticArrays/src/linalg.jl:21  #*##0
+  39╎    ╎    ╎    ╎    ╎    ╎ 39    @Base/float.jl:494  *
+    ╎    ╎    ╎    ╎    ╎ 43    @TrixiParticles/src/general/smoothing_kernels.jl:382  kernel_deriv_div_r_unsafe
+    ╎    ╎    ╎     67    @TrixiParticles/src/schemes/fluid/entropically_damped_sph/rhs.jl:44  (::TrixiParticles.var"#interact!##2#interact!##3"{TrixiParticles.ThreadedBroadcastArray{Float64, 2, StrideArraysCore.PtrArray{Float64, 2, (1, 2), Tuple{St…
+    ╎    ╎    ╎    ╎ 66    @TrixiParticles/src/schemes/fluid/entropically_damped_sph/rhs.jl:124  add_momentum_equation
+    ╎    ╎    ╎    ╎  66    @TrixiParticles/src/schemes/fluid/fluid.jl:148  pressure_acceleration_variable_h
+    ╎    ╎    ╎    ╎   66    @TrixiParticles/src/schemes/fluid/fluid.jl:180  pressure_acceleration_variable_h
+    ╎    ╎    ╎    ╎    66    @TrixiParticles/src/schemes/fluid/fluid.jl:134  pair_kernel_grads
+    ╎    ╎    ╎    ╎     63    @TrixiParticles/src/general/smoothing_kernels.jl:26  kernel_grad
+    ╎    ╎    ╎    ╎    ╎ 63    @TrixiParticles/src/general/smoothing_kernels.jl:36  kernel_grad_unsafe
+    ╎    ╎    ╎    ╎    ╎  42    @StaticArrays/src/linalg.jl:21  *
+    ╎    ╎    ╎    ╎    ╎   42    @StaticArrays/src/mapreduce.jl:33  map
+    ╎    ╎    ╎    ╎    ╎    42    @StaticArrays/src/mapreduce.jl:42  _map
+    ╎    ╎    ╎    ╎    ╎     42    @StaticArrays/src/mapreduce.jl:77  macro expansion
+    ╎    ╎    ╎    ╎    ╎    ╎ 42    @StaticArrays/src/linalg.jl:21  #*##0
+  42╎    ╎    ╎    ╎    ╎    ╎  42    @Base/float.jl:494  *
+    ╎    ╎    ╎     155   @TrixiParticles/src/schemes/fluid/entropically_damped_sph/rhs.jl:55  (::TrixiParticles.var"#interact!##2#interact!##3"{TrixiParticles.ThreadedBroadcastArray{Float64, 2, StrideArraysCore.PtrArray{Float64, 2, (1, 2), Tuple{St…
+    ╎    ╎    ╎    ╎ 155   @TrixiParticles/src/schemes/fluid/shifting_techniques.jl:373  add_dv_shifting
+    ╎    ╎    ╎    ╎  155   @TrixiParticles/src/schemes/fluid/shifting_techniques.jl:386  add_dv_shifting
+    ╎    ╎    ╎    ╎   88    @TrixiParticles/src/schemes/fluid/shifting_techniques.jl:431  add_dv_shifting
+    ╎    ╎    ╎    ╎    88    @TrixiParticles/src/schemes/fluid/fluid.jl:134  pair_kernel_grads
+    ╎    ╎    ╎    ╎     81    @TrixiParticles/src/general/smoothing_kernels.jl:26  kernel_grad
+    ╎    ╎    ╎    ╎    ╎ 81    @TrixiParticles/src/general/smoothing_kernels.jl:36  kernel_grad_unsafe
+    ╎    ╎    ╎    ╎    ╎  49    @StaticArrays/src/linalg.jl:21  *
+    ╎    ╎    ╎    ╎    ╎   49    @StaticArrays/src/mapreduce.jl:33  map
+    ╎    ╎    ╎    ╎    ╎    49    @StaticArrays/src/mapreduce.jl:42  _map
+    ╎    ╎    ╎    ╎    ╎     49    @StaticArrays/src/mapreduce.jl:77  macro expansion
+    ╎    ╎    ╎    ╎    ╎    ╎ 49    @StaticArrays/src/linalg.jl:21  #*##0
+  49╎    ╎    ╎    ╎    ╎    ╎  49    @Base/float.jl:494  *
+    ╎    ╎    ╎    ╎    ╎  20    @TrixiParticles/src/general/smoothing_kernels.jl:382  kernel_deriv_div_r_unsafe
+    ╎    ╎    ╎     131   @TrixiParticles/src/schemes/fluid/entropically_damped_sph/rhs.jl:71  (::TrixiParticles.var"#interact!##2#interact!##3"{TrixiParticles.ThreadedBroadcastArray{Float64, 2, StrideArraysCore.PtrArray{Float64, 2, (1, 2), Tuple{St…
+    ╎    ╎    ╎    ╎ 131   @TrixiParticles/src/schemes/fluid/entropically_damped_sph/rhs.jl:195  pressure_evolution!
+    ╎    ╎    ╎    ╎  59    @TrixiParticles/src/schemes/fluid/entropically_damped_sph/rhs.jl:212  pressure_evolution!
+    ╎    ╎    ╎    ╎   55    @TrixiParticles/src/schemes/fluid/fluid.jl:134  pair_kernel_grads
+    ╎    ╎    ╎    ╎    55    @TrixiParticles/src/general/smoothing_kernels.jl:26  kernel_grad
+    ╎    ╎    ╎    ╎     55    @TrixiParticles/src/general/smoothing_kernels.jl:36  kernel_grad_unsafe
+    ╎    ╎    ╎    ╎    ╎ 40    @StaticArrays/src/linalg.jl:21  *
+    ╎    ╎    ╎    ╎    ╎  40    @StaticArrays/src/mapreduce.jl:33  map
+    ╎    ╎    ╎    ╎    ╎   40    @StaticArrays/src/mapreduce.jl:42  _map
+    ╎    ╎    ╎    ╎    ╎    40    @StaticArrays/src/mapreduce.jl:77  macro expansion
+    ╎    ╎    ╎    ╎    ╎     40    @StaticArrays/src/linalg.jl:21  #*##0
+  40╎    ╎    ╎    ╎    ╎    ╎ 40    @Base/float.jl:494  *
+    ╎    ╎    ╎    ╎  25    @TrixiParticles/src/schemes/fluid/entropically_damped_sph/rhs.jl:242  pressure_evolution!
+    ╎    ╎    ╎     81    @TrixiParticles/src/schemes/fluid/entropically_damped_sph/rhs.jl:78  (::TrixiParticles.var"#interact!##2#interact!##3"{TrixiParticles.ThreadedBroadcastArray{Float64, 2, StrideArraysCore.PtrArray{Float64, 2, (1, 2), Tuple{St…
+    ╎    ╎    ╎    ╎ 81    @TrixiParticles/src/schemes/fluid/entropically_damped_sph/rhs.jl:156  add_continuity_equation
+    ╎    ╎    ╎    ╎  52    @TrixiParticles/src/schemes/fluid/entropically_damped_sph/rhs.jl:179  edac_continuity_equation
+    ╎    ╎    ╎    ╎   45    @TrixiParticles/src/schemes/fluid/fluid.jl:134  pair_kernel_grads
+    ╎    ╎    ╎    ╎    40    @TrixiParticles/src/general/smoothing_kernels.jl:26  kernel_grad
+    ╎    ╎    ╎    ╎     40    @TrixiParticles/src/general/smoothing_kernels.jl:36  kernel_grad_unsafe
+    ╎    ╎    ╎    ╎    ╎ 27    @TrixiParticles/src/general/smoothing_kernels.jl:389  kernel_deriv_div_r_unsafe
+    ╎    ╎    ╎    ╎    ╎  27    @TrixiParticles/src/util.jl:4  div_fast
+  27╎    ╎    ╎    ╎    ╎   27    @Base/fastmath.jl:170  div_fast
+    ╎    ╎    ╎    ╎  21    @TrixiParticles/src/schemes/fluid/entropically_damped_sph/rhs.jl:188  edac_continuity_equation
+    ╎    ╎    ╎    282   @TrixiParticles/src/schemes/fluid/shifting_techniques.jl:645  #update_shifting_inner!##6
+    ╎    ╎    ╎     282   @TrixiParticles/src/general/abstract_system.jl:256  particle_spacing
+    ╎    ╎    ╎    ╎ 282   @TrixiParticles/src/schemes/fluid/fluid.jl:96  particle_spacing
+  12╎    ╎    ╎    ╎  255   @Base/special/pow.jl:29  ^
+    ╎    ╎    ╎    ╎   73    @Base/special/pow.jl:98  pow_body(x::Float64, y::Float64)
+   4╎    ╎    ╎    ╎   129   @Base/special/pow.jl:102  pow_body(x::Float64, y::Float64)
+    ╎    ╎    ╎    ╎    41    @Base/special/exp.jl:242  exp_impl
+    ╎    ╎    ╎    ╎     41    @Base/special/exp.jl:78  expm1b_kernel
+    ╎    ╎    ╎    ╎    ╎ 25    @Base/math.jl:94  evalpoly
+    ╎    ╎    ╎    ╎    ╎  25    @Base/math.jl:95  macro expansion
+  25╎    ╎    ╎    ╎    ╎   25    @Base/float.jl:497  muladd
+    ╎    ╎    ╎    107   @TrixiParticles/src/schemes/fluid/shifting_techniques.jl:652  #update_shifting_inner!##6
+  27╎    ╎    ╎     27    @Base/float.jl:495  /
+    ╎    ╎    ╎     21    @Base/promotion.jl:433  +
+  21╎    ╎    ╎    ╎ 21    @Base/float.jl:492  +
+    ╎    ╎    ╎ 314   @PointNeighbors/src/nhs_tree.jl:453  mapreduce_block_cell
+    ╎    ╎    ╎  67    @PointNeighbors/src/nhs_tree.jl:490  mapreduce_non_leaf
+    ╎    ╎    ╎   67    @PointNeighbors/src/nhs_tree.jl:587  mapreduce_leaf
+    ╎    ╎    ╎    22    @PointNeighbors/src/nhs_tree.jl:622  mapreduce_points
+    ╎    ╎    ╎  236   @PointNeighbors/src/nhs_tree.jl:522  mapreduce_non_leaf
+    ╎    ╎    ╎   236   @PointNeighbors/src/nhs_tree.jl:587  mapreduce_leaf
+    ╎    ╎    ╎    77    @PointNeighbors/src/nhs_tree.jl:611  mapreduce_points
+    ╎    ╎    ╎     40    @PointNeighbors/src/neighborhood_search.jl:521  compute_periodic_distance
+    ╎    ╎    ╎    ╎ 28    @Base/broadcast.jl:899  materialize
+    ╎    ╎    ╎    ╎  28    @StaticArrays/src/broadcast.jl:60  copy
+    ╎    ╎    ╎    ╎   28    @StaticArrays/src/broadcast.jl:119  _broadcast
+    ╎    ╎    ╎    ╎    28    @StaticArrays/src/broadcast.jl:123  __broadcast
+    ╎    ╎    ╎    ╎     28    @StaticArrays/src/broadcast.jl:135  macro expansion
+    ╎    ╎    ╎    ╎    ╎ 28    @Base/broadcast.jl:359  #flatten##0
+    ╎    ╎    ╎    ╎    ╎  27    @Base/broadcast.jl:407  prepare_args
+    ╎    ╎    ╎    ╎    ╎   27    @Base/broadcast.jl:408  prepare_args
+    ╎    ╎    ╎    ╎    ╎    27    @Base/broadcast.jl:403  #_make_makeargs1##0
+    ╎    ╎    ╎    ╎    ╎     22    @Base/floatfuncs.jl:52  round
+  22╎    ╎    ╎    ╎    ╎    ╎ 22    @Base/float.jl:466  round
+  40╎    ╎    ╎    53    @PointNeighbors/src/nhs_tree.jl:615  mapreduce_points
+    ╎    ╎    ╎    45    @PointNeighbors/src/nhs_tree.jl:622  mapreduce_points
+    ╎1753  @ThreadingUtilities/src/threadtasks.jl:34  (::ThreadingUtilities.ThreadTask)()
+1753╎ 1753  @Base/int.jl:87  +
+Total snapshots: 11102. Utilization: 94% across all threads and tasks. Use the `groupby` kwarg to break down by thread and/or task.

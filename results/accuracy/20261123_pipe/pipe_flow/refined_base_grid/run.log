@@ -1,0 +1,5 @@
+[ Info: You just called `trixi_include`. Julia may now compile the code, please be patient.
+[ Info: You just called `trixi_include`. Julia may now compile the code, please be patient.
+done: pipe_flow on t = 1.6796: TaskFailedException
+
+    nested task error: BoundsError: attempt to access 38×19, 1638 steps, 268.5 s

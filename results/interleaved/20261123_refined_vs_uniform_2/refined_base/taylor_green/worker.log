@@ -1,0 +1,15 @@
+@@ ready pid=851884
+@@ step 197.82 ms, 100 steps, 912 RHS, 10789 particles at the end
+@@ RHS median 18.880 ms, minimum 18.795 ms, 10739 particles
+@@ step 197.68 ms, 100 steps, 912 RHS, 10789 particles at the end
+@@ RHS median 18.843 ms, minimum 18.764 ms, 10739 particles
+@@ step 197.88 ms, 100 steps, 912 RHS, 10789 particles at the end
+@@ RHS median 18.919 ms, minimum 18.830 ms, 10739 particles
+@@ step 198.44 ms, 100 steps, 912 RHS, 10789 particles at the end
+@@ RHS median 18.910 ms, minimum 18.834 ms, 10739 particles
+@@ step 197.60 ms, 100 steps, 912 RHS, 10789 particles at the end
+@@ RHS median 18.886 ms, minimum 18.780 ms, 10739 particles
+@@ step 197.25 ms, 100 steps, 912 RHS, 10789 particles at the end
+@@ RHS median 18.807 ms, minimum 18.746 ms, 10739 particles
+[ Info: You just called `trixi_include`. Julia may now compile the code, please be patient.
+[ Info: You just called `trixi_include`. Julia may now compile the code, please be patient.
