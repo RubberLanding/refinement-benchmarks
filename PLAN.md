@@ -557,9 +557,10 @@ are in support. Empty search (grid / tree / pruned): ratio 8 10.0 / 8.1 / 3.9 ms
 the cylinder has a constant smoothing length), so every fluid particle searches it with the largest radius,
 whichever search is used. Ratio 8: 109 cylinder particles per fluid particle, 0.3 in support; the pair is
 5.5 ms of 13.7 ms of the interaction with pruning (density and average pressure may have the same problem, not
-split). Reasons: the cylinder is a full disc (2464 particles at ratio 8), and the search radius is that of the
-coarse fluid. Ideas, not implemented: a cylinder of only a few layers (example), a per-particle query radius for
-walls with a small constant smoothing length (code; not checked whether the pairs need the larger support).
+split). Reason: the search radius
+is that of the coarse fluid. Idea, not implemented: a query radius per particle for walls with a small constant
+smoothing length (not checked whether the pairs need the larger support). Changing the cylinder itself (hollow)
+is dropped (user, 2026-11-25).
 
 ### While the experiments run
 
