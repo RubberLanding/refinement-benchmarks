@@ -11,9 +11,8 @@
 # Arguments (`key=value`): `case`, `size`, `nhs`, `refinement`, `shifting`, `ratio`, `update`,
 # `steps`, `runs` as in `run_full.jl`, and
 # - `t_start`: simulated time of the developed state
-# - `pin`:     `auto` moves the process to the quietest cores before each run, as
-#              `ab_interleaved.py` does, or `none`. It first waits until they are quiet, at
-#              most `max_wait` hours.
+# - `pin`:     `auto` moves the process to the quietest cores before each run (see `quiet_cores`),
+#              or `none`. It first waits until they are quiet, at most `max_wait` hours.
 # - `max_load`, `max_runs`: runs with more than `max_load` cores of other load on our cores
 #              and their siblings are repeated, up to `max_runs` runs in total. All runs are
 #              written, with the load.
@@ -91,21 +90,43 @@ function watched_cpus()
     return sort!(unique!(reduce(vcat, siblings.(cpus))))
 end
 
+# The quietest groups of cores with a shared L3 cache (4 cores on this machine) that hold
+# `threads` threads, and the other load on these cores and their siblings. They don't have to
+# be neighbors: other jobs are spread over the machine, so 8 quiet neighbors can be rare.
+function quiet_cores(threads)
+    before = cpu_busy()
+    sleep(3)
+    after = cpu_busy()
+    sys(cpu, file) = read("/sys/devices/system/cpu/cpu$cpu/$file", String)
+    groups = unique(sort(cpu_list(sys(cpu, "cache/index3/shared_cpu_list")))
+                    for cpu in keys(after))
+    loads = [sum(after[c] - before[c] for c in group) / TICKS / 3 for group in groups]
+    cpus = Int[]
+    load = 0.0
+    for i in sortperm(loads)
+        length(cpus) >= threads && break
+        # Only one hyperthread per core
+        append!(cpus, [c for c in groups[i]
+                       if c == minimum(cpu_list(sys(c, "topology/thread_siblings_list")))])
+        load += loads[i]
+    end
+
+    return first(cpus, threads), load
+end
+
 # Move all threads of this process to the quietest cores. Wait until their other load is at
 # most `max_load` cores, at most `max_wait` hours.
 function pin!(config)
     config["pin"] == "auto" || return
-    code = "import sys; sys.path.insert(0, '$(@__DIR__)'); import ab_interleaved as a; " *
-           "print(','.join(map(str, a.choose_cpus('auto', $(Threads.nthreads())))))"
     start = time()
     while true
-        lines = split(readchomp(`python3 -c $code`), "\n")
-        load = parse(Float64, match(r"other load there ([\d.]+) cores", lines[1])[1])
+        cpus, load = quiet_cores(Threads.nthreads())
         quiet = load <= parse(Float64, config["max_load"])
         if quiet || time() - start > 3600 * parse(Float64, config["max_wait"])
-            run(pipeline(`taskset -acp $(lines[end]) $(getpid())`, stdout=devnull))
-            time() - start > 60 &&
-                println("waited $(round(Int, (time() - start) / 60)) min for quiet cores")
+            run(pipeline(`taskset -acp $(join(cpus, ",")) $(getpid())`, stdout=devnull))
+            @printf("on cores %s, other load %.2f cores, waited %.0f min\n",
+                    join(cpus, ","), load, (time() - start) / 60)
+            flush(stdout)
             return
         end
         sleep(30)
