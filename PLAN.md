@@ -531,7 +531,8 @@ Vortex street, small, ratio 2, 20 steps, 8 threads, quiet machine. Session
   particles after 100 steps with the grid).
 - Balancing is not implemented. Dealing blocks of particles to the threads (early state, single run)
   took the RHS from 8.6 to 6.0 ms with the tree and from 7.6 to 5.2 ms with the grid with the `@inline`.
-  Developed state, load rising to 36: 19.5 to 14.6 ms (tree) and 17.1 to 13.3 ms (grid).
+  Developed state (with the `@inline`, single calls, load rising to 36): tree 19.5 ms, with blocks of
+  16 / 64 / 256 14.8 / 18.9 / 14.6 ms; grid 17.1 ms, with blocks 17.4 / 13.3 / 13.6 ms. The gain is uncertain.
 
 ### Ratio 4 and 8, with pruning (2026-11-25)
 
