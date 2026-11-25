@@ -7,7 +7,7 @@ The first label is the reference. A label is `name=commit`, or `name=.` for the 
 state of `src/` (a snapshot is taken). Settings of a label follow the commit, in any order and
 separated by colons, for example `tree=655fd1b:ratio4` or `fine=655fd1b:min:ratio4`:
 - `min`, `max`: the uniform runs without refinement at the minimum and maximum spacing
-- `grid`, `tree_uniform`, `tree_variable`: the neighborhood search. The default is
+- `grid`, `tree_uniform`, `tree_variable`, `tree_pruned`: the neighborhood search. The default is
   `tree_variable` with refinement and `grid` for the uniform runs.
 - `ratioN`: the spacing ratio of the vortex street (default: that of `setups.jl`). It has no
   effect on the other cases. A uniform run at `min` needs the ratio of the refined run.
@@ -122,7 +122,7 @@ def prepare(spec, pn_source):
     for token in tokens:
         if token in ("on", "min", "max"):
             key, value = "refinement", token
-        elif token in ("grid", "tree_uniform", "tree_variable"):
+        elif token in ("grid", "tree_uniform", "tree_variable", "tree_pruned"):
             key, value = "nhs", token
         elif token in ("default", "fast", "fast_pst"):
             key, value = "shifting", token

@@ -19,6 +19,7 @@
 # - `:grid`: `GridNeighborhoodSearch` with a `FullGridCellList` and the largest radius
 # - `:tree_uniform`: `TreeNeighborhoodSearch` with the largest radius for all particles
 # - `:tree_variable`: `TreeNeighborhoodSearch` with one radius per particle (Phase 1)
+# - `:tree_pruned`: `:tree_variable` with `pruning=true` (skips leaves that are too far away)
 #
 # Refinement (`refinement`):
 # - `:on`: refinement with the `ParticleRefinementCallback` of the example
@@ -109,9 +110,10 @@ function template_nhs(kind, min_corner, max_corner, max_level, update_strategy;
                                  max_points_per_cell=max(400, max_points_per_cell))
         return TreeNeighborhoodSearch{NDIMS}(; cell_list, periodic_box, update_strategy,
                                              neighbor_criterion=QueryRadius())
-    elseif kind === :tree_variable
+    elseif kind === :tree_variable || kind === :tree_pruned
         cell_list = TreeCellList(; min_corner, max_corner, max_level, max_points_per_cell)
         return TreeNeighborhoodSearch{NDIMS}(; cell_list, periodic_box, update_strategy,
+                                             pruning=kind === :tree_pruned,
                                              neighbor_criterion=MaximumRadius())
     end
 
