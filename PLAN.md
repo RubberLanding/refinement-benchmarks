@@ -563,7 +563,7 @@ Things to watch:
   across it compare a different method, not the code. Override the calculator
   (`density_calculator`, `fluid_density_calculator` in the pipe) to compare the code.
 - `profile.jl sections=shift,profile_shift` needs the `compute_shift!` signature of b8a4e7f,
-  so use the scripts of 3f2525d for older commits.
+  so use the scripts of b540def for older commits.
 - `profile.jl` and `check_variable_radii.jl` take `pst_equilibrium` from the refinement.
 
 Open:
