@@ -1,0 +1,23 @@
+% Standalone wrapper for the draft chapter. In the thesis, only \input the chapter and
+% copy the preamble lines it needs (booktabs, graphicx, xcolor, the two macros below).
+\documentclass[11pt,a4paper]{report}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{amsmath}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{caption}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{hyperref}
+
+\graphicspath{{figures/}}
+
+% Draft markers: \draftnote{...} for notes to the author, \src{KEY} for the source of a
+% number (keys in PROVENANCE.md). Redefine both as empty for the final thesis.
+\newcommand{\draftnote}[1]{\textcolor{red!70!black}{\footnotesize\textsf{[#1]}}}
+\newcommand{\src}[1]{\textcolor{gray}{\footnotesize\textsf{[#1]}}}
+
+\begin{document}
+\input{chapter_performance}
+\end{document}

@@ -1,0 +1,9 @@
+[deps]
+BenchmarkTools = "6e4b80f9-dd63-53aa-95a3-0cdb28fa8baf"
+OrdinaryDiffEqLowStorageRK = "b0944070-b475-4768-8dec-fb6eb410534d"
+PointNeighbors = "1c4d5385-0a27-49de-8e2c-43b175c8985c"
+TrixiParticles = "66699cd8-9c01-4e9d-a059-b96c86d16b3a"
+
+[sources]
+PointNeighbors = {path = "../../PointNeighbors.jl"}
+TrixiParticles = {path = ".."}

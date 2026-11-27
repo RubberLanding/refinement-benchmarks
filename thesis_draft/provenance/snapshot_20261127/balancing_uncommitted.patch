@@ -1,0 +1,319 @@
+diff --git a/src/general/buffer.jl b/src/general/buffer.jl
+index 2760c17..954d0d6 100644
+--- a/src/general/buffer.jl
++++ b/src/general/buffer.jl
+@@ -1,16 +1,26 @@
+-struct SystemBuffer{AP, APC, EP}
++struct SystemBuffer{AP, APC, EP, TO, TB}
+     active_particle       :: AP # Vector{Bool}
+     active_particle_count :: APC
+     eachparticle          :: EP # Vector{Int}
+     buffer_size           :: Int
++    # The active particles in the order of the threaded neighbor loops, or `nothing`
++    # (see `thread_balanced_points`)
++    thread_order          :: TO
++    thread_block          :: TB # Ref{Int}, 0 means the order of `eachparticle`
+ end
+ 
+-function SystemBuffer(active_size, buffer_size::Integer)
++# `thread_block > 0` deals the active particles to the threads in blocks of this size
++# in the threaded neighbor loops (see `thread_balanced_points`)
++function SystemBuffer(active_size, buffer_size::Integer; thread_block=0)
+     # Using a `BitVector` is not an option as writing to it is not thread-safe.
+     active_particle = vcat(fill(true, active_size), fill(false, buffer_size))
+     eachparticle = collect(eachindex(active_particle))
++    thread_order = thread_block > 0 ? copy(eachparticle) : nothing
+ 
+-    return SystemBuffer(active_particle, Ref(active_size), eachparticle, Int(buffer_size))
++    buffer = SystemBuffer(active_particle, Ref(active_size), eachparticle,
++                          Int(buffer_size), thread_order, Ref(Int(thread_block)))
++
++    return update_thread_order!(buffer)
+ end
+ 
+ allocate_buffer(initial_condition, ::Nothing) = initial_condition
+@@ -51,12 +61,12 @@ end
+     buffer.active_particle_count[] = count(active_particle)
+     buffer.eachparticle[1:buffer.active_particle_count[]] .= findall(active_particle)
+ 
+-    return buffer
++    return update_thread_order!(buffer)
+ end
+ 
+ # Add inactive particles to the end of the buffer until it has `n` particles
+ function resize_buffer!(buffer::SystemBuffer, n)
+-    (; active_particle, eachparticle) = buffer
++    (; active_particle, eachparticle, thread_order) = buffer
+ 
+     resize_and_fill!(active_particle, n, false)
+ 
+@@ -64,9 +74,91 @@ function resize_buffer!(buffer::SystemBuffer, n)
+     resize!(eachparticle, n)
+     eachparticle[(n_old + 1):n] .= (n_old + 1):n
+ 
++    isnothing(thread_order) || resize!(thread_order, n)
++
++    return update_thread_order!(buffer)
++end
++
++# ==== Load balancing of the threaded neighbor loops
++# `@threaded` gives each thread an equal contiguous share of the points. With refinement,
++# the split particles are put into the inactive slots at the end of the buffer, so the
++# last threads get most of the fine particles, which have the most neighbor candidates.
++# Dealing blocks of `thread_block` active particles to the threads in turn spreads them.
++# Each iteration of these loops only writes to its own particle, so the order doesn't
++# change the results.
++update_thread_order!(buffer::SystemBuffer) = update_thread_order!(buffer,
++                                                                  buffer.thread_order)
++
++update_thread_order!(buffer, ::Nothing) = buffer
++
++function update_thread_order!(buffer, thread_order)
++    (; eachparticle) = buffer
++    block = buffer.thread_block[]
++    block > 0 || return buffer
++
++    n = buffer.active_particle_count[]
++    n_threads = Threads.nthreads()
++    n_blocks = cld(n, block)
++
++    # Thread `k` (in the contiguous shares of `@threaded`) gets the blocks
++    # `k`, `k + n_threads`, `k + 2 n_threads`, ...
++    i = 0
++    for k in 1:n_threads, b in k:n_threads:n_blocks
++        for j in ((b - 1) * block + 1):min(b * block, n)
++            i += 1
++            @inbounds thread_order[i] = eachparticle[j]
++        end
++    end
++
+     return buffer
+ end
+ 
++# Change the block size of the load balancing at runtime (0 switches it off).
++# Only possible for a buffer that was created with `thread_block > 0`.
++function set_thread_block!(buffer::SystemBuffer, block)
++    isnothing(buffer.thread_order) &&
++        throw(ArgumentError("this buffer was created without load balancing"))
++
++    buffer.thread_block[] = block
++
++    return update_thread_order!(buffer)
++end
++
++# The points of a threaded neighbor loop of `system`: the balanced order of the buffer
++# when the loop is over all active particles, otherwise `points`
++@inline function thread_balanced_points(system, points, parallelization_backend)
++    return thread_balanced_points(buffer(system), points, parallelization_backend)
++end
++
++@inline thread_balanced_points(::Nothing, points, parallelization_backend) = points
++
++@inline function thread_balanced_points(buffer::SystemBuffer, points,
++                                        parallelization_backend)
++    return thread_balanced_points(buffer, buffer.thread_order, points,
++                                  parallelization_backend)
++end
++
++@inline function thread_balanced_points(buffer, ::Nothing, points, parallelization_backend)
++    return points
++end
++
++@inline function thread_balanced_points(buffer, thread_order, points,
++                                        parallelization_backend)
++    return points
++end
++
++# `each_active_particle(system, buffer)` is this view of `eachparticle`
++@inline function thread_balanced_points(buffer, thread_order::AbstractVector,
++                                        points::SubArray, parallelization_backend)
++    n = buffer.active_particle_count[]
++    if buffer.thread_block[] > 0 && !(parallelization_backend isa SerialBackend) &&
++       parent(points) === buffer.eachparticle && parentindices(points) == (1:n,)
++        return view(thread_order, 1:n)
++    end
++
++    return points
++end
++
+ @inline each_integrated_particle(system, buffer) = each_active_particle(system, buffer)
+ 
+ @inline function active_coordinates(u, system, buffer)
+@@ -132,5 +224,5 @@ function sort_system!(system, v, u, perm, buffer::SystemBuffer)
+     buffer.active_particle_count[] = count(active_particle)
+     buffer.eachparticle[1:buffer.active_particle_count[]] .= 1:buffer.active_particle_count[]
+ 
+-    return buffer
++    return update_thread_order!(buffer)
+ end
+diff --git a/src/general/neighborhood_search.jl b/src/general/neighborhood_search.jl
+index 8cbf40d..0a8ab16 100644
+--- a/src/general/neighborhood_search.jl
++++ b/src/general/neighborhood_search.jl
+@@ -11,8 +11,10 @@
+                                                        parallelization_backend=semi.parallelization_backend,
+                                                        search_radius=nothing)
+     neighborhood_search = get_neighborhood_search(system, neighbor_system, semi)
++    # Deal the particles to the threads in blocks when the buffer of `system` asks for it
++    points_ = thread_balanced_points(system, points, parallelization_backend)
+     foreach_point_neighbor(f, system_coords, neighbor_coords, neighborhood_search;
+-                           points, parallelization_backend, search_radius)
++                           points=points_, parallelization_backend, search_radius)
+ end
+ 
+ deactivate_out_of_bounds_particles!(system, buffer, nhs, v_ode, u_ode, semi) = system
+diff --git a/src/refinement/refinement.jl b/src/refinement/refinement.jl
+index e19e1df..544ee92 100644
+--- a/src/refinement/refinement.jl
++++ b/src/refinement/refinement.jl
+@@ -327,6 +327,11 @@ function refinement_startup!(semi, v_ode, u_ode)
+     return semi
+ end
+ 
++# Block size of the load balancing of the threaded neighbor loops of a system with
++# refinement (see `update_thread_order!`). Without refinement, the loops are not balanced.
++thread_block_refinement(::Nothing) = 0
++thread_block_refinement(refinement) = 64
++
+ create_cache_refinement(initial_condition, ::Nothing) = (;)
+ 
+ function create_cache_refinement(initial_condition, refinement)
+diff --git a/src/schemes/fluid/entropically_damped_sph/system.jl b/src/schemes/fluid/entropically_damped_sph/system.jl
+index 11ed346..5463746 100644
+--- a/src/schemes/fluid/entropically_damped_sph/system.jl
++++ b/src/schemes/fluid/entropically_damped_sph/system.jl
+@@ -109,7 +109,8 @@ function EntropicallyDampedSPHSystem(initial_condition; smoothing_kernel, smooth
+                                      surface_normal_method=nothing, buffer_size=nothing,
+                                      reference_particle_spacing=0.0, color_value=1)
+     buffer = isnothing(buffer_size) ? nothing :
+-             SystemBuffer(nparticles(initial_condition), buffer_size)
++             SystemBuffer(nparticles(initial_condition), buffer_size;
++                          thread_block=thread_block_refinement(particle_refinement))
+ 
+     initial_condition = allocate_buffer(initial_condition, buffer)
+ 
+diff --git a/src/schemes/fluid/weakly_compressible_sph/system.jl b/src/schemes/fluid/weakly_compressible_sph/system.jl
+index 995e7e3..0bbee69 100644
+--- a/src/schemes/fluid/weakly_compressible_sph/system.jl
++++ b/src/schemes/fluid/weakly_compressible_sph/system.jl
+@@ -108,7 +108,8 @@ function WeaklyCompressibleSPHSystem(initial_condition; smoothing_kernel,
+                                      reference_particle_spacing=0, color_value=1,
+                                      particle_refinement=nothing)
+     buffer = isnothing(buffer_size) ? nothing :
+-             SystemBuffer(nparticles(initial_condition), buffer_size)
++             SystemBuffer(nparticles(initial_condition), buffer_size;
++                          thread_block=thread_block_refinement(particle_refinement))
+ 
+     initial_condition,
+     density_diffusion = allocate_buffer(initial_condition,
+diff --git a/test/general/buffer.jl b/test/general/buffer.jl
+index 7a3c254..00483d1 100644
+--- a/test/general/buffer.jl
++++ b/test/general/buffer.jl
+@@ -86,4 +86,51 @@
+             @test_throws ArgumentError(error_str) TrixiParticles.allocate_buffer(ic, buffer)
+         end
+     end
++
++    @testset verbose=true "Load Balancing" begin
++        active(buffer) = collect(TrixiParticles.each_active_particle(nothing, buffer))
++        function balanced(buffer, backend=PolyesterBackend())
++            points = TrixiParticles.each_active_particle(nothing, buffer)
++            return collect(TrixiParticles.thread_balanced_points(buffer, points, backend))
++        end
++
++        buffer = TrixiParticles.SystemBuffer(300, 100; thread_block=4)
++        n_threads = Threads.nthreads()
++
++        @testset "Blocks Are Dealt to the Threads" begin
++            @test sort(balanced(buffer)) == active(buffer)
++            @test balanced(buffer)[1:4] == 1:4
++            # The first thread continues with the block after those of the other threads
++            @test balanced(buffer)[5:8] == (4 * n_threads + 1):(4 * n_threads + 4)
++        end
++
++        @testset "Order Follows the Active Particles" begin
++            buffer.active_particle[1:2:end] .= false
++            buffer.active_particle[350] = true
++            TrixiParticles.update_system_buffer!(buffer)
++            @test sort(balanced(buffer)) == active(buffer)
++
++            TrixiParticles.resize_buffer!(buffer, 500)
++            @test length(buffer.thread_order) == 500
++            @test sort(balanced(buffer)) == active(buffer)
++        end
++
++        @testset "Only Parallel Loops Over All Active Particles" begin
++            @test balanced(buffer, SerialBackend()) == active(buffer)
++
++            subset = view(buffer.eachparticle, 1:10)
++            @test TrixiParticles.thread_balanced_points(buffer, subset,
++                                                        PolyesterBackend()) === subset
++        end
++
++        @testset "Switched Off" begin
++            TrixiParticles.set_thread_block!(buffer, 0)
++            @test balanced(buffer) == active(buffer)
++
++            plain = TrixiParticles.SystemBuffer(5, 5)
++            @test isnothing(plain.thread_order)
++            @test balanced(plain) == active(plain)
++            @test_throws ArgumentError TrixiParticles.set_thread_block!(plain, 4)
++        end
++    end
+ end
+diff --git a/test/refinement/interactions.jl b/test/refinement/interactions.jl
+index d0af429..018e24e 100644
+--- a/test/refinement/interactions.jl
++++ b/test/refinement/interactions.jl
+@@ -348,4 +348,50 @@
+             end
+         end
+     end
++
++    @testset verbose=true "Load Balancing Does Not Change the Right-Hand Side" begin
++        initial_condition = rectangular_patch(0.1, (21, 21), perturbation_factor=0.0)
++        fluid_system = EntropicallyDampedSPHSystem(initial_condition; smoothing_kernel,
++                                                   smoothing_length=0.12,
++                                                   sound_speed=10.0,
++                                                   particle_refinement=refinement,
++                                                   buffer_size=50)
++        # The default update strategy doesn't support the inactive particles of the buffer
++        neighborhood_search = GridNeighborhoodSearch{2}(update_strategy=SerialUpdate())
++        semi = Semidiscretization(fluid_system; neighborhood_search,
++                                  parallelization_backend=PolyesterBackend())
++        ode = semidiscretize(semi, (0.0, 0.1))
++        system = ode.p.semi.systems[1]
++        v_ode, u_ode = ode.u0.x
++
++        @test system.buffer.thread_block[] == TrixiParticles.thread_block_refinement(refinement)
++
++        # Fine particles on one side, and a velocity and pressure field
++        u = TrixiParticles.wrap_u(u_ode, system, ode.p.semi)
++        v = TrixiParticles.wrap_v(v_ode, system, ode.p.semi)
++        for particle in TrixiParticles.each_active_particle(system)
++            x = u[1, particle]
++            y = u[2, particle]
++            if x > 0
++                TrixiParticles.set_particle_smoothing_length!(system, particle, 0.06)
++            end
++            v[1, particle] = sin(7 * x) * cos(5 * y)
++            v[2, particle] = cos(3 * x) * y
++            v[3, particle] = 100 * sin(4 * x + 3 * y)
++        end
++
++        function dv_with_block(block)
++            TrixiParticles.set_thread_block!(system.buffer, block)
++            dv_ode = zero(v_ode)
++            TrixiParticles.kick!(dv_ode, v_ode, u_ode, ode.p, 0.0)
++
++            return copy(parent(dv_ode))
++        end
++
++        dv_plain = dv_with_block(0)
++        @test any(!iszero, dv_plain)
++        # Each particle only writes its own `dv`, so the results are identical
++        @test dv_with_block(4) == dv_plain
++        @test dv_with_block(64) == dv_plain
++    end
+ end

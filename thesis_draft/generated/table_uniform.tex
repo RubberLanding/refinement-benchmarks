@@ -1,0 +1,18 @@
+\begin{tabular}{lrrrrr}
+\toprule
+ & \multicolumn{2}{c}{uniform} & \multicolumn{3}{c}{refined} \\
+\cmidrule(lr){2-3}\cmidrule(lr){4-6}
+ & coarse & fine & r2 grid & r2 pruned & r4 pruned \\
+\midrule
+\multicolumn{6}{l}{\emph{early state}} \\
+\quad fluid particles & 9.8k & 39.0k & 10.7k & 10.7k & 12.6k \\
+\quad step [ms] & 21.4 & 76.8 & 72.1 & 71.1 & 139.5 \\
+\quad step per fluid particle [$\mu$s] & 2.19 & 1.97 & 6.77 & 6.68 & 11.08 \\
+\quad one RHS per fluid particle [$\mu$s] & 0.30 & 0.27 & 0.79 & 0.79 & 1.25 \\
+\multicolumn{6}{l}{\emph{developed state}} \\
+\quad fluid particles & 9.6k & 38.7k & 15.0k & 14.9k & 22.1k \\
+\quad step [ms] & 29.7 & 113.9 & 147.6 & 123.9 & 234.9 \\
+\quad step per fluid particle [$\mu$s] & 3.09 & 2.94 & 9.86 & 8.29 & 10.63 \\
+\quad one RHS per fluid particle [$\mu$s] & 0.42 & 0.40 & 1.13 & 0.98 & 1.19 \\
+\bottomrule
+\end{tabular}
