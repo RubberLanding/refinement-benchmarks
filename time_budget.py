@@ -33,7 +33,9 @@ def budget(t):
         ("RHS", "interaction fluid-fluid", fluid),
         ("RHS", "interaction other pairs", g(INT) - fluid),
         ("RHS", "density", g(UP + "compute density")),
-        ("RHS", "avg. pressure + beta", g(UP + "compute average pressure and beta")),
+        # The uniform EDAC system has no beta and names the timer without it
+        ("RHS", "avg. pressure + beta", g(UP + "compute average pressure and beta") +
+         g(UP + "compute average pressure")),
         ("RHS", "update nhs", g(UP + "update nhs")),
         ("RHS", "boundary pressure", g(UP + "compute boundary pressure")),
         ("RHS", "characteristics", g(UP + "evaluate characteristics")),
@@ -63,27 +65,42 @@ def budget(t):
     return rows + ref + cb + [("drift", "drift!", g("drift!"))]
 
 
-def load(directory, max_load):
+RESET = "kick! / reset ∂v/∂t"
+
+
+def stall(run, t):
+    """Time of `set_zero!(dv_ode)` per call and particle [ns], a memory-bound loop that takes
+    the same time in every undisturbed run. Stalled threads or a bad memory placement make it
+    many times slower, which the load on our cores doesn't always show."""
+    return 1e6 * t[RESET] / int(run["rhs_evaluations"]) / int(run["n_total_end"])
+
+
+def all_runs(directory):
     runs = read_csv(directory / "runs.csv")
-    clean = [r for r in runs if float(r["foreign_cores"]) <= max_load]
-    used = clean or runs
     timers = read_csv(directory / "timers.csv")
-    result = []
-    for run in used:
-        t = {r["path"]: int(r["time_ns"]) / 1e6 for r in timers if r["run"] == run["run"]}
-        result.append((run, t))
-    return result, len(clean), len(runs)
+    return [(run, {r["path"]: int(r["time_ns"]) / 1e6 for r in timers
+                   if r["run"] == run["run"]}) for run in runs]
+
+
+def load(directory, max_load, max_stall, reference):
+    """Runs with at most `max_load` cores of other load and, if `max_stall` is given, a
+    `stall` of at most `max_stall` times `reference`. All runs if none is clean."""
+    runs = all_runs(directory)
+    clean = [(r, t) for r, t in runs if float(r["foreign_cores"]) <= max_load and
+             (max_stall is None or stall(r, t) <= max_stall * reference)]
+    return clean or runs, len(clean), len(runs)
 
 
 def med(values):
     return statistics.median(values)
 
 
-def summarize(directory, max_load):
+def summarize(directory, max_load, max_stall, reference):
     if not (directory / "runs.csv").exists():
         return
     meta = read_meta(directory)
-    result, n_clean, n_all = load(directory, max_load)
+    every = all_runs(directory)
+    result, n_clean, n_all = load(directory, max_load, max_stall, reference)
     step = [1e3 * float(r["time_steps"]) / int(r["steps"]) for r, _ in result]
     nf = [int(r["rhs_evaluations"]) / int(r["steps"]) for r, _ in result]
     rhs = [(t["kick!"] + t.get("drift!", 0.0)) / int(r["rhs_evaluations"]) for r, t in result]
@@ -98,6 +115,9 @@ def summarize(directory, max_load):
     print(f"- {n_clean} clean of {n_all} runs{flag}, other load "
           f"{', '.join('%.1f' % float(r['foreign_cores']) for r, _ in result)} cores, "
           f"t = {float(first['t_begin']):.3f} to {float(first['t_end']):.3f}")
+    rule = "" if max_stall is None else f", used if at most {max_stall * reference:.3f}"
+    print(f"- stall indicator of all runs (reset of dv per particle and call, ns): "
+          f"{', '.join('%.3f' % stall(r, t) for r, t in every)}{rule}")
     print(f"- {first['n_startup']} to {first['n_end']} fluid particles, "
           f"{med(nf):.2f} RHS/step, RHS {med(rhs):.2f} ms, "
           f"{med([1e3 * r_ / int(f['n_end']) for r_, (f, _) in zip(rhs, result)]):.3f} us per "
@@ -132,10 +152,18 @@ def main():
                                      formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument("directories", nargs="+", type=Path)
     parser.add_argument("--max-load", type=float, default=0.5)
+    parser.add_argument("--max-stall", type=float, default=None,
+                        help="leave out runs whose stall indicator is more than this factor "
+                             "above the smallest one of the configuration (both states)")
     options = parser.parse_args()
     for directory in options.directories:
-        for state in ("early", "developed"):
-            summarize(directory / state, options.max_load)
+        states = [directory / s for s in ("early", "developed")
+                  if (directory / s / "runs.csv").exists()]
+        if not states:
+            continue
+        reference = min(stall(r, t) for s in states for r, t in all_runs(s))
+        for state in states:
+            summarize(state, options.max_load, options.max_stall, reference)
 
 
 if __name__ == "__main__":
