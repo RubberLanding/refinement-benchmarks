@@ -533,6 +533,33 @@ Vortex street, small, ratio 2, 20 steps, 8 threads, quiet machine. Session
   took the RHS from 8.6 to 6.0 ms with the tree and from 7.6 to 5.2 ms with the grid with the `@inline`.
   Developed state (with the `@inline`, single calls, load rising to 36): tree 19.5 ms, with blocks of
   16 / 64 / 256 14.8 / 18.9 / 14.6 ms; grid 17.1 ms, with blocks 17.4 / 13.3 / 13.6 ms. The gain is uncertain.
+  Implemented on 2026-11-26, see the next section.
+
+### Load balancing of the neighbor loops (2026-11-26, not committed)
+
+`src/` on top of 92fef57. `SystemBuffer` keeps the active particles in a second order
+(`thread_order`): blocks of `thread_block` particles dealt to the threads in turn, rebuilt in
+`update_system_buffer!`, `resize_buffer!` and `sort_system!`. The wrapper
+`foreach_point_neighbor(f, system, neighbor_system, ...)` uses it when it loops in parallel over all active
+particles of `system` (`thread_balanced_points`): interaction, density, average pressure and beta, shifting,
+PST. Only fluid systems with `particle_refinement` have it (`thread_block_refinement`, 64); uniform runs
+don't change. `set_thread_block!(buffer, block)` changes it at runtime (0 switches it off). Not balanced: the
+NHS update and the `@threaded` loops that don't go through the wrapper (merge partners, criteria).
+- Results unchanged: whole runs bitwise identical with and without (vortex street ratio 2, 200 steps with
+  startup and 20 refinement calls, grid and pruned tree); test "Load Balancing Does Not Change the Right-Hand
+  Side" in `test/refinement/interactions.jl` and unit tests in `test/general/buffer.jl`. Buffer and refinement
+  tests pass.
+- Block sizes in one process on the same state (`results/interleaved/20261126_balancing`, `blocks_summary.md`,
+  6 turns, quiet cores), step time relative to no balancing, blocks of 16 / 64 / 256:
+  grid early 0.68 / 0.67 / 0.76, developed 0.77 / 0.76 / 0.78; pruned tree early 0.86 / 0.83 / 0.87,
+  developed 0.93 / 0.91 / 0.92. 64 is best everywhere.
+- `ab_interleaved.py` against 92fef57, early state, 5 clean blocks, `--aa` (one session per search):
+  grid step -34.0% (-34.2 to -33.9%), refinement call -35%, A/A 0.5%; pruned tree step -17.2% (-20.1 to
+  -16.6%), isolated RHS -18.7%, A/A 0.3% for the RHS (4.4% for the step from one slow base block).
+  Isolated RHS (grid): average pressure + beta and density halve, interaction -31%, NHS update unchanged.
+- Developed state (one process): grid 145 -> 111 ms, pruned tree 114 -> 104 ms per step. With balancing, the
+  grid is faster early (47 vs 56 ms), the pruned tree still in the developed state.
+- Not measured: ratio 4 and 8, other thread counts, a second A/B session.
 
 ### Ratio 4 and 8, with pruning (2026-11-25)
 
@@ -592,7 +619,54 @@ Percent of the step time:
   the other pairs (7.4 vs 3.3 ms) and in the NHS update (5.8 vs 3.7 ms).
 - Ratio 4 reaches about 21,000 fluid particles at t = 2 and stays between 20,000 and 22,600 until t = 4
   (6,033 steps, 21 min). Ratio 2 as in the pilot.
-- Not measured: uniform reference, balancing, other sizes and thread counts.
+- Not measured: balancing, other sizes and thread counts.
+
+Uniform reference (2026-11-26, `results/budget/20261126_vortex_uniform`, `budget.md`): the same setup
+without refinement, grid, at `max_spacing` (coarse) and `max_spacing / 2` (fine). ms per step, early / developed:
+
+| | uniform coarse | refined r2 grid | refined r2 pruned | uniform fine |
+|---|---|---|---|---|
+| step | 21.4 / 29.7 | 72.1 / 147.6 | 71.1 / 123.9 | 76.9 / 113.9 |
+| fluid particles | 9,760 / 9,630 | 10,600 / 15,000 | 10,600 / 15,000 | 39,000 / 38,750 |
+| s per simulated time | 14 / 14 | 81 / 143 | 79 / 121 | 102 / 106 |
+| RHS per fluid particle [us] | 0.30 / 0.42 | 0.79 / 1.13 | 0.79 / 0.98 | 0.27 / 0.40 |
+| RHS | 17.7 / 24.8 | 52.5 / 110.5 | 52.3 / 94.1 | 63.7 / 95.7 |
+| of it interaction fluid-fluid | 5.1 / 6.9 | 19.6 / 44.7 | 15.4 / 31.1 | 19.8 / 30.2 |
+| of it density | 3.2 / 4.9 | 9.9 / 22.6 | 11.7 / 20.6 | 11.2 / 19.1 |
+| of it avg. pressure (+ beta) | 2.6 / 4.6 | 13.1 / 30.1 | 11.7 / 22.0 | 8.7 / 18.4 |
+| of it update nhs | 2.3 / 2.5 | 2.8 / 3.7 | 4.1 / 5.8 | 8.4 / 8.4 |
+| of it characteristics | 2.5 / 3.3 | 3.0 / 4.4 | 2.9 / 4.8 | 9.7 / 12.7 |
+| refinement call | – | 9.4 / 18.7 | 8.8 / 14.1 | – |
+| update callback | 3.2 / 4.2 | 8.8 / 16.7 | 8.5 / 13.2 | 11.3 / 15.3 |
+
+- The refined run takes about the time step of the uniform fine one (about 950 steps per simulated time, the
+  coarse one about 470).
+- Uniform: the RHS per particle is the same at both spacings, and also grows from early to developed (+40 to
+  50%). So the growth to the developed state is not caused by refinement.
+- Developed, per fluid particle, refined against uniform fine: fluid-fluid interaction 3.8 times (grid) and
+  2.7 times (pruned tree), density 3.1 and 2.8, average pressure with beta 4.2 and 3.1, update callback 2.9 and 2.3.
+- Characteristics and the NHS update are cheaper in the refined run: the open boundaries have the coarse spacing.
+- Measurement: the first runs had stalls that the load check doesn't see (trivial threaded loops up to 1000
+  times slower; 565 ms instead of 29 ms per step in a 100-step coarse run). `time_budget.py` prints a stall
+  indicator per run and has `--max-stall`. Used: early from the 100-step runs with `--max-stall 10`, developed
+  from reruns (coarse 500 steps x 5, fine 100 steps x 5, all clean). The coarse early state with 500 steps
+  (t = 0 to 1.27) is 24.9 ms per step, since it covers more of the startup. The refined runs agree within
+  1 to 3% (one grid run +9%), so they stand.
+
+### Not refinement: the update in the `UpdateCallback` (2026-11-26, code reading only)
+
+Out of scope: it is general TrixiParticles code, and the benchmark doesn't improve that (user,
+2026-11-26). Recorded for a hand-off.
+- With an FSAL integrator (RDPK3SpFSAL35/49), the last RHS of a step runs `update_systems_and_nhs` on the
+  accepted `u` at `t + dt`. Nothing changes `u` before the `UpdateCallback` in the benchmark, so its
+  "update systems and nhs" (6.4 to 7.2% of the step in the time budget) recomputes the same state.
+  Uniform runs have the same repetition; refinement only makes it more expensive.
+- Not bitwise neutral: `evaluate_characteristics!` (Lastiwka) copies `characteristics` to
+  `previous_characteristics` on every call. Open-boundary particles outside the fluid support take the
+  zone average of `previous_characteristics`, which is from the current state with the update and from
+  the last inner stage without it.
+- Still needed: at initialization (callbacks initialize before the first RHS), with non-FSAL integrators,
+  and after callbacks that change `u` or the caches. `integrator.u_modified` can't detect the latter.
 
 ### While the experiments run
 
@@ -650,6 +724,10 @@ takes it.
   `maximum`/`sum` on views, `zeros(Bool, n)` caches), listed in `results/gpu_audit.md`.
 
 ## Report
+
+Draft thesis chapter with the stage 1 data (2026-11-27): `thesis_draft/` (`main.pdf`;
+sources of every number in `thesis_draft/PROVENANCE.md`, code snapshot in `thesis_draft/provenance/`).
+The user needs the code behind each reported number for a reproducibility chapter.
 
 `results/summary.md`: time per phase and case, top hotspots with profile excerpts,
 fixes ranked by expected gain vs. effort, before/after numbers for each applied fix.
